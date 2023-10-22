@@ -22,7 +22,7 @@ public class PrincipalServiceImpl implements PrincipalService {
         Principal principalUser = principalRepository.findByMemberId(addUserRequest.getId())
                 .orElseThrow(() -> new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디를 사용하세요."));
 
-        Principal principal = Principal.createPrincipal(principalUser.getMemberId(), principalUser.getPassword(), principalUser.getName(), principalUser.getEmail(), principalUser.getPhone());
+        Principal principal = Principal.createPrincipal(principalUser.getPrincipalId(), principalUser.getPassword(), principalUser.getName(), principalUser.getEmail(), principalUser.getPhone());
         principalRepository.save(principal);
         return principal;
     }

@@ -12,42 +12,42 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "tb_member")
+@Table(name = "tb_principal")
 public class Principal extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_seq")
+    @Column(name = "principal_seq")
     private Long id;
 
-    @Column(name = "member_id", length = 20, nullable = false, unique = true)
-    private String memberId;
+    @Column(name = "principal_id", length = 20, nullable = false, unique = true)
+    private String principalId;
 
-    @Column(name = "member_pw", length = 45, nullable = false)
+    @Column(name = "principal_pw", length = 45, nullable = false)
     private String password;
 
-    @Column(name = "member_name", length = 45)
+    @Column(name = "principal_name", length = 45)
     private String name;
 
-    @Column(name = "member_email", length = 45)
+    @Column(name = "principal_email", length = 45)
     private String email;
 
-    @Column(name = "member_phone", length = 11)
+    @Column(name = "principal_phone", length = 11)
     private String phone;
 
-    @Column(name = "member_auth", length = 7)
+    @Column(name = "principal_auth", length = 7)
     private MemberStatus auth;
 
-    @Column(name = "member_approval_yn", length = 1)
+    @Column(name = "principal_approval_yn", length = 1)
     private String approvalYN;
 
-    @Column(name = "member_register_dt")
+    @Column(name = "principal_register_dt")
     private String registerDate;
 
 
-    public static Principal createPrincipal(String memberId, String password, String name, String email, String phone) {
+    public static Principal createPrincipal(String principalId, String password, String name, String email, String phone) {
         Principal principal = new Principal();
-        principal.memberId = memberId;
+        principal.principalId = principalId;
         principal.password = password;
         principal.name = name;
         principal.email = email;
