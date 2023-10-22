@@ -20,7 +20,7 @@ public class Principal extends BaseEntity {
     @Column(name = "member_seq")
     private Long id;
 
-    @Column(name = "member_id", length = 20, nullable = false)
+    @Column(name = "member_id", length = 20, nullable = false, unique = true)
     private String memberId;
 
     @Column(name = "member_pw", length = 45, nullable = false)
