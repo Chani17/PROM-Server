@@ -1,4 +1,4 @@
-package inu.thebite.toryaba.model;
+package inu.thebite.toryaba.model.user;
 
 import lombok.Data;
 
