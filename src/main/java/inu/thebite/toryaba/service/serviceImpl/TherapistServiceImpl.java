@@ -3,7 +3,6 @@ package inu.thebite.toryaba.service.serviceImpl;
 import inu.thebite.toryaba.entity.Center;
 import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.AddUserRequest;
-import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.TherapistRepository;
 import inu.thebite.toryaba.service.TherapistService;
@@ -25,7 +24,7 @@ public class TherapistServiceImpl implements TherapistService {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
 
-        if(therapistRepository.findByMemberId(addUserRequest.getId()).isPresent()) {
+        if(therapistRepository.findByTherapistId(addUserRequest.getId()).isPresent()) {
             throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
 

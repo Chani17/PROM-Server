@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface PrincipalRepository extends JpaRepository<Principal, Long> {
 
-    Optional<Principal> findByMemberId(String id);
+    Optional<Principal> findByPrincipalId(String id);
 
 }

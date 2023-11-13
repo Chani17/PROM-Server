@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TherapistRepository extends JpaRepository<Therapist, Long> {
 
-    Optional<Therapist> findByMemberId(String id);
+    Optional<Therapist> findByTherapistId(String id);
 }

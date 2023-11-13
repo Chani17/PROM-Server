@@ -19,9 +19,9 @@ public class CenterController {
     private final CenterService centerService;
 
     // add center
-    @PostMapping("/add")
-    public Center addCenter(@RequestBody CenterRequest centerRequest) {
-        Center center = centerService.addCenter(centerRequest);
+    @PostMapping("/{principalId}/add")
+    public Center addCenter(@PathVariable String principalId, @RequestBody CenterRequest centerRequest) {
+        Center center = centerService.addCenter(principalId, centerRequest);
         return center;
     }
 

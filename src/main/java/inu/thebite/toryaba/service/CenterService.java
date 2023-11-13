@@ -6,7 +6,7 @@ import inu.thebite.toryaba.model.center.CenterRequest;
 import java.util.List;
 
 public interface CenterService {
-    Center addCenter(CenterRequest centerRequest);
+    Center addCenter(String principalId, CenterRequest centerRequest);
 
     void deleteCenter(Long centerId);
 

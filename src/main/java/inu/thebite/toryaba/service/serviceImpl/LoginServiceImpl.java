@@ -1,7 +1,5 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
-import inu.thebite.toryaba.entity.Principal;
-import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.PrincipalRepository;
 import inu.thebite.toryaba.repository.TherapistRepository;
@@ -20,12 +18,12 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void login(LoginUserRequest loginUserRequest) {
 
-        if(principalRepository.findByMemberId(loginUserRequest.getId()).isPresent()) {
-            if(!principalRepository.findByMemberId(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
+        if(principalRepository.findByPrincipalId(loginUserRequest.getId()).isPresent()) {
+            if(!principalRepository.findByPrincipalId(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
                 throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
             }
-        } else if(therapistRepository.findByMemberId(loginUserRequest.getId()).isPresent()) {
-            if(!therapistRepository.findByMemberId(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
+        } else if(therapistRepository.findByTherapistId(loginUserRequest.getId()).isPresent()) {
+            if(!therapistRepository.findByTherapistId(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
                 throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
             }
         } else {
