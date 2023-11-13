@@ -20,9 +20,14 @@ public class Center extends BaseEntity {
     @Column(name = "center_name", length = 45, nullable = false)
     private String name;
 
-    public static Center createCenter(String name) {
+    @ManyToOne
+    @JoinColumn(name = "principal_seq")
+    private Principal principal;
+
+    public static Center createCenter(String name, Principal principal) {
         Center center = new Center();
         center.name = name;
+        center.principal = principal;
         return center;
     }
 
