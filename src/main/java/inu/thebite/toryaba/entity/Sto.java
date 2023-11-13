@@ -83,11 +83,11 @@ public class Sto extends BaseEntity {
     private String delYN;
 
     // 사진
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Column(name = "sto_image_list")
-    @OneToMany
     private List<Image> imageList = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "lto_seq")
     private Lto lto;
 

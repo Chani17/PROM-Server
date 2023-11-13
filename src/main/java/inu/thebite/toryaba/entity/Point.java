@@ -35,11 +35,11 @@ public class Point extends BaseEntity {
     @Column(name = "point_reg_dt", nullable = false)
     private String registerDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "sto_seq")
     private Sto sto;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "student_seq")
     private Student student;
 
