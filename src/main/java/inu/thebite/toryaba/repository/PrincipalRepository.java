@@ -1,4 +1,4 @@
-package inu.thebite.toryaba.service.repository;
+package inu.thebite.toryaba.repository;
 
 
 import inu.thebite.toryaba.entity.Principal;

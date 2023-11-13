@@ -20,7 +20,7 @@ public class Center extends BaseEntity {
     @Column(name = "center_name", length = 45, nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "principal_seq")
     private Principal principal;
 

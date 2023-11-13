@@ -4,7 +4,7 @@ import inu.thebite.toryaba.entity.Principal;
 import inu.thebite.toryaba.model.user.AddUserRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.service.PrincipalService;
-import inu.thebite.toryaba.service.repository.PrincipalRepository;
+import inu.thebite.toryaba.repository.PrincipalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
