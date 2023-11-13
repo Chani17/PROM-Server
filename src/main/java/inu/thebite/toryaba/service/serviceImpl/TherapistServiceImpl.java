@@ -33,16 +33,4 @@ public class TherapistServiceImpl implements TherapistService {
         therapistRepository.save(therapist);
     }
 
-    @Override
-    public Therapist loginTherapistUser(LoginUserRequest loginUserRequest) {
-
-        Therapist therapist = therapistRepository.findByMemberId(loginUserRequest.getId())
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디입니다."));
-
-        if(!therapist.getPassword().equals(loginUserRequest.getPassword())) {
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
-        }
-        
-        return therapist;
-    }
 }

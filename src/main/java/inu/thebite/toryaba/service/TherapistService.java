@@ -8,5 +8,4 @@ public interface TherapistService {
 
     void joinTherapistUser(Long centerId, AddUserRequest addUserRequest);
 
-    Therapist loginTherapistUser(LoginUserRequest loginUserRequest);
 }

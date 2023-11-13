@@ -5,7 +5,6 @@ import inu.thebite.toryaba.model.user.AddUserRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 
 public interface PrincipalService {
-    Principal joinPrincipalUser(AddUserRequest addUserRequest);
+    void joinPrincipalUser(AddUserRequest addUserRequest);
 
-    Principal loginPrincipalUser(LoginUserRequest loginUserRequest);
 }
