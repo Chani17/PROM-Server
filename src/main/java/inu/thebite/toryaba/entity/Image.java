@@ -22,7 +22,7 @@ public class Image extends BaseEntity {
     @Column(name = "image_url")
     private String url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_seq")
     private Category category;
 

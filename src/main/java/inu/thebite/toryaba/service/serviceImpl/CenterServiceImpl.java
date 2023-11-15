@@ -2,8 +2,10 @@ package inu.thebite.toryaba.service.serviceImpl;
 
 
 import inu.thebite.toryaba.entity.Center;
+import inu.thebite.toryaba.entity.Principal;
 import inu.thebite.toryaba.model.center.CenterRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
+import inu.thebite.toryaba.repository.PrincipalRepository;
 import inu.thebite.toryaba.service.CenterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,16 @@ public class CenterServiceImpl implements CenterService {
 
     private final CenterRepository centerRepository;
 
+    private final PrincipalRepository principalRepository;
+
     @Transactional
     @Override
-    public Center addCenter(CenterRequest centerRequest) {
-        Center center = Center.createCenter(centerRequest.getName());
+    public Center addCenter(String principalId, CenterRequest centerRequest) {
+
+        Principal principal = principalRepository.findByPrincipalId(principalId)
+                .orElseThrow(() -> new IllegalStateException("로그인이 필요한 서비스입니다."));
+
+        Center center = Center.createCenter(centerRequest.getName(),principal);
         centerRepository.save(center);
         return center;
     }

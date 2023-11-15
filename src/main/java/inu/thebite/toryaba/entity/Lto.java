@@ -52,7 +52,7 @@ public class Lto extends BaseEntity {
     @Column(name = "del_yn", nullable = false, length = 1)
     private String delYN;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "domain_seq")
     private Domain domain;
 

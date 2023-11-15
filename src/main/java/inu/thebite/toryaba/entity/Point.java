@@ -49,10 +49,14 @@ public class Point extends BaseEntity {
     @Column(name = "point_reg_dt", nullable = false)
     private String registerDate;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "sto_seq")
     private Sto sto;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_seq")
+    private Student student;
+
 
     public static Point createPoint(String registrant, Sto sto) {
         Point point = new Point();
