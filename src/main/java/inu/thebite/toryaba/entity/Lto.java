@@ -80,4 +80,11 @@ public class Lto extends BaseEntity {
         this.status = status;
         this.achieveDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }
+
+    // update LTO contents
+    public void updateLTO(String name, String contents, String game) {
+        this.name = name;
+        this.contents = contents;
+        this.game = game;
+    }
 }

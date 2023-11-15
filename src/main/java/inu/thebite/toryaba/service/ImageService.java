@@ -19,4 +19,5 @@ public interface ImageService {
 
     String setName(Category category);
 
+    List<Image> getImageList();
 }

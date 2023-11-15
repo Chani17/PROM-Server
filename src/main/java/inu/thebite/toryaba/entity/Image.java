@@ -2,11 +2,13 @@ package inu.thebite.toryaba.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tb_image")
+@Getter
 public class Image extends BaseEntity {
 
     @Id

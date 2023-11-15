@@ -18,28 +18,28 @@ public class ClassController {
     private final ClassService classService;
 
     // add class
-    @PostMapping("/{centerId}/class/add")
+    @PostMapping("/{centerId}/classes")
     public Class addClass(@PathVariable Long centerId, @RequestBody ClassRequest classRequest) {
         Class newClass = classService.addClass(centerId, classRequest);
         return newClass;
     }
 
     // update class
-    @PatchMapping("/class/{classId}/update")
+    @PatchMapping("/classes/{classId}")
     public Class updateClass(@PathVariable Long classId, @RequestBody ClassRequest classRequest) {
         Class newClass = classService.updateClass(classId, classRequest);
         return newClass;
     }
 
     // get class list
-    @GetMapping("/class/list")
+    @GetMapping("/classes")
     public List<Class> getClassList() {
         List<Class> classList = classService.getClassList();
         return classList;
     }
 
     // delete class
-    @DeleteMapping("/class/{classId}/delete")
+    @DeleteMapping("/classes/{classId}")
     public ResponseEntity deleteClass(@PathVariable Long classId) {
         classService.deleteClass(classId);
         return ResponseEntity.status(HttpStatus.OK).build();

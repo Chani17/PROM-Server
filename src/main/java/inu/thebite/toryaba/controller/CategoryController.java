@@ -17,21 +17,21 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     // add category
-    @PostMapping("/category/add")
+    @PostMapping("/categories")
     public Category addCategory(@RequestBody AddCategoryRequest addCategoryRequest) {
         Category category = categoryService.addCategory(addCategoryRequest);
         return category;
     }
 
     // get category list
-    @GetMapping("/category/list")
+    @GetMapping("/categories")
     public List<Category> getCategoryList() {
         List<Category> categoryList = categoryService.getCategoryList();
         return categoryList;
     }
 
     // delete category
-    @DeleteMapping("/category/{categoryId}/delete")
+    @DeleteMapping("/categories/{categoryId}")
     public ResponseEntity deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.status(HttpStatus.OK).build();

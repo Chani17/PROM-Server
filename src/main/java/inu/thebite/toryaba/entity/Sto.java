@@ -69,6 +69,9 @@ public class Sto extends BaseEntity {
     @Column(name = "sto_memo_contents", length = 500)
     private String memo;
 
+    // 회차 정보
+    @Column(name = "sto_round", length = 10)
+    private int round;
 
     // 단기 목표 도달 일자
     @Column(name = "sto_arr_dt")
@@ -83,11 +86,16 @@ public class Sto extends BaseEntity {
     private String delYN;
 
     // 사진
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Column(name = "sto_image_list")
-    private List<Image> imageList = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ElementCollection
+    private List<String> imageList = new ArrayList<>();
+
+    // 포인트
+    @Column(name = "sto_point_list")
+    @OneToMany(mappedBy = "sto", cascade = CascadeType.ALL)
+    private List<Point> pointList = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lto_seq")
     private Lto lto;
 
@@ -105,6 +113,7 @@ public class Sto extends BaseEntity {
         sto.urgeContent = urgeContent;
         sto.enforceContent = enforceContent;
         sto.memo = memo;
+        sto.round = 1;
         sto.hitGoalDate = "NOT YET";
         sto.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         sto.delYN = "N";
@@ -120,11 +129,16 @@ public class Sto extends BaseEntity {
     // update STO status when sto status is "hit"
     public void updateStoHitStatus(String status) {
         this.status = status;
-        this.hitGoalDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));;
+        this.hitGoalDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+        this.achievementOrNot = "Y";
     }
 
     // update STO contents
-    public void updateSto(String urgeType, String urgeContent, String enforceContent, String memo) {
+    public void updateSto(String name, String contents, int count,int goal, String urgeType, String urgeContent, String enforceContent, String memo) {
+        this.name = name;
+        this.contents = contents;
+        this.count = count;
+        this.goal = goal;
         this.urgeType = urgeType;
         this.urgeContent = urgeContent;
         this.enforceContent = enforceContent;
@@ -132,8 +146,13 @@ public class Sto extends BaseEntity {
     }
 
     // update STO image list
-    public void updateImageList(List<Image> imageList) {
+    public void updateImageList(List<String> imageList) {
         this.imageList = imageList;
+    }
+
+    // update STO round
+    public void updateStoRound(int round) {
+        this.round = round + 1;
     }
 
 }

@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: ${tory-db-url}
+    username: ${tory-db-username}
+    password: ${tory-db-password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  sql:
+    init:
+      mode: always
+
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: ${tory-cloud-credentials}
+        project-id: ${tory-cloud-storage-project-id}
+        bucket: ${tory-cloud-storage-bucket}

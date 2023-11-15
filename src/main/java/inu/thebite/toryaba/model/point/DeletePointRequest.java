@@ -1,15 +1,9 @@
 package inu.thebite.toryaba.model.point;
 
-
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class AddPointRequest {
-
-    private String result;
+public class DeletePointRequest {
 
     private String registrant;
-
 }

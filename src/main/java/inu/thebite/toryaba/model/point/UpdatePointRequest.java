@@ -6,10 +6,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class AddPointRequest {
+public class UpdatePointRequest {
 
-    private String result;
+    private List<String> points;
 
     private String registrant;
-
 }

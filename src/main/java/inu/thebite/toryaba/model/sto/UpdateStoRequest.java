@@ -4,7 +4,7 @@ package inu.thebite.toryaba.model.sto;
 import lombok.Data;
 
 @Data
-public class AddStoRequest {
+public class UpdateStoRequest {
 
     private String name;
 
@@ -21,7 +21,5 @@ public class AddStoRequest {
     private String enforceContent;
 
     private String memo;
-
-    private String registrant;
 
 }

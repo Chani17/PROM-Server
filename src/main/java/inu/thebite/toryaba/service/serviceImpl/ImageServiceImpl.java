@@ -42,6 +42,12 @@ public class ImageServiceImpl implements ImageService {
         return image;
     }
 
+    @Override
+    public List<Image> getImageList() {
+        List<Image> imageList = imageRepository.findAll();
+        return imageList;
+    }
+
     @Transactional
     @Override
     public void deleteImage(Long categoryId, String imageName) {

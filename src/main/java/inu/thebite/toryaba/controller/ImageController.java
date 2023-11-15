@@ -19,15 +19,21 @@ public class ImageController {
     private final ImageService imageService;
 
     // add image (only one)
-    @PostMapping("/{categoryId}/image/add")
+    @PostMapping("/{categoryId}/images")
     public ResponseEntity addImage(@PathVariable Long categoryId, AddImageRequest addImageRequest) {
         Image image = imageService.addImage(categoryId, addImageRequest);
         return ResponseEntity.ok(image);
     }
 
+    // get all image list
+    @GetMapping("/images")
+    public List<Image> getImageList() {
+        List<Image> imageList = imageService.getImageList();
+        return imageList;
+    }
 
     // delete image (only one)
-    @DeleteMapping("/{categoryId}/image/{imageName}/delete")
+    @DeleteMapping("/{categoryId}/images/{imageName}")
     public ResponseEntity deleteImage(@PathVariable Long categoryId, @PathVariable String imageName) {
         imageService.deleteImage(categoryId, imageName);
         return ResponseEntity.status(HttpStatus.OK).build();

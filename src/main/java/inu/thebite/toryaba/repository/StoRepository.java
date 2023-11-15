@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface StoRepository extends JpaRepository<Sto, Long> {
     List<Sto> findAllByLtoId(Long id);
+
 }

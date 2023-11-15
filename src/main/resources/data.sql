@@ -1,0 +1,22 @@
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(1, '1', 'READY', '학습준비', '학습준비', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(2, '2', 'READY', '매칭', '매칭', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(3, '3', 'READY', '동작모방', '동작모방', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(4, '4', 'READY', '언어모방', '언어모방', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(5, '5', 'READY', '변별', '변별', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(6, '6', 'READY', '지시따르기', '지시따르기', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(7, '7', 'READY', '요구하기', '요구하기', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(8, '8', 'READY', '명명하기', '명명하기', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(9, '9', 'READY', '인트라', '인트라', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+INSERT INTO TB_DOMAIN(tmpl_seq, domain_tp_cd, domain_status, domain_name, domain_content, domain_use_yn, del_yn, domain_reg_dt, created_date, modified_date) VALUES(10, '10', 'READY', '가나다', '가나다', 'Y', 'N', '2023/10/18 16:04:55', '2023/10/18 16:04:55', '2023/10/18 16:04:55');
+
+
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(1, 'Scissors', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(2, 'Ball', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(3, 'Block', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(4, 'ColorPencil', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(5, 'Spoon', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(6, 'Watch', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(7, 'Socks', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(8, 'Doll', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(9, 'ToothBrush', '2023/10/24 15:56:55', '2023/10/24 15:56:55');
+INSERT INTO TB_CATEGORY(category_seq, category_name, created_date, modified_date) VALUES(10, 'Cup', '2023/10/24 15:56:55', '2023/10/24 15:56:55');

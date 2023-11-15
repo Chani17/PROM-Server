@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 public class UpdateImageList {
 
-    private List<Image> imageList;
+    private List<String> imageList;
 }

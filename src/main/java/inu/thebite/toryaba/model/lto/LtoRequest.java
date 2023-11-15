@@ -3,7 +3,7 @@ package inu.thebite.toryaba.model.lto;
 import lombok.Data;
 
 @Data
-public class AddLtoRequest {
+public class LtoRequest {
 
     // Lto 이름
     private String name;
