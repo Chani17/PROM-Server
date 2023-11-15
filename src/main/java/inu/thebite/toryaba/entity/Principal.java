@@ -32,9 +32,10 @@ public class Principal extends BaseEntity {
     @Column(name = "principal_email", length = 45)
     private String email;
 
-    @Column(name = "principal_phone", length = 11)
+    @Column(name = "principal_phone", length = 13)
     private String phone;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "principal_auth", length = 7)
     private MemberStatus auth;
 

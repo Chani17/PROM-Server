@@ -32,9 +32,10 @@ public class Therapist extends BaseEntity {
     @Column(name = "therapist_email", length = 45)
     private String email;
 
-    @Column(name = "therapist_phone", length = 11)
+    @Column(name = "therapist_phone", length = 13)
     private String phone;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "therapist_auth", length = 7)
     private MemberStatus auth;
 
