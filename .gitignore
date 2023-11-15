@@ -37,6 +37,6 @@ out/
 .vscode/
 
 
-*.yml
+application-dev.yml
 application.properties
 *.sql
