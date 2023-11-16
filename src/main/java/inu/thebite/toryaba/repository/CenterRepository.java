@@ -12,10 +12,10 @@ import java.util.Optional;
 @Repository
 public interface CenterRepository extends JpaRepository<Center, Long> {
 
-    Optional<Center> findByName(String name);
-
-    void deleteByName(String name);
-
-    @Query(value = "SELECT * FROM tb_center WHERE director_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_center WHERE member_id = :id", nativeQuery = true)
     List<Center> findAllByDirector(String id);
+
+    @Query(value = "SELECT * FROM tb_center WHERE center_seq = :id", nativeQuery = true)
+    Center findByCenterId(Long id);
+
 }
