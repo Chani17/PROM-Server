@@ -24,7 +24,7 @@ public class TherapistServiceImpl implements TherapistService {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
 
-        if(therapistRepository.findByTherapistId(addUserRequest.getId()).isPresent()) {
+        if(therapistRepository.findById(addUserRequest.getId()).isPresent()) {
             throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
 

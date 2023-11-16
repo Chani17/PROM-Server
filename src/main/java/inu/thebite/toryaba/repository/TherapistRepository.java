@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TherapistRepository extends JpaRepository<Therapist, Long> {
+public interface TherapistRepository extends JpaRepository<Therapist, String> {
 
-    Optional<Therapist> findByTherapistId(String id);
+    Long findCenterById(String id);
 }

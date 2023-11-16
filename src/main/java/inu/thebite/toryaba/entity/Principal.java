@@ -16,10 +16,6 @@ import java.time.format.DateTimeFormatter;
 public class Principal extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "principal_seq")
-    private Long id;
-
     @Column(name = "principal_id", length = 20, nullable = false, unique = true)
     private String principalId;
 

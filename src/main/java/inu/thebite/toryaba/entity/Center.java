@@ -21,7 +21,7 @@ public class Center extends BaseEntity {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "principal_seq")
+    @JoinColumn(name = "principal_id")
     private Principal principal;
 
     public static Center createCenter(String name, Principal principal) {

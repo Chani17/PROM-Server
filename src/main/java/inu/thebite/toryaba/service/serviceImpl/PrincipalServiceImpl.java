@@ -18,7 +18,7 @@ public class PrincipalServiceImpl implements PrincipalService {
     @Override
     public void joinPrincipalUser(AddUserRequest addUserRequest) {
         // Id duplicate check
-        if(principalRepository.findByPrincipalId(addUserRequest.getId()).isPresent()) {
+        if(principalRepository.findById(addUserRequest.getId()).isPresent()) {
             throw new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디를 사용하세요.");
         }
 

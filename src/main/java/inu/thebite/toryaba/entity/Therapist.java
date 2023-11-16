@@ -16,10 +16,6 @@ import java.time.format.DateTimeFormatter;
 public class Therapist extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "therapist_seq")
-    private Long id;
-
     @Column(name = "therapist_id", length = 20, nullable = false, unique = true)
     private String therapistId;
 

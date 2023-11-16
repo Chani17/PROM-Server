@@ -18,12 +18,12 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void login(LoginUserRequest loginUserRequest) {
 
-        if(principalRepository.findByPrincipalId(loginUserRequest.getId()).isPresent()) {
-            if(!principalRepository.findByPrincipalId(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
+        if(principalRepository.findById(loginUserRequest.getId()).isPresent()) {
+            if(!principalRepository.findById(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
                 throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
             }
-        } else if(therapistRepository.findByTherapistId(loginUserRequest.getId()).isPresent()) {
-            if(!therapistRepository.findByTherapistId(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
+        } else if(therapistRepository.findById(loginUserRequest.getId()).isPresent()) {
+            if(!therapistRepository.findById(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
                 throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
             }
         } else {

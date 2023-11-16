@@ -6,11 +6,13 @@ import inu.thebite.toryaba.entity.Principal;
 import inu.thebite.toryaba.model.center.CenterRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.PrincipalRepository;
+import inu.thebite.toryaba.repository.TherapistRepository;
 import inu.thebite.toryaba.service.CenterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,11 +23,14 @@ public class CenterServiceImpl implements CenterService {
 
     private final PrincipalRepository principalRepository;
 
+    private final TherapistRepository therapistRepository;
+
+
     @Transactional
     @Override
     public Center addCenter(String principalId, CenterRequest centerRequest) {
 
-        Principal principal = principalRepository.findByPrincipalId(principalId)
+        Principal principal = principalRepository.findById(principalId)
                 .orElseThrow(() -> new IllegalStateException("로그인이 필요한 서비스입니다."));
 
         Center center = Center.createCenter(centerRequest.getName(),principal);
@@ -53,8 +58,18 @@ public class CenterServiceImpl implements CenterService {
     }
 
     @Override
-    public List<Center> getCenterList() {
-        List<Center> centerList = centerRepository.findAll();
+    public List<Center> getCenterList(String id) {
+
+        List<Center> centerList = new ArrayList<>();
+
+        if(principalRepository.existsById(id)) {
+            centerList = centerRepository.findAllByPrincipal(id);
+        } else {
+            Long centerId = therapistRepository.findCenterById(id);
+            Center center = centerRepository.findById(centerId).orElseThrow(() -> new IllegalStateException("해당 센터가 존재하지 않습니다."));
+            centerList.add(center);
+        }
+
         return centerList;
     }
 }
