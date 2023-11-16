@@ -17,7 +17,7 @@ public class Therapist extends BaseEntity {
 
     @Id
     @Column(name = "therapist_id", length = 20, nullable = false, unique = true)
-    private String therapistId;
+    private String id;
 
     @Column(name = "therapist_pw", length = 45, nullable = false)
     private String password;
@@ -47,7 +47,7 @@ public class Therapist extends BaseEntity {
 
     public static Therapist createTherapist(String therapistId, String password, String name, String email, String phone, Center center) {
         Therapist therapist = new Therapist();
-        therapist.therapistId = therapistId;
+        therapist.id = therapistId;
         therapist.password = password;
         therapist.name = name;
         therapist.email = email;

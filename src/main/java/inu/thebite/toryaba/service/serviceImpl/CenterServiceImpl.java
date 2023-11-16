@@ -2,10 +2,10 @@ package inu.thebite.toryaba.service.serviceImpl;
 
 
 import inu.thebite.toryaba.entity.Center;
-import inu.thebite.toryaba.entity.Principal;
+import inu.thebite.toryaba.entity.Director;
 import inu.thebite.toryaba.model.center.CenterRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
-import inu.thebite.toryaba.repository.PrincipalRepository;
+import inu.thebite.toryaba.repository.DirectorRepository;
 import inu.thebite.toryaba.repository.TherapistRepository;
 import inu.thebite.toryaba.service.CenterService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class CenterServiceImpl implements CenterService {
 
     private final CenterRepository centerRepository;
 
-    private final PrincipalRepository principalRepository;
+    private final DirectorRepository directorRepository;
 
     private final TherapistRepository therapistRepository;
 
@@ -30,10 +30,10 @@ public class CenterServiceImpl implements CenterService {
     @Override
     public Center addCenter(String principalId, CenterRequest centerRequest) {
 
-        Principal principal = principalRepository.findById(principalId)
+        Director director = directorRepository.findById(principalId)
                 .orElseThrow(() -> new IllegalStateException("로그인이 필요한 서비스입니다."));
 
-        Center center = Center.createCenter(centerRequest.getName(),principal);
+        Center center = Center.createCenter(centerRequest.getName(), director);
         centerRepository.save(center);
         return center;
     }
@@ -62,11 +62,10 @@ public class CenterServiceImpl implements CenterService {
 
         List<Center> centerList = new ArrayList<>();
 
-        if(principalRepository.existsById(id)) {
-            centerList = centerRepository.findAllByPrincipal(id);
+        if(directorRepository.existsById(id)) {
+            centerList = centerRepository.findAllByDirector(id);
         } else {
-            Long centerId = therapistRepository.findCenterById(id);
-            Center center = centerRepository.findById(centerId).orElseThrow(() -> new IllegalStateException("해당 센터가 존재하지 않습니다."));
+            Center center = therapistRepository.findCenterById(id);
             centerList.add(center);
         }
 

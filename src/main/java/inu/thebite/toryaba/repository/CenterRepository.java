@@ -3,6 +3,7 @@ package inu.thebite.toryaba.repository;
 
 import inu.thebite.toryaba.entity.Center;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public interface CenterRepository extends JpaRepository<Center, Long> {
 
     void deleteByName(String name);
 
-    List<Center> findAllByPrincipal(String id);
+    @Query(value = "SELECT * FROM tb_center WHERE director_id = :id", nativeQuery = true)
+    List<Center> findAllByDirector(String id);
 }

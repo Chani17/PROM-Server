@@ -21,13 +21,13 @@ public class Center extends BaseEntity {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "principal_id")
-    private Principal principal;
+    @JoinColumn(name = "director_id")
+    private Director director;
 
-    public static Center createCenter(String name, Principal principal) {
+    public static Center createCenter(String name, Director director) {
         Center center = new Center();
         center.name = name;
-        center.principal = principal;
+        center.director = director;
         return center;
     }
 
