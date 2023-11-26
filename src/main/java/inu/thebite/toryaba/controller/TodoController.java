@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.controller;
 
+import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.model.todo.TodoListRequest;
 import inu.thebite.toryaba.model.todo.UpdateTodoList;
 import inu.thebite.toryaba.service.TodoService;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +31,14 @@ public class TodoController {
     }
 
     @DeleteMapping(value = "/{studentId}")
-    public ResponseEntity deleteTodoList(@PathVariable Long studentId, @RequestBody TodoListRequest todoListRequest) {
-        todoService.deleteTodoList(studentId, todoListRequest);
+    public ResponseEntity deleteTodoList(@PathVariable Long studentId, @RequestBody UpdateTodoList updateTodoList) {
+        todoService.deleteTodoList(studentId, updateTodoList);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping(value = "/{studentId}")
+    public List<Sto> getTodoList(@PathVariable Long studentId) {
+        List<Sto> todoList = todoService.getTodoList(studentId);
+        return todoList;
     }
 }
