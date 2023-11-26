@@ -44,4 +44,8 @@ public class Todo extends BaseEntity {
         this.stoList.add(stoId);
     }
 
+    public void updateTodoList(List<Long> stoList) {
+        this.stoList = stoList;
+    }
+
 }
