@@ -3,6 +3,7 @@ package inu.thebite.toryaba.controller;
 import inu.thebite.toryaba.model.AddTodoList;
 import inu.thebite.toryaba.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class TodoController {
 
     @PostMapping(value = "/{studentId}")
     public ResponseEntity addTodoList(@PathVariable Long studentId, @RequestBody AddTodoList addTodoList) {
-        todoService.addTodoList(studentId, addTodoList)
-
+        todoService.addTodoList(studentId, addTodoList);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
