@@ -3,7 +3,7 @@ package inu.thebite.toryaba.model.todo;
 import lombok.Data;
 
 @Data
-public class AddTodoList {
+public class TodoListRequest {
 
     private Long stoId;
 }
