@@ -56,6 +56,11 @@ public class Lto extends BaseEntity {
     @JoinColumn(name = "domain_seq")
     private Domain domain;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_seq")
+    private Student student;
+
+
     public static Lto createLto(int templateNum, String name, String content, String game, Domain domain) {
         Lto lto = new Lto();
         lto.templateNum = templateNum;
