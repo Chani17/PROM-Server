@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DetailServiceImpl implements DetailService {
@@ -55,5 +57,17 @@ public class DetailServiceImpl implements DetailService {
                 .orElseThrow(() -> new IllegalStateException("해당하는 Detail이 존재하지 않습니다."));
 
         detail.addComment(addCommentRequest.getComment());
+    }
+
+    @Override
+    public List<Detail> getDetailList(Long studentId, String date) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
+
+        Notice notice = noticeRepository.findByStudentAndDate(studentId, date)
+                .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
+
+        List<Detail> results = detailRepository.findAllByNotice(notice.getId());
+        return results;
     }
 }
