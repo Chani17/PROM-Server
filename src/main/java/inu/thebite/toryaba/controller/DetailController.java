@@ -34,6 +34,7 @@ public class DetailController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    // 해당 날짜에 대한 Detail 반환
     @GetMapping(value = "/{studentId}")
     public List<Detail> getDetailList(@PathVariable Long studentId,
                                       @RequestParam("date") String date) {
