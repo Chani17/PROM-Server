@@ -45,6 +45,7 @@ public class TodoServiceImpl implements TodoService {
             todoRepository.save(todo);
         }
 
+        // 이 부분 분리 필요 Transactional 벆애서 잔행 팔요
         // 기존에 생성한 TodoList가 존재한다면 sto 추가
         Sto sto = stoRepository.findById(todoListRequest.getStoId())
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
