@@ -1,11 +1,10 @@
 package inu.thebite.toryaba.controller;
 
 
-import inu.thebite.toryaba.entity.Principal;
 import inu.thebite.toryaba.model.user.AddUserRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.service.LoginService;
-import inu.thebite.toryaba.service.PrincipalService;
+import inu.thebite.toryaba.service.DirectorService;
 import inu.thebite.toryaba.service.TherapistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/member")
 public class MemberController {
 
-    private final PrincipalService principalService;
+    private final DirectorService directorService;
     private final TherapistService therapistService;
     private final LoginService loginService;
 
@@ -25,7 +24,7 @@ public class MemberController {
     // need a security config
     @PostMapping("/join")
     public ResponseEntity joinPrincipalUser(@RequestBody AddUserRequest addUserRequest) {
-        principalService.joinPrincipalUser(addUserRequest);
+        directorService.joinPrincipalUser(addUserRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

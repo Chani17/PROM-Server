@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,14 +21,15 @@ public class Center extends BaseEntity {
     @Column(name = "center_name", length = 45, nullable = false)
     private String name;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "principal_seq")
-    private Principal principal;
+    @JoinColumn(name = "member_id")
+    private Director director;
 
-    public static Center createCenter(String name, Principal principal) {
+    public static Center createCenter(String name, Director director) {
         Center center = new Center();
         center.name = name;
-        center.principal = principal;
+        center.director = director;
         return center;
     }
 

@@ -10,7 +10,7 @@ public interface CenterService {
 
     void deleteCenter(Long centerId);
 
-    List<Center> getCenterList();
+    List<Center> getCenterList(String id);
 
     Center updateCenter(Long centerId, CenterRequest centerRequest);
 }

@@ -6,12 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CenterRepository extends JpaRepository<Center, Long> {
 
-    Optional<Center> findByName(String name);
+    @Query(value = "SELECT * FROM tb_center WHERE member_id = :id", nativeQuery = true)
+    List<Center> findAllByDirector(String id);
 
-    void deleteByName(String name);
+    @Query(value = "SELECT * FROM tb_center WHERE center_seq = :id", nativeQuery = true)
+    Center findByCenterId(Long id);
+
 }

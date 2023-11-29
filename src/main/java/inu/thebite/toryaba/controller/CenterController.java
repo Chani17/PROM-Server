@@ -19,9 +19,9 @@ public class CenterController {
     private final CenterService centerService;
 
     // add center
-    @PostMapping("/{principalId}/add")
-    public Center addCenter(@PathVariable String principalId, @RequestBody CenterRequest centerRequest) {
-        Center center = centerService.addCenter(principalId, centerRequest);
+    @PostMapping("/{memberId}")
+    public Center addCenter(@PathVariable String memberId, @RequestBody CenterRequest centerRequest) {
+        Center center = centerService.addCenter(memberId, centerRequest);
         return center;
     }
 
@@ -41,9 +41,9 @@ public class CenterController {
     }
 
     // get center list
-    @GetMapping()
-    public List<Center> getCenterList() {
-        List<Center> centerList = centerService.getCenterList();
+    @GetMapping("/{id}")
+    public List<Center> getCenterList(@PathVariable String id) {
+        List<Center> centerList = centerService.getCenterList(id);
         return centerList;
     }
 }

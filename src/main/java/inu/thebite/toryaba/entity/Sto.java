@@ -86,6 +86,7 @@ public class Sto extends BaseEntity {
     private String delYN;
 
     // 사진
+    @Column(name = "sto_image_list")
     @ElementCollection
     private List<String> imageList = new ArrayList<>();
 
