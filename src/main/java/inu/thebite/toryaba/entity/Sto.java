@@ -86,7 +86,6 @@ public class Sto extends BaseEntity {
     private String delYN;
 
     // 사진
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ElementCollection
     private List<String> imageList = new ArrayList<>();
 
