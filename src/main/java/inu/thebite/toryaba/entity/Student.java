@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class Student extends BaseEntity {
     @Column(name = "student_reg_dt")
     private String registerDate;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "class_seq")
     private Class toryClass;

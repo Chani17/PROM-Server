@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -95,7 +96,8 @@ public class Sto extends BaseEntity {
     @OneToMany(mappedBy = "sto", cascade = CascadeType.ALL)
     private List<Point> pointList = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "lto_seq")
     private Lto lto;
 
