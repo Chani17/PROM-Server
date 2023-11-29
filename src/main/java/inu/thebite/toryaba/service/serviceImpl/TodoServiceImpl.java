@@ -47,13 +47,15 @@ public class TodoServiceImpl implements TodoService {
         if(findTodo == null) {
             Todo todoList = createTodoList(student);
             todoList.addTodoList(sto.getId());
+
+            // TodoList에 항목이 추가될 때 Notice도 함께 생성
+            Notice notice = Notice.createNotice(student);
+            noticeRepository.save(notice);
+
         } else {
             findTodo.addTodoList(sto.getId());
         }
 
-        // TodoList에 항목이 추가될 때 Notice도 함께 생성
-        Notice notice = Notice.createNotice(student);
-        noticeRepository.save(notice);
     }
 
     @Transactional
@@ -89,9 +91,9 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<Sto> getTodoList(Long studentId) {
+    public List<String> getTodoList(Long studentId) {
 
-        List<Sto> stoList = new ArrayList<>();
+        List<String> stoList = new ArrayList<>();
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
@@ -101,7 +103,7 @@ public class TodoServiceImpl implements TodoService {
         for(Long stoId : todo.getStoList()) {
             Sto sto = stoRepository.findById(stoId)
                     .orElseThrow(() -> new IllegalStateException("해당 STO가 존재하지 않습니다."));
-            stoList.add(sto);
+            stoList.add(sto.getName());
         }
         return stoList;
     }

@@ -30,6 +30,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    // 해당 로직이 TodoList 수정하는 로직과 동일하여 없어도 될 듯함.
     @DeleteMapping(value = "/{studentId}")
     public ResponseEntity deleteTodoList(@PathVariable Long studentId, @RequestBody UpdateTodoList updateTodoList) {
         todoService.deleteTodoList(studentId, updateTodoList);
@@ -37,8 +38,8 @@ public class TodoController {
     }
 
     @GetMapping(value = "/{studentId}")
-    public List<Sto> getTodoList(@PathVariable Long studentId) {
-        List<Sto> todoList = todoService.getTodoList(studentId);
+    public List<String> getTodoList(@PathVariable Long studentId) {
+        List<String> todoList = todoService.getTodoList(studentId);
         return todoList;
     }
 }

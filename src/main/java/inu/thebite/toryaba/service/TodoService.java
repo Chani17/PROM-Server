@@ -17,5 +17,5 @@ public interface TodoService {
 
     void deleteTodoList(Long studentId, UpdateTodoList updateTodoList);
 
-    List<Sto> getTodoList(Long studentId);
+    List<String> getTodoList(Long studentId);
 }

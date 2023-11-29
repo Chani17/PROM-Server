@@ -19,7 +19,7 @@ public class Notice extends BaseEntity {
     @Column(name = "notice_seq")
     private Long id;
 
-    @Column(name = "notice _date")
+    @Column(name = "notice_date")
     private String date;
 
     @Column(name = "notice_comment")
