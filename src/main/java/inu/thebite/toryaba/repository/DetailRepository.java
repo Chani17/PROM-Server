@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface DetailRepository extends JpaRepository<Detail, Long> {
-    Optional<Detail> findByNotice(Long id);
+    Optional<Detail> findByNoticeId(Long id);
 
-    List<Detail> findAllByNotice(Long id);
+    List<Detail> findAllByNoticeId(Long id);
 }

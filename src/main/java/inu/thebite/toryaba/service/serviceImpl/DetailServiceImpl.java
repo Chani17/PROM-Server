@@ -34,7 +34,7 @@ public class DetailServiceImpl implements DetailService {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentAndDate(studentId, date)
+        Notice notice = noticeRepository.findByStudentIdAndDate(studentId, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
         Detail detail = Detail.createDetail(sto.getId(), notice);
@@ -50,10 +50,10 @@ public class DetailServiceImpl implements DetailService {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentAndDate(studentId, date)
+        Notice notice = noticeRepository.findByStudentIdAndDate(studentId, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
-        Detail detail = detailRepository.findByNotice(notice.getId())
+        Detail detail = detailRepository.findByNoticeId(notice.getId())
                 .orElseThrow(() -> new IllegalStateException("해당하는 Detail이 존재하지 않습니다."));
 
         detail.addComment(addCommentRequest.getComment());
@@ -64,10 +64,10 @@ public class DetailServiceImpl implements DetailService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentAndDate(studentId, date)
+        Notice notice = noticeRepository.findByStudentIdAndDate(studentId, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
-        List<Detail> results = detailRepository.findAllByNotice(notice.getId());
+        List<Detail> results = detailRepository.findAllByNoticeId(notice.getId());
         return results;
     }
 }

@@ -26,7 +26,7 @@ public class NoticeServiceImpl implements NoticeService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentAndDate(student.getId(), date)
+        Notice notice = noticeRepository.findByStudentIdAndDate(student.getId(), date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
 
         notice.addComment(addCommentRequest.getComment());
@@ -37,7 +37,7 @@ public class NoticeServiceImpl implements NoticeService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        List<String> noticeDateList = noticeRepository.findByStudentAndDate(student.getId(), year, month);
+        List<String> noticeDateList = noticeRepository.findByStudentIdAndDate(student.getId(), year, month);
         return noticeDateList;
     }
 }
