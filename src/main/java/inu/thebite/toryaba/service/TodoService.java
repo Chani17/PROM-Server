@@ -9,11 +9,11 @@ import inu.thebite.toryaba.model.todo.UpdateTodoList;
 import java.util.List;
 
 public interface TodoService {
-    void addTodoList(Long studentId, TodoListRequest todoListRequest);
+    Todo addTodoList(Long studentId, TodoListRequest todoListRequest);
 
     Todo createTodoList(Student student);
 
-    void updateTodoList(Long studentId, UpdateTodoList updateTodoList);
+    Todo updateTodoList(Long studentId, UpdateTodoList updateTodoList);
 
     void deleteTodoList(Long studentId, UpdateTodoList updateTodoList);
 
