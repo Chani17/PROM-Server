@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,7 +32,7 @@ public class Notice extends BaseEntity {
 
     public static Notice createNotice(Student student) {
         Notice notice = new Notice();
-        notice.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        notice.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd (E)").withLocale(Locale.forLanguageTag("ko")));
         notice.comment = "";
         notice.student = student;
         return notice;
