@@ -22,7 +22,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public void updateComment(Long studentId, String date, AddCommentRequest addCommentRequest) {
+    public Notice updateComment(Long studentId, String date, AddCommentRequest addCommentRequest) {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
@@ -31,6 +31,7 @@ public class NoticeServiceImpl implements NoticeService {
                 .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
 
         notice.addComment(addCommentRequest.getComment());
+        return notice;
     }
 
     @Override

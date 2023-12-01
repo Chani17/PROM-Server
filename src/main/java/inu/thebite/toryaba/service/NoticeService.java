@@ -7,7 +7,7 @@ import inu.thebite.toryaba.model.notice.NoticeResponse;
 import java.util.List;
 
 public interface NoticeService {
-    void updateComment(Long studentId, String date, AddCommentRequest addCommentRequest);
+    Notice updateComment(Long studentId, String date, AddCommentRequest addCommentRequest);
 
     List<String> getNoticeDateList(Long studentId, String year, String month);
 
