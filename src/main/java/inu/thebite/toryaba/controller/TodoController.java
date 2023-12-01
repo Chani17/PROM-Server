@@ -2,6 +2,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Todo;
+import inu.thebite.toryaba.model.sto.StoSummaryResponse;
 import inu.thebite.toryaba.model.todo.TodoListRequest;
 import inu.thebite.toryaba.model.todo.UpdateTodoList;
 import inu.thebite.toryaba.service.TodoService;
@@ -39,8 +40,8 @@ public class TodoController {
     }
 
     @GetMapping(value = "/{studentId}")
-    public List<String> getTodoList(@PathVariable Long studentId) {
-        List<String> todoList = todoService.getTodoList(studentId);
+    public List<StoSummaryResponse> getTodoList(@PathVariable Long studentId) {
+        List<StoSummaryResponse> todoList = todoService.getTodoList(studentId);
         return todoList;
     }
 }

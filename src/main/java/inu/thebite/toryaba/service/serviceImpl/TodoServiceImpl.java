@@ -4,6 +4,7 @@ import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Student;
 import inu.thebite.toryaba.entity.Todo;
+import inu.thebite.toryaba.model.sto.StoSummaryResponse;
 import inu.thebite.toryaba.model.todo.TodoListRequest;
 import inu.thebite.toryaba.model.todo.UpdateTodoList;
 import inu.thebite.toryaba.repository.NoticeRepository;
@@ -94,9 +95,9 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<String> getTodoList(Long studentId) {
+    public List<StoSummaryResponse> getTodoList(Long studentId) {
 
-        List<String> stoList = new ArrayList<>();
+        List<StoSummaryResponse> stoList = new ArrayList<>();
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
@@ -106,7 +107,9 @@ public class TodoServiceImpl implements TodoService {
         for(Long stoId : todo.getStoList()) {
             Sto sto = stoRepository.findById(stoId)
                     .orElseThrow(() -> new IllegalStateException("해당 STO가 존재하지 않습니다."));
-            stoList.add(sto.getName());
+
+            StoSummaryResponse response = StoSummaryResponse.response(sto.getId(), sto.getName(), sto.getStatus(), sto.getLto());
+            stoList.add(response);
         }
         return stoList;
     }
