@@ -19,12 +19,12 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PatchMapping("/{studentId}")
-    public ResponseEntity updateComment(@PathVariable Long studentId,
+    public Notice updateComment(@PathVariable Long studentId,
                                         @RequestParam("date") String date,
                                         @RequestBody AddCommentRequest addCommentRequest) {
 
-        noticeService.updateComment(studentId, date, addCommentRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Notice notice = noticeService.updateComment(studentId, date, addCommentRequest);
+        return notice;
     }
 
     // 년, 월에 대한 Notice List 반환
