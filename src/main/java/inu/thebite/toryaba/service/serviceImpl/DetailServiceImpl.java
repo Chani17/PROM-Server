@@ -27,7 +27,7 @@ public class DetailServiceImpl implements DetailService {
 
     @Transactional
     @Override
-    public void addDetail(Long studentId, String date, Long stoId) {
+    public Detail addDetail(Long studentId, String date, Long stoId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -39,11 +39,12 @@ public class DetailServiceImpl implements DetailService {
 
         Detail detail = Detail.createDetail(sto.getId(), notice);
         detailRepository.save(detail);
+        return detail;
     }
 
     @Transactional
     @Override
-    public void updateComment(Long studentId, String date, Long stoId, AddCommentRequest addCommentRequest) {
+    public Detail updateComment(Long studentId, String date, Long stoId, AddCommentRequest addCommentRequest) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -57,6 +58,7 @@ public class DetailServiceImpl implements DetailService {
                 .orElseThrow(() -> new IllegalStateException("해당하는 Detail이 존재하지 않습니다."));
 
         detail.addComment(addCommentRequest.getComment());
+        return detail;
     }
 
     @Override

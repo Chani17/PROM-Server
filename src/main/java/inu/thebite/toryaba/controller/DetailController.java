@@ -18,20 +18,20 @@ public class DetailController {
     private final DetailService detailService;
 
     @PostMapping(value = "/{studentId}")
-    public ResponseEntity addDetail(@PathVariable Long studentId,
+    public Detail addDetail(@PathVariable Long studentId,
                                     @RequestParam("date") String date,
                                     @RequestParam("stoId") Long stoId) {
-        detailService.addDetail(studentId, date, stoId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Detail detail = detailService.addDetail(studentId, date, stoId);
+        return detail;
     }
 
     @PatchMapping(value = "/{studentId}")
-    public ResponseEntity updateComment(@PathVariable Long studentId,
+    public Detail updateComment(@PathVariable Long studentId,
                                         @RequestParam("date") String date,
                                         @RequestParam("stoId") Long stoId,
                                         @RequestBody AddCommentRequest addCommentRequest) {
-        detailService.updateComment(studentId, date, stoId, addCommentRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Detail detail = detailService.updateComment(studentId, date, stoId, addCommentRequest);
+        return detail;
     }
 
     // 해당 날짜에 대한 Detail 반환
