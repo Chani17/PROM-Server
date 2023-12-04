@@ -10,6 +10,8 @@ public interface ClassService {
 
     void deleteClass(Long classId);
 
+    List<Class> getClassListByCenter(Long centerId);
+
     List<Class> getClassList();
 
     Class updateClass(Long classId, ClassRequest classRequest);

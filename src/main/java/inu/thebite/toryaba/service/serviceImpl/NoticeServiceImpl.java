@@ -55,4 +55,15 @@ public class NoticeServiceImpl implements NoticeService {
 
         return response;
     }
+
+    @Override
+    public void createShareImage(Long studentId, String date) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
+
+        Notice notice = noticeRepository.findByStudentIdAndDate(student.getId(), date)
+                .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
+
+
+    }
 }

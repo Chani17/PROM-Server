@@ -13,4 +13,5 @@ public interface LtoRepository extends JpaRepository<Lto, Long> {
 
     List<Lto> findAllByDomainId(Long domainId);
 
+    List<Lto> findAllByStudentId(Long id);
 }

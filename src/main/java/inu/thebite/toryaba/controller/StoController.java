@@ -70,10 +70,17 @@ public class StoController {
         Sto sto = stoService.updateStoHitRound(stoId, updateStoRoundRequest);
         return ResponseEntity.ok(sto);
     }
+
     // get STO list
     @GetMapping("/stos")
     public List<Sto> getStoList() {
         List<Sto> stoList = stoService.getStoList();
+        return stoList;
+    }
+
+    @GetMapping("/{ltoId}/stos")
+    public List<Sto> getStoListByLto(@PathVariable Long ltoId) {
+        List<Sto> stoList = stoService.getStoListByLto(ltoId);
         return stoList;
     }
 

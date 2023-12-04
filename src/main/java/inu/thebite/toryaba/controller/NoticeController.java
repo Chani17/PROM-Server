@@ -1,14 +1,18 @@
 package inu.thebite.toryaba.controller;
 
+import com.lowagie.text.DocumentException;
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
 import inu.thebite.toryaba.model.notice.NoticeResponse;
+import inu.thebite.toryaba.parseThymeleafTemplate;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -42,6 +46,21 @@ public class NoticeController {
                                   @RequestParam("date") String date) {
         NoticeResponse response = noticeService.getNotice(studentId, date);
         return response;
+    }
+
+    // converter html to image
+//    @PostMapping(value = "{studentId}")
+//    public void createShareImage(@PathVariable Long studentId,
+//                                 @RequestParam("date") String date) {
+//        noticeService.createShareImage(studentId, date)
+//    }
+
+    @GetMapping(value = "/test")
+    public ITextRenderer pdfTest() throws DocumentException, IOException {
+        parseThymeleafTemplate parseThymeleafTemplate = new parseThymeleafTemplate();
+        String html = parseThymeleafTemplate.createHtml();
+        ITextRenderer renderer = parseThymeleafTemplate.generatePdfFromHtml(html);
+        return renderer;
     }
 
 

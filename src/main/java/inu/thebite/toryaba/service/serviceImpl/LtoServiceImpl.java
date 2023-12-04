@@ -82,6 +82,14 @@ public class LtoServiceImpl implements LtoService {
     }
 
     @Override
+    public List<Lto> getLtoListByStudent(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당 학생은 존재하지 않습니다."));
+        List<Lto> ltoList = ltoRepository.findAllByStudentId(student.getId());
+        return ltoList;
+    }
+
+    @Override
     public List<LtoGraphResponse> getLtoGraph(Long ltoId) {
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당 LTO가 존재하지 않습니다."));

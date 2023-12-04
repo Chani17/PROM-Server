@@ -53,6 +53,12 @@ public class LtoController {
         return ltoList;
     }
 
+    @GetMapping("/{studentId}/ltos")
+    public List<Lto> getLtoListByStudent(@PathVariable Long studentId) {
+        List<Lto> ltoList = ltoService.getLtoListByStudent(studentId);
+        return ltoList;
+    }
+
     @GetMapping("/ltos/{ltoId}/graphs")
     public List<LtoGraphResponse> getLtoGraph(@PathVariable Long ltoId) {
         List<LtoGraphResponse> response = ltoService.getLtoGraph(ltoId);

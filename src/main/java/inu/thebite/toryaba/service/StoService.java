@@ -26,4 +26,6 @@ public interface StoService {
     Sto updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
     Sto updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
+
+    List<Sto> getStoListByLto(Long ltoId);
 }

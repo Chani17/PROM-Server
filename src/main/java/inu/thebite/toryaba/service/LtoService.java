@@ -23,4 +23,6 @@ public interface LtoService {
     Lto updateLto(Long ltoId, LtoRequest ltoRequest);
 
     List<LtoGraphResponse> getLtoGraph(Long ltoId);
+
+    List<Lto> getLtoListByStudent(Long studentId);
 }

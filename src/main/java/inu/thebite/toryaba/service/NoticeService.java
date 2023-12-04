@@ -12,4 +12,6 @@ public interface NoticeService {
     List<String> getNoticeDateList(Long studentId, String year, String month);
 
     NoticeResponse getNotice(Long studentId, String date);
+
+    void createShareImage(Long studentId, String date);
 }
