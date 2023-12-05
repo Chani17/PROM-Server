@@ -61,12 +61,11 @@ public class StoServiceImpl implements StoService {
 
         sto.updateStoStatus(status);
 
-        StoResponse stoResponse = new StoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
                 sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-                sto.getRegisterDate(), sto.getDelYN(),sto.getLto().getId());
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+        System.out.println("stoResponse = " + stoResponse);
 
-        stoResponse.setPointList(sto.getPointList());
-        stoResponse.setImageList(sto.getImageList());
         return stoResponse;
     }
 
@@ -78,20 +77,23 @@ public class StoServiceImpl implements StoService {
 
         sto.updateStoHitStatus(status);
 
-        StoResponse stoResponse = new StoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
-                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-                sto.getRegisterDate(), sto.getDelYN(),sto.getLto().getId());
-
-        stoResponse.setPointList(sto.getPointList());
-        stoResponse.setImageList(sto.getImageList());
-
-//        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+//        StoResponse stoResponse = new StoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
 //                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-//                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+//                sto.getRegisterDate(), sto.getDelYN(),sto.getLto().getId());
+//
+//        stoResponse.setPointList(sto.getPointList());
+//        stoResponse.setImageList(sto.getImageList());
+
+        return getStoResponse(sto);
+    }
+
+    private StoResponse getStoResponse(Sto sto) {
+        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
 
         return stoResponse;
     }
-
 
     @Transactional
     @Override
@@ -103,11 +105,7 @@ public class StoServiceImpl implements StoService {
                 updateStoRequest.getGoal(), updateStoRequest.getUrgeType(), updateStoRequest.getUrgeContent(),
                 updateStoRequest.getEnforceContent(), updateStoRequest.getMemo());
 
-        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
-                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
-
-        return stoResponse;
+        return getStoResponse(sto);
     }
 
     @Transactional
@@ -207,4 +205,5 @@ public class StoServiceImpl implements StoService {
         point.updateRound(sto.getRound(), point.getPoints());
         pointRepository.save(point);
     }
+
 }

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface NoticeService {
-    Notice updateComment(Long studentId, String year, String month, String date, AddCommentRequest addCommentRequest);
+    NoticeResponse updateComment(Long studentId, String year, String month, String date, AddCommentRequest addCommentRequest);
 
     List<String> getNoticeDateList(Long studentId, String year, String month);
 

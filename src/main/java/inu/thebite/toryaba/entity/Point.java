@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -49,6 +50,7 @@ public class Point extends BaseEntity {
     @Column(name = "point_reg_dt", nullable = false)
     private String registerDate;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "sto_seq")
     private Sto sto;

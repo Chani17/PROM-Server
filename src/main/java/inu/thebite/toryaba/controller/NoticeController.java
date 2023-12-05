@@ -22,13 +22,13 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PatchMapping("/{studentId}")
-    public Notice updateComment(@PathVariable Long studentId,
+    public NoticeResponse updateComment(@PathVariable Long studentId,
                                         @RequestParam("year") String year,
                                         @RequestParam("month") String month,
                                         @RequestParam("date") String date,
                                         @RequestBody AddCommentRequest addCommentRequest) {
 
-        Notice notice = noticeService.updateComment(studentId, year, month, date, addCommentRequest);
+        NoticeResponse notice = noticeService.updateComment(studentId, year, month, date, addCommentRequest);
         return notice;
     }
 
