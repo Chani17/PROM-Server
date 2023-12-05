@@ -23,10 +23,12 @@ public class NoticeController {
 
     @PatchMapping("/{studentId}")
     public Notice updateComment(@PathVariable Long studentId,
+                                        @RequestParam("year") String year,
+                                        @RequestParam("month") String month,
                                         @RequestParam("date") String date,
                                         @RequestBody AddCommentRequest addCommentRequest) {
 
-        Notice notice = noticeService.updateComment(studentId, date, addCommentRequest);
+        Notice notice = noticeService.updateComment(studentId, year, month, date, addCommentRequest);
         return notice;
     }
 
@@ -42,17 +44,22 @@ public class NoticeController {
     // 해당 날짜에 대한 Notice 가져오기
     @GetMapping(value = "/{studentId}")
     public NoticeResponse getNotice(@PathVariable Long studentId,
+                                  @RequestParam("year") String year,
+                                  @RequestParam("month") String month,
                                   @RequestParam("date") String date) {
-        NoticeResponse response = noticeService.getNotice(studentId, date);
+        NoticeResponse response = noticeService.getNotice(studentId, year, month, date);
         return response;
     }
 
     // converter html to pdf
-    @PostMapping(value = "{studentId}")
-    public void createSharePdf(@PathVariable Long studentId,
+    @PostMapping(value = "/{studentId}")
+    public boolean createSharePdf(@PathVariable Long studentId,
+                               @RequestParam("year") String year,
+                               @RequestParam("month") String month,
                                @RequestParam("date") String date,
-                               @RequestBody ConvertPdfRequest convertPdfRequest) {
-//        noticeService.createSharePdf(studentId, date, convertPdfRequest)
+                               @RequestBody ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
+        boolean result = noticeService.createSharePdf(studentId, year, month, date, convertPdfRequest);
+        return result;
     }
 
     @GetMapping(value = "/test")

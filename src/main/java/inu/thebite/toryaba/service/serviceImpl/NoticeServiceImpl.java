@@ -1,6 +1,6 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
-import inu.thebite.toryaba.entity.Detail;
+import com.lowagie.text.DocumentException;
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.entity.Student;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
@@ -17,7 +17,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Service
@@ -30,12 +34,12 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public Notice updateComment(Long studentId, String date, AddCommentRequest addCommentRequest) {
+    public Notice updateComment(Long studentId, String year, String month, String date, AddCommentRequest addCommentRequest) {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentIdAndDate(student.getId(), date)
+        Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
 
         notice.addComment(addCommentRequest.getComment());
@@ -47,36 +51,41 @@ public class NoticeServiceImpl implements NoticeService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        List<String> noticeDateList = noticeRepository.findByStudentIdAndDate(student.getId(), year, month);
+        List<String> noticeDateList = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month);
         return noticeDateList;
     }
 
     @Override
-    public NoticeResponse getNotice(Long studentId, String date) {
+    public NoticeResponse getNotice(Long studentId, String year, String month, String date) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentIdAndDate(student.getId(), date)
+        Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
 
-        NoticeResponse response = NoticeResponse.response(notice.getId(), notice.getDate(), notice.getComment(), notice.getStudent());
-
+        NoticeResponse response = NoticeResponse.response(notice.getId(), notice.getYear(), notice.getMonth(), notice.getDate(), notice.getDay(), notice.getComment(), student.getId());
         return response;
     }
 
     @Override
-    public void createSharePdf(Long studentId, String date, ConvertPdfRequest convertPdfRequest) {
+    public boolean createSharePdf(Long studentId, String year, String month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        Notice notice = noticeRepository.findByStudentIdAndDate(student.getId(), date)
+        Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
 
-        Detail detail = detailRepository.findByNoticeId(notice.getId())
-                .orElseThrow(() -> new IllegalStateException("해당하는 세부 알림장이 존재하지 않습니다."));
+//        Detail detail = detailRepository.findByNoticeId(notice.getId())
+//                .orElseThrow(() -> new IllegalStateException("해당하는 세부 알림장이 존재하지 않습니다."));
+
+        String html = createHtml(year, month, date, notice, convertPdfRequest);
+        generatePdfFromHtml(html, year, month, date, student.getName());
+
+        return true;
     }
 
-    public String createHtml(String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
+    @Override
+    public String createHtml(String year, String month, String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -85,13 +94,24 @@ public class NoticeServiceImpl implements NoticeService {
         templateEngine.setTemplateResolver(templateResolver);
 
         Context context = new Context();
-        context.setVariable("today", date);
+        context.setVariable("today", year + "/" + month + "/" + date);
         context.setVariable("content", notice.getComment());
-        context.setVariable("LtoContentTitle", convertPdfRequest.getLtoName());
-        context.setVariable("LtoContent", convertPdfRequest.getLtoContent());
-        context.setVariable("dates", convertPdfRequest.getDates());
+        context.setVariable("lto", convertPdfRequest.getPdfDetailResponse());
 
 
-        return templateEngine.process("templates/thymeleaf_template", context);
+        return templateEngine.process("templates/pdf", context);
+    }
+
+    @Override
+    public void generatePdfFromHtml(String html, String year, String month, String date, String studentName) throws IOException, DocumentException {
+        String outputFolder = "src/main/resources/reports/" + studentName + "-" + year + "/" + month + "/" + date + ".pdf";
+        OutputStream outputStream = new FileOutputStream(outputFolder);
+
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(html);
+        renderer.layout();
+        renderer.createPDF(outputStream);
+
+        outputStream.close();
     }
 }

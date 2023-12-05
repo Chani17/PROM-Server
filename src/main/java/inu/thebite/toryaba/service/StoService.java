@@ -9,9 +9,9 @@ import java.util.List;
 public interface StoService {
     StoResponse addSto(Long ltoId, AddStoRequest addStoRequest);
 
-    Sto updateStoStatus(Long stoId, String status);
+    StoResponse updateStoStatus(Long stoId, String status);
 
-    Sto updateStoHitStatus(Long stoId, String status);
+    StoResponse updateStoHitStatus(Long stoId, String status);
 
     List<StoResponse> getStoList(Long studentId);
 
@@ -21,10 +21,10 @@ public interface StoService {
 
     List<String> updateImageList(Long stoId, UpdateImageList updateImageList);
 
-    Sto updateSto(Long stoId, UpdateStoRequest updateStoRequest);
+    StoResponse updateSto(Long stoId, UpdateStoRequest updateStoRequest);
 
-    Sto updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
+    StoResponse updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
-    Sto updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
+    StoResponse updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
 }

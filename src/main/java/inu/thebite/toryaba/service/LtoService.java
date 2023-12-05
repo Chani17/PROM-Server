@@ -19,9 +19,9 @@ public interface LtoService {
 
     boolean deleteLto(Long ltoId);
 
-    Lto updateLtoHitStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
+    LtoResponse updateLtoHitStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
 
-    Lto updateLto(Long ltoId, LtoRequest ltoRequest);
+    LtoResponse updateLto(Long ltoId, LtoRequest ltoRequest);
 
     List<LtoGraphResponse> getLtoGraph(Long ltoId);
 

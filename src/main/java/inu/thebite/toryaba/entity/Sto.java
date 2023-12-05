@@ -97,7 +97,7 @@ public class Sto extends BaseEntity {
     private List<Point> pointList = new ArrayList<>();
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lto_seq")
     private Lto lto;
 

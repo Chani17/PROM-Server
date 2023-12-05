@@ -11,8 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
-    Optional<Notice> findByStudentIdAndDate(Long id, String date);
+    Optional<Notice> findByStudentIdAndYearAndMonthAndDate(Long id, String year, String month, String date);
 
     @Query(value = "SELECT notice_date FROM tb_notice WHERE student_seq = :id AND notice_date LIKE CONCAT(:year, '/', :month)", nativeQuery = true)
-    List<String> findByStudentIdAndDate(Long id, @Param("year") String year, @Param("month") String month);
+    List<String> findByStudentIdAndYearAndMonthAndDate(Long id, @Param("year") String year, @Param("month") String month);
 }

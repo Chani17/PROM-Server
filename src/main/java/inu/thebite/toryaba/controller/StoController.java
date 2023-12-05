@@ -27,24 +27,24 @@ public class StoController {
 
     // update STO status when STO status is stop or in progress
     @PatchMapping("/stos/{stoId}/status")
-    public Sto updateStoStatus(@PathVariable Long stoId,
+    public StoResponse updateStoStatus(@PathVariable Long stoId,
                                @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
-        Sto sto = stoService.updateStoStatus(stoId, updateStoStatusRequest.getStatus());
+        StoResponse sto = stoService.updateStoStatus(stoId, updateStoStatusRequest.getStatus());
         return sto;
     }
 
     // update STO status when STO status is git
     @PatchMapping("/stos/{stoId}/hit/status")
-    public Sto updateStoHitStatus(@PathVariable Long stoId,
+    public StoResponse updateStoHitStatus(@PathVariable Long stoId,
                                   @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
-        Sto sto = stoService.updateStoHitStatus(stoId, updateStoStatusRequest.getStatus());
+        StoResponse sto = stoService.updateStoHitStatus(stoId, updateStoStatusRequest.getStatus());
         return sto;
     }
 
     // update STO contents
     @PatchMapping("/stos/{stoId}")
-    public Sto updateSto(@PathVariable Long stoId, @RequestBody UpdateStoRequest updateStoRequest) {
-        Sto sto = stoService.updateSto(stoId, updateStoRequest);
+    public StoResponse updateSto(@PathVariable Long stoId, @RequestBody UpdateStoRequest updateStoRequest) {
+        StoResponse sto = stoService.updateSto(stoId, updateStoRequest);
         return sto;
     }
 
@@ -58,15 +58,15 @@ public class StoController {
 
     // update STO round
     @PatchMapping("/stos/{stoId}/round")
-    public ResponseEntity updateStoRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
-        Sto sto = stoService.updateStoRound(stoId, updateStoRoundRequest);
-        return ResponseEntity.ok(sto);
+    public StoResponse updateStoRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
+        StoResponse sto = stoService.updateStoRound(stoId, updateStoRoundRequest);
+        return sto;
     }
 
     @PatchMapping("/stos/{stoId}/hit/round")
-    public ResponseEntity updateStoHitRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
-        Sto sto = stoService.updateStoHitRound(stoId, updateStoRoundRequest);
-        return ResponseEntity.ok(sto);
+    public StoResponse updateStoHitRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
+        StoResponse sto = stoService.updateStoHitRound(stoId, updateStoRoundRequest);
+        return sto;
     }
 
     // get STO list by studentId
@@ -85,8 +85,8 @@ public class StoController {
 
     // delete STO
     @DeleteMapping("/stos/{stoId}")
-    public ResponseEntity deleteSto(@PathVariable Long stoId) {
-        stoService.deleteSto(stoId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public boolean deleteSto(@PathVariable Long stoId) {
+        boolean result = stoService.deleteSto(stoId);
+        return result;
     }
 }

@@ -55,28 +55,47 @@ public class StoServiceImpl implements StoService {
 
     @Transactional
     @Override
-    public Sto updateStoStatus(Long stoId, String status) {
+    public StoResponse updateStoStatus(Long stoId, String status) {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
         sto.updateStoStatus(status);
 
-        return sto;
+        StoResponse stoResponse = new StoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(),sto.getLto().getId());
+
+        stoResponse.setPointList(sto.getPointList());
+        stoResponse.setImageList(sto.getImageList());
+        return stoResponse;
     }
 
     @Transactional
     @Override
-    public Sto updateStoHitStatus(Long stoId, String status) {
+    public StoResponse updateStoHitStatus(Long stoId, String status) {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
         sto.updateStoHitStatus(status);
-        return sto;
+
+        StoResponse stoResponse = new StoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(),sto.getLto().getId());
+
+        stoResponse.setPointList(sto.getPointList());
+        stoResponse.setImageList(sto.getImageList());
+
+//        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+//                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+//                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+
+        return stoResponse;
     }
 
 
     @Transactional
     @Override
-    public Sto updateSto(Long stoId, UpdateStoRequest updateStoRequest) {
+    public StoResponse updateSto(Long stoId, UpdateStoRequest updateStoRequest) {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
@@ -84,7 +103,11 @@ public class StoServiceImpl implements StoService {
                 updateStoRequest.getGoal(), updateStoRequest.getUrgeType(), updateStoRequest.getUrgeContent(),
                 updateStoRequest.getEnforceContent(), updateStoRequest.getMemo());
 
-        return sto;
+        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+
+        return stoResponse;
     }
 
     @Transactional
@@ -99,32 +122,32 @@ public class StoServiceImpl implements StoService {
 
     @Transactional
     @Override
-    public Sto updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest) {
-        stoRepository.findById(stoId)
+    public StoResponse updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest) {
+        Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        Sto sto = updateStoStatus(stoId, updateStoRoundRequest.getStatus());
+        StoResponse stoResponse = updateStoStatus(stoId, updateStoRoundRequest.getStatus());
         pointService.insertValue(stoId, updateStoRoundRequest.getPlusRate(), updateStoRoundRequest.getMinusRate());
-        sto.updateStoRound(sto.getRound());
+        sto.updateStoRound(stoResponse.getRound());
 
         // when STO's round update, point is made together.
         addNewPointList(sto, updateStoRoundRequest);
-        return sto;
+        return stoResponse;
     }
 
     @Transactional
     @Override
-    public Sto updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest) {
-        stoRepository.findById(stoId)
+    public StoResponse updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest) {
+        Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        Sto sto = updateStoHitStatus(stoId, updateStoRoundRequest.getStatus());
+        StoResponse stoResponse = updateStoHitStatus(stoId, updateStoRoundRequest.getStatus());
         pointService.insertValue(stoId, updateStoRoundRequest.getPlusRate(), updateStoRoundRequest.getMinusRate());
-        sto.updateStoRound(sto.getRound());
+        sto.updateStoRound(stoResponse.getRound());
 
         // when STO's round update, point is made together.
         addNewPointList(sto, updateStoRoundRequest);
-        return sto;
+        return stoResponse;
     }
 
     @Override
@@ -134,14 +157,20 @@ public class StoServiceImpl implements StoService {
         List<LtoResponse> ltoList = ltoRepository.findAllByStudentId(studentId);
 
         for (LtoResponse response: ltoList) {
-            List<Sto> sto = stoRepository.findAllByLtoId(response.getLtoId());
+            List<StoResponse> stoResponse = stoRepository.findAllByLtoIdWithStoResponse(response.getLtoId());
 
-            for(Sto s: sto) {
-                StoResponse stoResponse = StoResponse.stoResponse(s.getId(), s.getTemplateNum(), s.getStatus(), s.getName(),
-                        s.getContents(), s.getCount(), s.getGoal(), s.getUrgeType(), s.getUrgeContent(), s.getEnforceContent(),
-                        s.getMemo(), s.getRound(), s.getHitGoalDate(), s.getRegisterDate(), s.getDelYN(), s.getImageList(), s.getPointList(), s.getLto().getId());
-                stoList.add(stoResponse);
+            for(StoResponse sto : stoResponse) {
+                stoRepository.findById(sto.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
+                sto.setImageList(sto.getImageList());
+                sto.setPointList(sto.getPointList());
+                stoList.add(sto);
             }
+//            for(Sto s: sto) {
+//                StoResponse stoResponse = StoResponse.stoResponse(s.getId(), s.getTemplateNum(), s.getStatus(), s.getName(),
+//                        s.getContents(), s.getCount(), s.getGoal(), s.getUrgeType(), s.getUrgeContent(), s.getEnforceContent(),
+//                        s.getMemo(), s.getRound(), s.getHitGoalDate(), s.getRegisterDate(), s.getDelYN(), s.getImageList(), s.getPointList(), s.getLto().getId());
+//                stoList.add(stoResponse);
+//            }
         }
         return stoList;
     }

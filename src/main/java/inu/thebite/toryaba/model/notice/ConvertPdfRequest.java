@@ -7,11 +7,6 @@ import java.util.List;
 @Data
 public class ConvertPdfRequest {
 
-    private String ltoName;
+    private List<PdfDetailResponse> pdfDetailResponse;
 
-    private String ltoContent;
-
-    private List<String> dates;
-
-    private List<String> stoNames;
 }
