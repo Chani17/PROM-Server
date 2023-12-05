@@ -43,7 +43,7 @@ public class Student extends BaseEntity {
     @Column(name = "student_reg_dt")
     private String registerDate;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "class_seq")
     private Class toryClass;

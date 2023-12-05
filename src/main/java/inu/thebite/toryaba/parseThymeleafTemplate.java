@@ -29,7 +29,7 @@ public class parseThymeleafTemplate {
     }
 
     public ITextRenderer generatePdfFromHtml(String html) throws IOException, DocumentException {
-        String outputFolder = System.getProperty("user.home") + File.separator + "thymeleaf.pdf";
+        String outputFolder = "src/main/resources/templates/thymeleaf.pdf";
         OutputStream outputStream = new FileOutputStream(outputFolder);
 
         ITextRenderer renderer = new ITextRenderer();

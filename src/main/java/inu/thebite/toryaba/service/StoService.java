@@ -7,17 +7,17 @@ import inu.thebite.toryaba.model.sto.*;
 import java.util.List;
 
 public interface StoService {
-    Sto addSto(Long ltoId, AddStoRequest addStoRequest);
+    StoResponse addSto(Long ltoId, AddStoRequest addStoRequest);
 
     Sto updateStoStatus(Long stoId, String status);
 
     Sto updateStoHitStatus(Long stoId, String status);
 
-    List<Sto> getStoList();
+    List<StoResponse> getStoList(Long studentId);
 
-    List<Sto> getStoListByLtoId(Long ltoId);
+    List<StoResponse> getStoListByLtoId(Long ltoId);
 
-    void deleteSto(Long stoId);
+    boolean deleteSto(Long stoId);
 
     List<String> updateImageList(Long stoId, UpdateImageList updateImageList);
 
@@ -27,5 +27,4 @@ public interface StoService {
 
     Sto updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
-    List<Sto> getStoListByLto(Long ltoId);
 }

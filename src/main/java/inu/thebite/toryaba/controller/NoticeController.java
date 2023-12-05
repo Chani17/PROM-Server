@@ -3,12 +3,11 @@ package inu.thebite.toryaba.controller;
 import com.lowagie.text.DocumentException;
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
+import inu.thebite.toryaba.model.notice.ConvertPdfRequest;
 import inu.thebite.toryaba.model.notice.NoticeResponse;
 import inu.thebite.toryaba.parseThymeleafTemplate;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
@@ -48,12 +47,13 @@ public class NoticeController {
         return response;
     }
 
-    // converter html to image
-//    @PostMapping(value = "{studentId}")
-//    public void createShareImage(@PathVariable Long studentId,
-//                                 @RequestParam("date") String date) {
-//        noticeService.createShareImage(studentId, date)
-//    }
+    // converter html to pdf
+    @PostMapping(value = "{studentId}")
+    public void createSharePdf(@PathVariable Long studentId,
+                               @RequestParam("date") String date,
+                               @RequestBody ConvertPdfRequest convertPdfRequest) {
+//        noticeService.createSharePdf(studentId, date, convertPdfRequest)
+    }
 
     @GetMapping(value = "/test")
     public ITextRenderer pdfTest() throws DocumentException, IOException {

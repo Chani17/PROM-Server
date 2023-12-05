@@ -21,7 +21,6 @@ public class Class extends BaseEntity {
     @Column(name = "class_name", length = 45)
     private String name;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "center_seq")
     private Center center;

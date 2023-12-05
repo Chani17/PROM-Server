@@ -3,6 +3,7 @@ package inu.thebite.toryaba.service.serviceImpl;
 import inu.thebite.toryaba.entity.Lto;
 import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.entity.Sto;
+import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.sto.*;
 import inu.thebite.toryaba.repository.LtoRepository;
 import inu.thebite.toryaba.repository.PointRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,21 +30,27 @@ public class StoServiceImpl implements StoService {
 
     @Transactional
     @Override
-    public Sto addSto(Long ltoId, AddStoRequest addStoRequest) {
+    public StoResponse addSto(Long ltoId, AddStoRequest addStoRequest) {
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 LTO가 존재하지 않습니다."));
 
-        List<Sto> stoList = stoRepository.findAllByLtoId(lto.getId());
+        List<StoResponse> stoList = stoRepository.findAllByLtoIdWithStoResponse(lto.getId());
 
         Sto sto = Sto.createSto(stoList.size() + 1, addStoRequest.getName(), addStoRequest.getContents(),
                 addStoRequest.getCount(), addStoRequest.getGoal(), addStoRequest.getUrgeType(),
                 addStoRequest.getUrgeContent(), addStoRequest.getEnforceContent(), addStoRequest.getMemo(), lto);
 
+
         // when STO is made, point is made together.
         Point point = Point.createPoint(addStoRequest.getRegistrant(), sto);
         pointRepository.save(point);
         stoRepository.save(sto);
-        return sto;
+
+        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), stoList.size() + 1, sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
+                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+
+        return stoResponse;
     }
 
     @Transactional
@@ -51,6 +59,7 @@ public class StoServiceImpl implements StoService {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
         sto.updateStoStatus(status);
+
         return sto;
     }
 
@@ -119,37 +128,49 @@ public class StoServiceImpl implements StoService {
     }
 
     @Override
-    public List<Sto> getStoList() {
-        List<Sto> stoList = stoRepository.findAll();
+    public List<StoResponse> getStoList(Long studentId) {
+
+        List<StoResponse> stoList = new ArrayList<>();
+        List<LtoResponse> ltoList = ltoRepository.findAllByStudentId(studentId);
+
+        for (LtoResponse response: ltoList) {
+            List<Sto> sto = stoRepository.findAllByLtoId(response.getLtoId());
+
+            for(Sto s: sto) {
+                StoResponse stoResponse = StoResponse.stoResponse(s.getId(), s.getTemplateNum(), s.getStatus(), s.getName(),
+                        s.getContents(), s.getCount(), s.getGoal(), s.getUrgeType(), s.getUrgeContent(), s.getEnforceContent(),
+                        s.getMemo(), s.getRound(), s.getHitGoalDate(), s.getRegisterDate(), s.getDelYN(), s.getImageList(), s.getPointList(), s.getLto().getId());
+                stoList.add(stoResponse);
+            }
+        }
         return stoList;
     }
 
+
     @Override
-    public List<Sto> getStoListByLto(Long ltoId) {
+    public List<StoResponse> getStoListByLtoId(Long ltoId) {
+
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 LTO가 존재하지 않습니다."));
 
-        List<Sto> stoList = stoRepository.findAllByLtoId(lto.getId());
-        return stoList;
-    }
-
-    @Override
-    public List<Sto> getStoListByLtoId(Long ltoId) {
-        Lto lto = ltoRepository.findById(ltoId)
-                .orElseThrow(() -> new IllegalStateException("해당하는 LTO가 존재하지 않습니다."));
-
-        List<Sto> stoList = stoRepository.findAllByLtoId(lto.getId());
+        List<StoResponse> stoList = stoRepository.findAllByLtoIdWithStoResponse(lto.getId());
+        for(StoResponse stoResponse : stoList) {
+            stoRepository.findById(stoResponse.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
+            stoResponse.setImageList(stoResponse.getImageList());
+            stoResponse.setPointList(stoResponse.getPointList());
+        }
         return stoList;
     }
 
     @Transactional
     @Override
-    public void deleteSto(Long stoId) {
+    public boolean deleteSto(Long stoId) {
         if(stoRepository.findById(stoId).isPresent()) {
             stoRepository.deleteById(stoId);
         } else {
             throw new IllegalStateException("해당하는 STO가 존재하지 않습니다.");
         }
+        return true;
     }
 
     public void addNewPointList(Sto sto, UpdateStoRoundRequest updateStoRoundRequest) {

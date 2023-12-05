@@ -54,9 +54,9 @@ public class Point extends BaseEntity {
     private Sto sto;
 
     // 없어도 될듯 -> LTO 자체에 student값을 가지고 있기 때문
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_seq")
-    private Student student;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "student_seq")
+//    private Student student;
 
 
     public static Point createPoint(String registrant, Sto sto) {

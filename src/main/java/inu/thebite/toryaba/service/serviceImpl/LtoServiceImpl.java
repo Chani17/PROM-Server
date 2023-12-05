@@ -2,11 +2,12 @@ package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.Domain;
 import inu.thebite.toryaba.entity.Lto;
-import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Student;
 import inu.thebite.toryaba.model.lto.LtoGraphResponse;
 import inu.thebite.toryaba.model.lto.LtoRequest;
+import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.lto.UpdateLtoStatusRequest;
+import inu.thebite.toryaba.model.sto.StoResponse;
 import inu.thebite.toryaba.repository.DomainRepository;
 import inu.thebite.toryaba.repository.LtoRepository;
 import inu.thebite.toryaba.repository.StudentRepository;
@@ -33,7 +34,7 @@ public class LtoServiceImpl implements LtoService {
 
     @Override
     @Transactional
-    public Lto addLto(Long domainId, Long studentId, LtoRequest ltoRequest) {
+    public LtoResponse addLto(Long domainId, Long studentId, LtoRequest ltoRequest) {
 
         Domain domain = domainRepository.findById(domainId)
                 .orElseThrow(() -> new IllegalStateException("해당 영역이 존재하지 않습니다."));
@@ -41,20 +42,28 @@ public class LtoServiceImpl implements LtoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당 학생은 존재하지 않습니다."));
 
-        List<Lto> ltoList = ltoRepository.findAllByDomainId(domain.getId());
+        List<LtoResponse> ltoList = ltoRepository.findAllByDomainId(domain.getId());
         Lto lto = Lto.createLto(ltoList.size() + 1, ltoRequest.getName(), ltoRequest.getContents(), ltoRequest.getGame(), domain, student);
         Lto saveLto = ltoRepository.save(lto);
-        return saveLto;
+
+        LtoResponse response = LtoResponse.createLtoResponse(saveLto.getId(), saveLto.getTemplateNum(), saveLto.getStatus(), saveLto.getName(),
+                saveLto.getContents(), saveLto.getGame(), saveLto.getAchieveDate(), saveLto.getRegisterDate(),
+                saveLto.getDelYN(), saveLto.getDomain().getId(), saveLto.getStudent().getId());
+        return response;
     }
 
     @Transactional
     @Override
-    public Lto updateLtoStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest) {
+    public LtoResponse updateLtoStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest) {
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당 LTO가 존재하지 않습니다."));
 
         lto.updateLtoStatus(updateLtoStatusRequest.getStatus());
-        return lto;
+
+        LtoResponse response = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(),
+                lto.getContents(), lto.getGame(), lto.getAchieveDate(), lto.getRegisterDate(),
+                lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
+        return response;
     }
 
     @Transactional
@@ -76,16 +85,20 @@ public class LtoServiceImpl implements LtoService {
     }
 
     @Override
-    public List<Lto> getLtoList() {
-        List<Lto> LtoList = ltoRepository.findAll();
+    public List<LtoResponse> getLtoList(Long studentId) {
+        List<LtoResponse> LtoList = ltoRepository.findAllByStudentId(studentId);
         return LtoList;
     }
 
     @Override
-    public List<Lto> getLtoListByStudent(Long studentId) {
+    public List<LtoResponse> getLtoListByStudent(Long studentId, Long domainId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당 학생은 존재하지 않습니다."));
-        List<Lto> ltoList = ltoRepository.findAllByStudentId(student.getId());
+
+        Domain domain = domainRepository.findById(domainId)
+                .orElseThrow(() -> new IllegalStateException("해당 영역이 존재하지 않습니다."));
+
+        List<LtoResponse> ltoList = ltoRepository.findAllByStudentIdAndDomainId(student.getId(), domain.getId());
         return ltoList;
     }
 
@@ -94,11 +107,11 @@ public class LtoServiceImpl implements LtoService {
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당 LTO가 존재하지 않습니다."));
 
-        List<Sto> stoList = stoService.getStoListByLtoId(lto.getId());
+        List<StoResponse> stoList = stoService.getStoListByLtoId(lto.getId());
         List<LtoGraphResponse> result = new ArrayList<>();
 
-        for(Sto sto : stoList) {
-            LtoGraphResponse response = pointService.getGraphValue(sto.getId());
+        for(StoResponse sto : stoList) {
+            LtoGraphResponse response = pointService.getGraphValue(sto.getStoId());
             result.add(response);
         }
         return result;
@@ -106,12 +119,13 @@ public class LtoServiceImpl implements LtoService {
 
     @Transactional
     @Override
-    public void deleteLto(Long ltoId) {
+    public boolean deleteLto(Long ltoId) {
         if (ltoRepository.findById(ltoId).isPresent()) {
             ltoRepository.deleteById(ltoId);
         } else {
             throw new IllegalStateException("해당 LTO가 존재하지 않습니다.");
         }
+        return true;
     }
 
 

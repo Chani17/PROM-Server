@@ -40,8 +40,8 @@ public class TodoController {
     }
 
     @GetMapping(value = "/{studentId}")
-    public List<StoSummaryResponse> getTodoList(@PathVariable Long studentId) {
-        List<StoSummaryResponse> todoList = todoService.getTodoList(studentId);
+    public StoSummaryResponse getTodoList(@PathVariable Long studentId) {
+        StoSummaryResponse todoList = todoService.getTodoList(studentId);
         return todoList;
     }
 }

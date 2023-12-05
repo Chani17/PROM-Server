@@ -4,19 +4,20 @@ package inu.thebite.toryaba.service;
 import inu.thebite.toryaba.entity.Lto;
 import inu.thebite.toryaba.model.lto.LtoGraphResponse;
 import inu.thebite.toryaba.model.lto.LtoRequest;
+import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.lto.UpdateLtoStatusRequest;
 
 import java.util.List;
 
 public interface LtoService {
 
-    Lto addLto(Long domainId, Long studentId, LtoRequest ltoRequest);
+    LtoResponse addLto(Long domainId, Long studentId, LtoRequest ltoRequest);
 
-    Lto updateLtoStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
+    LtoResponse updateLtoStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
 
-    List<Lto> getLtoList();
+    List<LtoResponse> getLtoList(Long studentId);
 
-    void deleteLto(Long ltoId);
+    boolean deleteLto(Long ltoId);
 
     Lto updateLtoHitStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
 
@@ -24,5 +25,5 @@ public interface LtoService {
 
     List<LtoGraphResponse> getLtoGraph(Long ltoId);
 
-    List<Lto> getLtoListByStudent(Long studentId);
+    List<LtoResponse> getLtoListByStudent(Long studentId, Long domainId);
 }

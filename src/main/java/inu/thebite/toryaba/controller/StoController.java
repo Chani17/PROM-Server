@@ -20,8 +20,8 @@ public class StoController {
 
     // add STO
     @PostMapping("/{ltoId}/stos")
-    public Sto addSto(@PathVariable Long ltoId, @RequestBody AddStoRequest addStoRequest) {
-        Sto sto = stoService.addSto(ltoId, addStoRequest);
+    public StoResponse addSto(@PathVariable Long ltoId, @RequestBody AddStoRequest addStoRequest) {
+        StoResponse sto = stoService.addSto(ltoId, addStoRequest);
         return sto;
     }
 
@@ -30,7 +30,6 @@ public class StoController {
     public Sto updateStoStatus(@PathVariable Long stoId,
                                @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
         Sto sto = stoService.updateStoStatus(stoId, updateStoStatusRequest.getStatus());
-        System.out.println("sto.getStatus() = " + sto.getStatus());
         return sto;
     }
 
@@ -39,7 +38,6 @@ public class StoController {
     public Sto updateStoHitStatus(@PathVariable Long stoId,
                                   @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
         Sto sto = stoService.updateStoHitStatus(stoId, updateStoStatusRequest.getStatus());
-        System.out.println("sto.hit.getStatus() = " + sto.getStatus());
         return sto;
     }
 
@@ -71,16 +69,16 @@ public class StoController {
         return ResponseEntity.ok(sto);
     }
 
-    // get STO list
-    @GetMapping("/stos")
-    public List<Sto> getStoList() {
-        List<Sto> stoList = stoService.getStoList();
+    // get STO list by studentId
+    @GetMapping("/{studentId}/stos")
+    public List<StoResponse> getStoList(@PathVariable Long studentId) {
+        List<StoResponse> stoList = stoService.getStoList(studentId);
         return stoList;
     }
 
-    @GetMapping("/{ltoId}/stos")
-    public List<Sto> getStoListByLto(@PathVariable Long ltoId) {
-        List<Sto> stoList = stoService.getStoListByLto(ltoId);
+    @GetMapping("/ltos/{ltoId}/stos")
+    public List<StoResponse> getStoListByLto(@PathVariable Long ltoId) {
+        List<StoResponse> stoList = stoService.getStoListByLtoId(ltoId);
         return stoList;
     }
 
