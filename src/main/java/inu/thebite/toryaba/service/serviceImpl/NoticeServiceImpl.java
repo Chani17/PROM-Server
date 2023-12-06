@@ -80,7 +80,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public boolean createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
+    public boolean createSharePdf(Long studentId, String year, int month, String date, List<ConvertPdfRequest> convertPdfRequest) throws DocumentException, IOException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -97,7 +97,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public String createHtml(String year, int month, String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
+    public String createHtml(String year, int month, String date, Notice notice, List<ConvertPdfRequest> convertPdfRequest) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -106,10 +106,9 @@ public class NoticeServiceImpl implements NoticeService {
         templateEngine.setTemplateResolver(templateResolver);
 
         Context context = new Context();
-        System.out.println("convertPdfRequest.getPdfDetailResponse() = " + convertPdfRequest.getPdfDetailResponse());
         context.setVariable("today", month + "/" + date);
         context.setVariable("content", notice.getComment());
-        context.setVariable("lto", convertPdfRequest.getPdfDetailResponse());
+        context.setVariable("lto", convertPdfRequest);
 
 
         return templateEngine.process("templates/pdf", context);

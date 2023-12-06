@@ -7,6 +7,10 @@ import java.util.List;
 @Data
 public class ConvertPdfRequest {
 
-    private List<PdfDetailResponse> pdfDetailResponse;
+    private String ltoName;
+
+    private String ltoComment;
+
+    private List<PdfDetailStoResponse> pdfDetailStoResponses;
 
 }

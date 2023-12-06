@@ -14,9 +14,9 @@ public interface NoticeService {
 
     NoticeResponse getNotice(Long studentId, String year, int month, String date);
 
-    boolean createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException;
+    boolean createSharePdf(Long studentId, String year, int month, String date, List<ConvertPdfRequest> convertPdfRequest) throws DocumentException, IOException;
 
-    String createHtml(String year, int month, String date, Notice notice, ConvertPdfRequest convertPdfRequest);
+    String createHtml(String year, int month, String date, Notice notice, List<ConvertPdfRequest> convertPdfRequest);
 
     void generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException;
 

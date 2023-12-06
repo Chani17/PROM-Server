@@ -8,7 +8,7 @@ import inu.thebite.toryaba.model.notice.DetailResponse;
 import java.util.List;
 
 public interface DetailService {
-    Detail addDetail(Long studentId, String year, int month, String date, Long stoId);
+    void addDetail(Long studentId, String year, int month, String date, Long stoId);
 
     DetailResponse updateComment(Long studentId, String year, int month, String date, Long stoId, AddCommentRequest addCommentRequest);
 

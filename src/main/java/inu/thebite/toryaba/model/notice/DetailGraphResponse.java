@@ -17,6 +17,8 @@ public class DetailGraphResponse {
 
     private List<String> dates;
 
+    private Long ltoId;
+
     private Long stoId;
 
     private Long noticeId;
@@ -28,12 +30,13 @@ public class DetailGraphResponse {
         this.noticeId = noticeId;
     }
 
-    public static DetailGraphResponse response(Long id, String comment, List<Float> results, List<String> dates, Long stoId, Long noticeId) {
+    public static DetailGraphResponse response(Long id, String comment, List<Float> results, List<String> dates, Long ltoId, Long stoId, Long noticeId) {
         DetailGraphResponse response = new DetailGraphResponse();
         response.id = id;
         response.comment = comment;
         response.results = results;
         response.dates = dates;
+        response.ltoId = ltoId;
         response.stoId = stoId;
         response.noticeId = noticeId;
         return response;

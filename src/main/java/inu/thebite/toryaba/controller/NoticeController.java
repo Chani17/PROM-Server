@@ -60,7 +60,7 @@ public class NoticeController {
                                @RequestParam("year") String year,
                                @RequestParam("month") int month,
                                @RequestParam("date") String date,
-                               @RequestBody ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
+                               @RequestBody List<ConvertPdfRequest> convertPdfRequest) throws DocumentException, IOException {
         boolean result = noticeService.createSharePdf(studentId, year, month, date, convertPdfRequest);
         return result;
     }

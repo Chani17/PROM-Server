@@ -14,6 +14,8 @@ public class DetailResponse {
 
     private String comment;
 
+    private Long ltoId;
+
     private Long stoId;
 
     private Long noticeId;
@@ -25,10 +27,11 @@ public class DetailResponse {
         this.noticeId = noticeId;
     }
 
-    public static DetailResponse response(Long id, String comment, Long stoId, Long noticeId) {
+    public static DetailResponse response(Long id, String comment, Long ltoId, Long stoId, Long noticeId) {
         DetailResponse response = new DetailResponse();
         response.id = id;
         response.comment = comment;
+        response.ltoId = ltoId;
         response.stoId = stoId;
         response.noticeId = noticeId;
         return response;

@@ -25,8 +25,8 @@ public class DetailController {
                                     @RequestParam("month") int month,
                                     @RequestParam("date") String date,
                                     @RequestParam("stoId") Long stoId) {
-        Detail detail = detailService.addDetail(studentId, year, month, date, stoId);
-        return ResponseEntity.ok(detail);
+        detailService.addDetail(studentId, year, month, date, stoId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping(value = "/{studentId}")

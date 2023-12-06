@@ -32,7 +32,7 @@ public class DetailServiceImpl implements DetailService {
 
     @Transactional
     @Override
-    public Detail addDetail(Long studentId, String year, int month, String date, Long stoId) {
+    public void addDetail(Long studentId, String year, int month, String date, Long stoId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -42,9 +42,10 @@ public class DetailServiceImpl implements DetailService {
         Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
-        Detail detail = Detail.createDetail(sto.getId(), notice);
-        detailRepository.save(detail);
-        return detail;
+        if(!detailRepository.existsByStoId(stoId)) {
+            Detail detail = Detail.createDetail(sto.getId(), notice);
+            detailRepository.save(detail);
+        }
     }
 
     @Transactional
@@ -59,12 +60,12 @@ public class DetailServiceImpl implements DetailService {
         Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
-        Detail detail = detailRepository.findByNoticeId(notice.getId())
+        Detail detail = detailRepository.findByNoticeIdAndStoId(notice.getId(), sto.getId())
                 .orElseThrow(() -> new IllegalStateException("해당하는 Detail이 존재하지 않습니다."));
 
         detail.addComment(addCommentRequest.getComment());
 
-        DetailResponse response = DetailResponse.response(detail.getId(), detail.getComment(), sto.getId(), notice.getId());
+        DetailResponse response = DetailResponse.response(detail.getId(), detail.getComment(), sto.getLto().getId(), sto.getId(), notice.getId());
         return response;
     }
 
@@ -85,6 +86,7 @@ public class DetailServiceImpl implements DetailService {
             LtoGraphResponse graphValue = pointService.getGraphValue(sto.getId());
             detailGraphResponse.setResults(graphValue.getResult());
             detailGraphResponse.setDates(graphValue.getDate());
+            detailGraphResponse.setLtoId(sto.getLto().getId());
         }
         return results;
     }
