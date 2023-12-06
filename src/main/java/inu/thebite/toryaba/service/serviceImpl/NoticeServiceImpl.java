@@ -3,9 +3,7 @@ package inu.thebite.toryaba.service.serviceImpl;
 import com.lowagie.text.DocumentException;
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.entity.Student;
-import inu.thebite.toryaba.model.notice.AddCommentRequest;
-import inu.thebite.toryaba.model.notice.ConvertPdfRequest;
-import inu.thebite.toryaba.model.notice.NoticeResponse;
+import inu.thebite.toryaba.model.notice.*;
 import inu.thebite.toryaba.repository.DetailRepository;
 import inu.thebite.toryaba.repository.NoticeRepository;
 import inu.thebite.toryaba.repository.StudentRepository;
@@ -19,6 +17,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -34,7 +33,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public NoticeResponse updateComment(Long studentId, String year, String month, String date, AddCommentRequest addCommentRequest) {
+    public NoticeResponse updateComment(Long studentId, String year, int month, String date, AddCommentRequest addCommentRequest) {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
@@ -49,16 +48,25 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<String> getNoticeDateList(Long studentId, String year, String month) {
+    public List<DateResponse> getNoticeDateList(Long studentId, String year, int month) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
-        List<String> noticeDateList = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month);
+        List<DateResponse> noticeDateList = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month);
         return noticeDateList;
     }
 
     @Override
-    public NoticeResponse getNotice(Long studentId, String year, String month, String date) {
+    public List<NoticesDatesResponse> getNoticeDates(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
+
+        List<NoticesDatesResponse> response = noticeRepository.findYearAndMonthByStudentId(student.getId());
+        return response;
+    }
+
+    @Override
+    public NoticeResponse getNotice(Long studentId, String year, int month, String date) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -70,7 +78,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public boolean createSharePdf(Long studentId, String year, String month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
+    public boolean createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -87,7 +95,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public String createHtml(String year, String month, String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
+    public String createHtml(String year, int month, String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -105,8 +113,14 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void generatePdfFromHtml(String html, String year, String month, String date, String studentName) throws IOException, DocumentException {
-        String outputFolder = "src/main/resources/reports/" + studentName + "-" + year + "/" + month + "/" + date + ".pdf";
+    public void generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException {
+        String outputFolder = "src/main/resources/reports/" + studentName + "/" + year + "-" + month + "-" + date + ".pdf";
+
+        File directory = new File("src/main/resources/reports/" + studentName);
+        if(!directory.exists()) {
+            directory.mkdirs();
+        }
+
         OutputStream outputStream = new FileOutputStream(outputFolder);
 
         ITextRenderer renderer = new ITextRenderer();

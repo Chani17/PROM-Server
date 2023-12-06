@@ -128,6 +128,8 @@ public class StoServiceImpl implements StoService {
         pointService.insertValue(stoId, updateStoRoundRequest.getPlusRate(), updateStoRoundRequest.getMinusRate());
         sto.updateStoRound(stoResponse.getRound());
 
+        stoResponse.setRound(sto.getRound());
+
         // when STO's round update, point is made together.
         addNewPointList(sto, updateStoRoundRequest);
         return stoResponse;
@@ -142,6 +144,8 @@ public class StoServiceImpl implements StoService {
         StoResponse stoResponse = updateStoHitStatus(stoId, updateStoRoundRequest.getStatus());
         pointService.insertValue(stoId, updateStoRoundRequest.getPlusRate(), updateStoRoundRequest.getMinusRate());
         sto.updateStoRound(stoResponse.getRound());
+
+        stoResponse.setRound(sto.getRound());
 
         // when STO's round update, point is made together.
         addNewPointList(sto, updateStoRoundRequest);

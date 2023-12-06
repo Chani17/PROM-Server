@@ -24,7 +24,7 @@ public class Notice extends BaseEntity {
     private String year;
 
     @Column(name = "notice_month")
-    private String month;
+    private int month;
 
     @Column(name = "notice_date")
     private String date;
@@ -42,7 +42,7 @@ public class Notice extends BaseEntity {
     public static Notice createNotice(Student student) {
         Notice notice = new Notice();
         notice.year = String.valueOf(LocalDateTime.now().getYear());
-        notice.month = String.valueOf(LocalDateTime.now().getMonth());
+        notice.month = LocalDateTime.now().getMonthValue();
         notice.date = String.valueOf(LocalDateTime.now().getDayOfMonth());
         notice.day = String.valueOf(LocalDateTime.now().getDayOfWeek());
         notice.comment = "";

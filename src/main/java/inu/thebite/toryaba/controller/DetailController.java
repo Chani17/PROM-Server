@@ -2,6 +2,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.entity.Detail;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
+import inu.thebite.toryaba.model.notice.DetailGraphResponse;
 import inu.thebite.toryaba.model.notice.DetailResponse;
 import inu.thebite.toryaba.service.DetailService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class DetailController {
     @PostMapping(value = "/{studentId}")
     public ResponseEntity addDetail(@PathVariable Long studentId,
                                     @RequestParam("year") String year,
-                                    @RequestParam("month") String month,
+                                    @RequestParam("month") int month,
                                     @RequestParam("date") String date,
                                     @RequestParam("stoId") Long stoId) {
         Detail detail = detailService.addDetail(studentId, year, month, date, stoId);
@@ -31,7 +32,7 @@ public class DetailController {
     @PatchMapping(value = "/{studentId}")
     public DetailResponse updateComment(@PathVariable Long studentId,
                                         @RequestParam("year") String year,
-                                        @RequestParam("month") String month,
+                                        @RequestParam("month") int month,
                                         @RequestParam("date") String date,
                                         @RequestParam("stoId") Long stoId,
                                         @RequestBody AddCommentRequest addCommentRequest) {
@@ -41,11 +42,11 @@ public class DetailController {
 
     // 해당 날짜에 대한 Detail 반환
     @GetMapping(value = "/{studentId}")
-    public List<DetailResponse> getDetailList(@PathVariable Long studentId,
+    public List<DetailGraphResponse> getDetailList(@PathVariable Long studentId,
                                       @RequestParam("year") String year,
-                                      @RequestParam("month") String month,
+                                      @RequestParam("month") int month,
                                       @RequestParam("date") String date) {
-        List<DetailResponse> detailList = detailService.getDetailList(studentId, year, month, date);
+        List<DetailGraphResponse> detailList = detailService.getDetailList(studentId, year, month, date);
         return detailList;
     }
 

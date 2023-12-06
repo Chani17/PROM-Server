@@ -4,13 +4,16 @@ import inu.thebite.toryaba.entity.Detail;
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Student;
+import inu.thebite.toryaba.model.lto.LtoGraphResponse;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
+import inu.thebite.toryaba.model.notice.DetailGraphResponse;
 import inu.thebite.toryaba.model.notice.DetailResponse;
 import inu.thebite.toryaba.repository.DetailRepository;
 import inu.thebite.toryaba.repository.NoticeRepository;
 import inu.thebite.toryaba.repository.StoRepository;
 import inu.thebite.toryaba.repository.StudentRepository;
 import inu.thebite.toryaba.service.DetailService;
+import inu.thebite.toryaba.service.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +28,11 @@ public class DetailServiceImpl implements DetailService {
     private final StudentRepository studentRepository;
     private final StoRepository stoRepository;
     private final NoticeRepository noticeRepository;
+    private final PointService pointService;
 
     @Transactional
     @Override
-    public Detail addDetail(Long studentId, String year, String month, String date, Long stoId) {
+    public Detail addDetail(Long studentId, String year, int month, String date, Long stoId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -45,7 +49,7 @@ public class DetailServiceImpl implements DetailService {
 
     @Transactional
     @Override
-    public DetailResponse updateComment(Long studentId, String year, String month, String date, Long stoId, AddCommentRequest addCommentRequest) {
+    public DetailResponse updateComment(Long studentId, String year, int month, String date, Long stoId, AddCommentRequest addCommentRequest) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -65,14 +69,23 @@ public class DetailServiceImpl implements DetailService {
     }
 
     @Override
-    public List<DetailResponse> getDetailList(Long studentId, String year, String month, String date) {
+    public List<DetailGraphResponse> getDetailList(Long studentId, String year, int month, String date) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
         Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
-        List<DetailResponse> results = detailRepository.findAllByNoticeId(notice.getId());
+        List<DetailGraphResponse> results = detailRepository.findAllByNoticeId(notice.getId());
+
+        for (DetailGraphResponse detailGraphResponse: results) {
+            Sto sto = stoRepository.findById(detailGraphResponse.getStoId())
+                    .orElseThrow(() -> new IllegalStateException("존재하지 않는 STO 입니다."));
+
+            LtoGraphResponse graphValue = pointService.getGraphValue(sto.getId());
+            detailGraphResponse.setResults(graphValue.getResult());
+            detailGraphResponse.setDates(graphValue.getDate());
+        }
         return results;
     }
 }

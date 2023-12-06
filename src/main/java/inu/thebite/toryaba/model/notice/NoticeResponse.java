@@ -10,7 +10,7 @@ public class NoticeResponse {
 
     private String year;
 
-    private String month;
+    private int month;
     private String date;
 
     private String day;
@@ -19,7 +19,7 @@ public class NoticeResponse {
 
     private Long studentId;
 
-    public static NoticeResponse response(Long id, String year, String month, String date, String day, String comment, Long studentId) {
+    public static NoticeResponse response(Long id, String year, int month, String date, String day, String comment, Long studentId) {
         NoticeResponse noticeResponse = new NoticeResponse();
         noticeResponse.id = id;
         noticeResponse.year = year;
