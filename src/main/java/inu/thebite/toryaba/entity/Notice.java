@@ -44,7 +44,7 @@ public class Notice extends BaseEntity {
         notice.year = String.valueOf(LocalDateTime.now().getYear());
         notice.month = LocalDateTime.now().getMonthValue();
         notice.date = String.valueOf(LocalDateTime.now().getDayOfMonth());
-        notice.day = String.valueOf(LocalDateTime.now().getDayOfWeek());
+        notice.day = LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE", Locale.KOREAN));
         notice.comment = "";
         notice.student = student;
         return notice;

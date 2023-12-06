@@ -19,7 +19,7 @@ public interface StoService {
 
     boolean deleteSto(Long stoId);
 
-    List<String> updateImageList(Long stoId, UpdateImageList updateImageList);
+    StoResponse updateImageList(Long stoId, UpdateImageList updateImageList);
 
     StoResponse updateSto(Long stoId, UpdateStoRequest updateStoRequest);
 

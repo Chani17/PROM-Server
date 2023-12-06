@@ -4,16 +4,16 @@
 <head>
     <title>알림장</title>
 </head>
-<div class="Header">
+<div th:class="Header">
     <div style="width: 100%; height: 100%; background: linear-gradient(270deg, #7F5AF0 0%, #2E00BC 100%); box-shadow: 0px -1px 0px rgba(255, 255, 255, 0.20) inset; justify-content: center; align-items: center; display: inline-flex">
         <div style="flex: 1 1 0; height: 40px; padding-left: 10px; padding-right: 10px; justify-content: flex-start; align-items: center;  display: flex">
-            <div style="color: white; font-size: 22px; font-family: Lato; font-weight: 400; line-height: 22px; word-wrap: break-word">
+            <div style="color: white; font-size: 22px; font-family:NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word">
                 Notice board
             </div>
         </div>
     </div>
 </div>
-<div class="todayComment" id="todayCommentContainer">
+<div th:class="todayComment" id="todayCommentContainer">
     <!-- 오늘의 총평, 요약 부분 -->
 </div>
 <div
@@ -24,14 +24,14 @@
             <div
                     style="width: 84px; height: 54px; padding: 10px; background: linear-gradient(94deg, #0047B3 0%, #7F5AF0 100%); border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
                 <div
-                        th:style="'color: white; font-size: 22px; font-family: Lato; font-weight: 400; line-height: 22px; word-wrap: break-word'"
+                        style="color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word"
                         th:text="${today}">
                 </div>
             </div>
             <div
                     style="width: 440px; height: 54px; padding: 10px; background: white; border-top-left-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
                 <div
-                        style="color: black; font-size: 24px; font-family: Inter; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word">
+                        style="color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word">
                     오늘의 총평
                 </div>
             </div>
@@ -39,29 +39,29 @@
         <div
                 style="width: 1200px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
             <div
-                    th:style="'color: #0047B3; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word'"
+                    style="color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word"
                     th:text="${content}">
             </div>
         </div>
     </div>
-    <div class="todayLtoComment_01" id="todayLtoComment_01Container"></div>
+    <div th:class="todayLtoComment_01" id="todayLtoComment_01Container"></div>
     <div style="align-self: stretch; flex: 1 1 0; padding-top: 16px; padding-bottom: 24px; padding-left: 16px; padding-right: 16px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
         <div th:each="lto : ${lto}"
              style="padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
             <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex">
                 <div style="width: 84px; height: 54px; padding: 10px; background: linear-gradient(94deg, #0047B3 0%, #7F5AF0 100%); border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                    <div style="color: white; font-size: 22px; font-family: Lato; font-weight: 400; line-height: 22px; word-wrap: break-word">
+                    <div style="color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word">
                         LTO
                     </div>
                 </div>
                 <div style="width: 440px; height: 54px; padding: 10px; background: white; border-bottom-right-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
                     <div th:text="${lto.ltoName}"
-                         style="color: black; font-size: 24px; font-family: Inter; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word"></div>
+                         style="color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word"></div>
                 </div>
             </div>
             <div style="width: 1200px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
                 <div th:text="${lto.ltoComment}"
-                     style="color: #0047B3; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word"></div>
+                     style="color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word"></div>
             </div>
             <div style="width: 1197px; height: 455px; position: relative">
 <!--                <div th:each="i : ${#numbers.sequence(0, lto.stoNames.size()-1)}"-->

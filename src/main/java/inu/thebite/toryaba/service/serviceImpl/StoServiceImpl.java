@@ -64,7 +64,6 @@ public class StoServiceImpl implements StoService {
         StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
                 sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
                 sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
-        System.out.println("stoResponse = " + stoResponse);
 
         return stoResponse;
     }
@@ -76,14 +75,6 @@ public class StoServiceImpl implements StoService {
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
         sto.updateStoHitStatus(status);
-
-//        StoResponse stoResponse = new StoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
-//                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-//                sto.getRegisterDate(), sto.getDelYN(),sto.getLto().getId());
-//
-//        stoResponse.setPointList(sto.getPointList());
-//        stoResponse.setImageList(sto.getImageList());
-
         return getStoResponse(sto);
     }
 
@@ -110,12 +101,17 @@ public class StoServiceImpl implements StoService {
 
     @Transactional
     @Override
-    public List<String> updateImageList(Long stoId, UpdateImageList updateImageList) {
+    public StoResponse updateImageList(Long stoId, UpdateImageList updateImageList) {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
         sto.updateImageList(updateImageList.getImageList().stream().toList());
-        return sto.getImageList();
+
+        StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                sto.getGoal(), sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                sto.getLto().getId());
+        return stoResponse;
     }
 
     @Transactional
@@ -161,18 +157,12 @@ public class StoServiceImpl implements StoService {
         for (LtoResponse response: ltoList) {
             List<StoResponse> stoResponse = stoRepository.findAllByLtoIdWithStoResponse(response.getLtoId());
 
-            for(StoResponse sto : stoResponse) {
-                stoRepository.findById(sto.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
-                sto.setImageList(sto.getImageList());
-                sto.setPointList(sto.getPointList());
-                stoList.add(sto);
+            for(StoResponse s : stoResponse) {
+                Sto sto = stoRepository.findById(s.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
+                s.setImageList(sto.getImageList());
+                s.setPointList(sto.getPointList());
+                stoList.add(s);
             }
-//            for(Sto s: sto) {
-//                StoResponse stoResponse = StoResponse.stoResponse(s.getId(), s.getTemplateNum(), s.getStatus(), s.getName(),
-//                        s.getContents(), s.getCount(), s.getGoal(), s.getUrgeType(), s.getUrgeContent(), s.getEnforceContent(),
-//                        s.getMemo(), s.getRound(), s.getHitGoalDate(), s.getRegisterDate(), s.getDelYN(), s.getImageList(), s.getPointList(), s.getLto().getId());
-//                stoList.add(stoResponse);
-//            }
         }
         return stoList;
     }
@@ -186,9 +176,9 @@ public class StoServiceImpl implements StoService {
 
         List<StoResponse> stoList = stoRepository.findAllByLtoIdWithStoResponse(lto.getId());
         for(StoResponse stoResponse : stoList) {
-            stoRepository.findById(stoResponse.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
-            stoResponse.setImageList(stoResponse.getImageList());
-            stoResponse.setPointList(stoResponse.getPointList());
+            Sto sto = stoRepository.findById(stoResponse.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
+            stoResponse.setImageList(sto.getImageList());
+            stoResponse.setPointList(sto.getPointList());
         }
         return stoList;
     }

@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.BaseFont;
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.entity.Student;
 import inu.thebite.toryaba.model.notice.*;
@@ -9,6 +10,7 @@ import inu.thebite.toryaba.repository.NoticeRepository;
 import inu.thebite.toryaba.repository.StudentRepository;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
@@ -104,7 +106,8 @@ public class NoticeServiceImpl implements NoticeService {
         templateEngine.setTemplateResolver(templateResolver);
 
         Context context = new Context();
-        context.setVariable("today", year + "/" + month + "/" + date);
+        System.out.println("convertPdfRequest.getPdfDetailResponse() = " + convertPdfRequest.getPdfDetailResponse());
+        context.setVariable("today", month + "/" + date);
         context.setVariable("content", notice.getComment());
         context.setVariable("lto", convertPdfRequest.getPdfDetailResponse());
 
@@ -124,6 +127,7 @@ public class NoticeServiceImpl implements NoticeService {
         OutputStream outputStream = new FileOutputStream(outputFolder);
 
         ITextRenderer renderer = new ITextRenderer();
+        renderer.getFontResolver().addFont("src/main/resources/static/font/NanumBarunGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         renderer.setDocumentFromString(html);
         renderer.layout();
         renderer.createPDF(outputStream);
