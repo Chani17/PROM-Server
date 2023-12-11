@@ -16,6 +16,6 @@ public interface DetailRepository extends JpaRepository<Detail, Long> {
     @Query("SELECT new inu.thebite.toryaba.model.notice.DetailGraphResponse(d.id, d.comment, d.stoId, d.notice.id) FROM Detail d WHERE d.notice.id = :noticeId")
     List<DetailGraphResponse> findAllByNoticeId(Long noticeId);
 
-    boolean existsByStoId(Long stoId);
+    boolean existsByStoIdAndYearAndMonthAndDate(Long stoId, String year, int month, String date);
 
 }

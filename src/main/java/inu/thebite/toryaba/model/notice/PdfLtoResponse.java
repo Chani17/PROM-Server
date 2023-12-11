@@ -5,12 +5,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ConvertPdfRequest {
+public class PdfLtoResponse {
 
-    private String date;
+    private String title;
 
     private String content;
 
-    private List<PdfLtoResponse> lto;
+    private List<PdfStoResponse> stoArray;
 
 }

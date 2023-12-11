@@ -5,6 +5,7 @@ import inu.thebite.toryaba.model.notice.*;
 import inu.thebite.toryaba.parseThymeleafTemplate;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
@@ -60,7 +61,7 @@ public class NoticeController {
                                @RequestParam("year") String year,
                                @RequestParam("month") int month,
                                @RequestParam("date") String date,
-                               @RequestBody List<ConvertPdfRequest> convertPdfRequest) throws DocumentException, IOException {
+                               @RequestBody ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
         boolean result = noticeService.createSharePdf(studentId, year, month, date, convertPdfRequest);
         return result;
     }
@@ -72,6 +73,4 @@ public class NoticeController {
         ITextRenderer renderer = parseThymeleafTemplate.generatePdfFromHtml(html);
         return renderer;
     }
-
-
 }

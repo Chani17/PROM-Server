@@ -80,7 +80,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public boolean createSharePdf(Long studentId, String year, int month, String date, List<ConvertPdfRequest> convertPdfRequest) throws DocumentException, IOException {
+    public boolean createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -90,37 +90,44 @@ public class NoticeServiceImpl implements NoticeService {
 //        Detail detail = detailRepository.findByNoticeId(notice.getId())
 //                .orElseThrow(() -> new IllegalStateException("해당하는 세부 알림장이 존재하지 않습니다."));
 
+        System.out.println("createHtml 들어갈거임");
         String html = createHtml(year, month, date, notice, convertPdfRequest);
+        System.out.println("generatedPDfFromHtml 들어갈거임");
         generatePdfFromHtml(html, year, month, date, student.getName());
 
         return true;
     }
 
     @Override
-    public String createHtml(String year, int month, String date, Notice notice, List<ConvertPdfRequest> convertPdfRequest) {
+    public String createHtml(String year, int month, String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
+        System.out.println("createHtml 들어왔음");
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
+        System.out.println("templateResolver까지 완료");
 
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
+        System.out.println("TemplateEngine까지 완료");
 
         Context context = new Context();
-        context.setVariable("today", month + "/" + date);
+        context.setVariable("date", month + "/" + date);
         context.setVariable("content", notice.getComment());
-        context.setVariable("lto", convertPdfRequest);
+        context.setVariable("lto", convertPdfRequest.getLto());
+        System.out.println("context setVariable까지 완료");
 
-
-        return templateEngine.process("templates/pdf", context);
+        return templateEngine.process("templates/htmltopdf", context);
     }
 
     @Override
     public void generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException {
+        System.out.println("generatePdfFromHtml 들어왔음");
         String outputFolder = "src/main/resources/reports/" + studentName + "/" + year + "-" + month + "-" + date + ".pdf";
 
         File directory = new File("src/main/resources/reports/" + studentName);
         if(!directory.exists()) {
             directory.mkdirs();
+            System.out.println("폴더 생성 완료");
         }
 
         OutputStream outputStream = new FileOutputStream(outputFolder);
@@ -131,6 +138,9 @@ public class NoticeServiceImpl implements NoticeService {
         renderer.layout();
         renderer.createPDF(outputStream);
 
+        System.out.println("완료");
+
         outputStream.close();
     }
+
 }

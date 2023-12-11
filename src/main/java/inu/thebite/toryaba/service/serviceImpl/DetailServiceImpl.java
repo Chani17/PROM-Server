@@ -42,8 +42,8 @@ public class DetailServiceImpl implements DetailService {
         Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 Notice가 존재하지 않습니다."));
 
-        if(!detailRepository.existsByStoId(stoId)) {
-            Detail detail = Detail.createDetail(sto.getId(), notice);
+        if(!detailRepository.existsByStoIdAndYearAndMonthAndDate(sto.getId(), year, month, date)) {
+            Detail detail = Detail.createDetail(sto.getId(), year, month, date, notice);
             detailRepository.save(detail);
         }
     }

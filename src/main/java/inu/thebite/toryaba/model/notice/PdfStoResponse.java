@@ -5,14 +5,13 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PdfDetailStoResponse {
+public class PdfStoResponse {
 
-    private String stoName;
+    private String name;
 
-    private List<String> dates;
+    private List<String> date;
 
     private List<Float> plusRate;
 
     private List<Float> minusRate;
-
 }

@@ -22,13 +22,24 @@ public class Detail extends BaseEntity {
     @Column(name = "detail_stoNum")
     private Long stoId;
 
+    @Column(name = "detail_year")
+    private String year;
+
+    @Column(name = "detail_month")
+    private int month;
+
+    @Column(name = "detail_date")
+    private String date;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notice_seq")
     private Notice notice;
 
-    public static Detail createDetail(Long stoId, Notice notice) {
+    public static Detail createDetail(Long stoId, String year, int month, String date, Notice notice) {
         Detail detail = new Detail();
         detail.comment = "";
+        detail.year = year;
+        detail.month = month;
+        detail.date = date;
         detail.stoId = stoId;
         detail.notice = notice;
         return detail;
