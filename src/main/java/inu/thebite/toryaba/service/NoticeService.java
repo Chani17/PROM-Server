@@ -14,11 +14,13 @@ public interface NoticeService {
 
     NoticeResponse getNotice(Long studentId, String year, int month, String date);
 
-    boolean createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException;
+    String createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException;
 
     String createHtml(String year, int month, String date, Notice notice, ConvertPdfRequest convertPdfRequest);
 
-    void generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException;
+    String generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException;
 
     List<NoticesDatesResponse> getNoticeDates(Long studentId);
+
+    String savePdf(String pdf);
 }

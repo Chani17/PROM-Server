@@ -57,13 +57,13 @@ public class NoticeController {
 
     // converter html to pdf
     @PostMapping(value = "/{studentId}")
-    public boolean createSharePdf(@PathVariable Long studentId,
+    public String createSharePdf(@PathVariable Long studentId,
                                @RequestParam("year") String year,
                                @RequestParam("month") int month,
                                @RequestParam("date") String date,
                                @RequestBody ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
-        boolean result = noticeService.createSharePdf(studentId, year, month, date, convertPdfRequest);
-        return result;
+        String pdfUrl = noticeService.createSharePdf(studentId, year, month, date, convertPdfRequest);
+        return pdfUrl;
     }
 
     @GetMapping(value = "/test")

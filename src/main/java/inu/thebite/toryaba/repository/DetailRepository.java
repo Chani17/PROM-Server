@@ -18,4 +18,5 @@ public interface DetailRepository extends JpaRepository<Detail, Long> {
 
     boolean existsByStoIdAndYearAndMonthAndDate(Long stoId, String year, int month, String date);
 
+    Optional<Detail> findByNoticeId(Long id);
 }

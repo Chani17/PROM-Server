@@ -1,5 +1,9 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 import inu.thebite.toryaba.entity.Notice;
@@ -10,6 +14,7 @@ import inu.thebite.toryaba.repository.NoticeRepository;
 import inu.thebite.toryaba.repository.StudentRepository;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -32,6 +39,9 @@ public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
     private final StudentRepository studentRepository;
     private final DetailRepository detailRepository;
+
+    @Value("${spring.cloud.gcp.storage.bucket}")
+    private String bucketName;
 
     @Transactional
     @Override
@@ -80,54 +90,47 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public boolean createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
+    public String createSharePdf(Long studentId, String year, int month, String date, ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
         Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
 
-//        Detail detail = detailRepository.findByNoticeId(notice.getId())
+//        detailRepository.findByNoticeId(notice.getId())
 //                .orElseThrow(() -> new IllegalStateException("해당하는 세부 알림장이 존재하지 않습니다."));
 
-        System.out.println("createHtml 들어갈거임");
         String html = createHtml(year, month, date, notice, convertPdfRequest);
-        System.out.println("generatedPDfFromHtml 들어갈거임");
-        generatePdfFromHtml(html, year, month, date, student.getName());
+        String pdf = generatePdfFromHtml(html, year, month, date, student.getName());
+        String pdfUrl = savePdf(pdf);
 
-        return true;
+        return pdfUrl;
     }
 
     @Override
     public String createHtml(String year, int month, String date, Notice notice, ConvertPdfRequest convertPdfRequest) {
-        System.out.println("createHtml 들어왔음");
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        System.out.println("templateResolver까지 완료");
 
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
-        System.out.println("TemplateEngine까지 완료");
 
         Context context = new Context();
         context.setVariable("date", month + "/" + date);
         context.setVariable("content", notice.getComment());
         context.setVariable("lto", convertPdfRequest.getLto());
-        System.out.println("context setVariable까지 완료");
 
         return templateEngine.process("templates/htmltopdf", context);
     }
 
     @Override
-    public void generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException {
-        System.out.println("generatePdfFromHtml 들어왔음");
-        String outputFolder = "src/main/resources/reports/" + studentName + "/" + year + "-" + month + "-" + date + ".pdf";
+    public String generatePdfFromHtml(String html, String year, int month, String date, String studentName) throws IOException, DocumentException {
+        String outputFolder = "report/" + studentName + "/" + year + "-" + month + "-" + date + ".pdf";
 
-        File directory = new File("src/main/resources/reports/" + studentName);
+        File directory = new File("report/" + studentName);
         if(!directory.exists()) {
             directory.mkdirs();
-            System.out.println("폴더 생성 완료");
         }
 
         OutputStream outputStream = new FileOutputStream(outputFolder);
@@ -141,6 +144,27 @@ public class NoticeServiceImpl implements NoticeService {
         System.out.println("완료");
 
         outputStream.close();
+        return outputFolder;
+    }
+
+    @Override
+    public String savePdf(String pdf) {
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+        String contentType = "application/pdf";
+
+        // save PDF
+        try {
+            byte[] pdfBytes = Files.readAllBytes(Paths.get(pdf));
+            BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, pdf).setContentType(contentType).build();
+            Blob uploadPdf = storage.create(blobInfo, pdfBytes);
+            String pdfUrl = uploadPdf.getMediaLink();
+            return pdfUrl;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+
     }
 
 }
