@@ -20,68 +20,73 @@ public class StoController {
 
     // add STO
     @PostMapping("/{ltoId}/stos")
-    public Sto addSto(@PathVariable Long ltoId, @RequestBody AddStoRequest addStoRequest) {
-        Sto sto = stoService.addSto(ltoId, addStoRequest);
+    public StoResponse addSto(@PathVariable Long ltoId, @RequestBody AddStoRequest addStoRequest) {
+        StoResponse sto = stoService.addSto(ltoId, addStoRequest);
         return sto;
     }
 
     // update STO status when STO status is stop or in progress
     @PatchMapping("/stos/{stoId}/status")
-    public Sto updateStoStatus(@PathVariable Long stoId,
+    public StoResponse updateStoStatus(@PathVariable Long stoId,
                                @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
-        Sto sto = stoService.updateStoStatus(stoId, updateStoStatusRequest.getStatus());
-        System.out.println("sto.getStatus() = " + sto.getStatus());
+        StoResponse sto = stoService.updateStoStatus(stoId, updateStoStatusRequest.getStatus());
         return sto;
     }
 
     // update STO status when STO status is git
     @PatchMapping("/stos/{stoId}/hit/status")
-    public Sto updateStoHitStatus(@PathVariable Long stoId,
+    public StoResponse updateStoHitStatus(@PathVariable Long stoId,
                                   @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
-        Sto sto = stoService.updateStoHitStatus(stoId, updateStoStatusRequest.getStatus());
-        System.out.println("sto.hit.getStatus() = " + sto.getStatus());
+        StoResponse sto = stoService.updateStoHitStatus(stoId, updateStoStatusRequest.getStatus());
         return sto;
     }
 
     // update STO contents
     @PatchMapping("/stos/{stoId}")
-    public Sto updateSto(@PathVariable Long stoId, @RequestBody UpdateStoRequest updateStoRequest) {
-        Sto sto = stoService.updateSto(stoId, updateStoRequest);
+    public StoResponse updateSto(@PathVariable Long stoId, @RequestBody UpdateStoRequest updateStoRequest) {
+        StoResponse sto = stoService.updateSto(stoId, updateStoRequest);
         return sto;
     }
 
     // update image list(image url)
     // when UpdateImageList request, I have to decide whether to use imageName or imageUrl, but these are same type.
     @PatchMapping("/stos/{stoId}/images")
-    public ResponseEntity updateImageList(@PathVariable Long stoId, @RequestBody UpdateImageList updateImageList) {
-        List<String> imageList = stoService.updateImageList(stoId, updateImageList);
-        return ResponseEntity.ok(imageList);
+    public StoResponse updateImageList(@PathVariable Long stoId, @RequestBody UpdateImageList updateImageList) {
+        StoResponse imageList = stoService.updateImageList(stoId, updateImageList);
+        return imageList;
     }
 
     // update STO round
     @PatchMapping("/stos/{stoId}/round")
-    public ResponseEntity updateStoRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
-        Sto sto = stoService.updateStoRound(stoId, updateStoRoundRequest);
-        return ResponseEntity.ok(sto);
+    public StoResponse updateStoRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
+        StoResponse sto = stoService.updateStoRound(stoId, updateStoRoundRequest);
+        return sto;
     }
 
     @PatchMapping("/stos/{stoId}/hit/round")
-    public ResponseEntity updateStoHitRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
-        Sto sto = stoService.updateStoHitRound(stoId, updateStoRoundRequest);
-        return ResponseEntity.ok(sto);
+    public StoResponse updateStoHitRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
+        StoResponse sto = stoService.updateStoHitRound(stoId, updateStoRoundRequest);
+        return sto;
     }
-    // get STO list
-    @GetMapping("/stos")
-    public List<Sto> getStoList() {
-        List<Sto> stoList = stoService.getStoList();
+
+    // get STO list by studentId
+    @GetMapping("/{studentId}/stos")
+    public List<StoResponse> getStoList(@PathVariable Long studentId) {
+        List<StoResponse> stoList = stoService.getStoList(studentId);
+        return stoList;
+    }
+
+    @GetMapping("/ltos/{ltoId}/stos")
+    public List<StoResponse> getStoListByLto(@PathVariable Long ltoId) {
+        List<StoResponse> stoList = stoService.getStoListByLtoId(ltoId);
         return stoList;
     }
 
 
     // delete STO
     @DeleteMapping("/stos/{stoId}")
-    public ResponseEntity deleteSto(@PathVariable Long stoId) {
-        stoService.deleteSto(stoId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public boolean deleteSto(@PathVariable Long stoId) {
+        boolean result = stoService.deleteSto(stoId);
+        return result;
     }
 }

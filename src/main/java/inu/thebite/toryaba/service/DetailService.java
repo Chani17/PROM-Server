@@ -2,13 +2,15 @@ package inu.thebite.toryaba.service;
 
 import inu.thebite.toryaba.entity.Detail;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
+import inu.thebite.toryaba.model.notice.DetailGraphResponse;
+import inu.thebite.toryaba.model.notice.DetailResponse;
 
 import java.util.List;
 
 public interface DetailService {
-    Detail addDetail(Long studentId, String date, Long stoId);
+    void addDetail(Long studentId, String year, int month, String date, Long stoId);
 
-    Detail updateComment(Long studentId, String date, Long stoId, AddCommentRequest addCommentRequest);
+    DetailResponse updateComment(Long studentId, String year, int month, String date, Long stoId, AddCommentRequest addCommentRequest);
 
-    List<Detail> getDetailList(Long studentId, String date);
+    List<DetailGraphResponse> getDetailList(Long studentId, String year, int month, String date);
 }

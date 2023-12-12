@@ -20,8 +20,17 @@ public class Notice extends BaseEntity {
     @Column(name = "notice_seq")
     private Long id;
 
+    @Column(name = "notice_year")
+    private String year;
+
+    @Column(name = "notice_month")
+    private int month;
+
     @Column(name = "notice_date")
     private String date;
+
+    @Column(name = "notice_day")
+    private String day;
 
     @Column(name = "notice_comment")
     private String comment;
@@ -32,7 +41,10 @@ public class Notice extends BaseEntity {
 
     public static Notice createNotice(Student student) {
         Notice notice = new Notice();
-        notice.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd (E)").withLocale(Locale.forLanguageTag("ko")));
+        notice.year = String.valueOf(LocalDateTime.now().getYear());
+        notice.month = LocalDateTime.now().getMonthValue();
+        notice.date = String.valueOf(LocalDateTime.now().getDayOfMonth());
+        notice.day = LocalDateTime.now().format(DateTimeFormatter.ofPattern("EEEE", Locale.KOREAN));
         notice.comment = "";
         notice.student = student;
         return notice;

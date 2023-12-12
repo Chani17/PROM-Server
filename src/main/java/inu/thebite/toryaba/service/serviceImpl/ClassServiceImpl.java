@@ -42,6 +42,15 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
+    public List<Class> getClassListByCenter(Long centerId) {
+        Center center = centerRepository.findById(centerId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 센터가 존재하지 않습니다."));
+
+        List<Class> classList = classRepository.findAllByCenterId(center.getId());
+        return classList;
+    }
+
+    @Override
     public List<Class> getClassList() {
         List<Class> classList = classRepository.findAll();
         return classList;
