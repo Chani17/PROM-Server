@@ -121,7 +121,7 @@ public class NoticeServiceImpl implements NoticeService {
         context.setVariable("content", notice.getComment());
         context.setVariable("lto", convertPdfRequest.getLto());
 
-        return templateEngine.process("templates/htmltopdf", context);
+        return templateEngine.process("templates/original_pdf", context);
     }
 
     @Override

@@ -5,7 +5,7 @@
     <title>알림장</title>
 </head>
 <body>
-<div style="width: 21cm;min-height: 29.7cm;margin: 0 auto;background:#eee; size: A4; margin: 0;">
+<div style="width: 19cm;min-height: 29.7cm;margin: 0 auto;background:#eee; size: A4; margin: 0;">
     <div class="Header">
         <div style="width: 100%; height: 100%; background: #2E00BC; box-shadow: 0px -1px 0px inset; justify-content: center; align-items: center; display: inline-flex">
             <div style="flex: 1 1 0; height: 40px; padding-left: 10px; padding-right: 10px; justify-content: flex-start; align-items: center;  display: flex">
@@ -18,190 +18,63 @@
     <div class="todayComment" id="todayCommentContainer">
         <!-- 오늘의 총평, 요약 부분 -->
     </div>
-    <script th:inline="javascript">
-        //데이터 받는 곳이에요. 데이터는 이 부분만 변동하시면 나머지 다 입력 될 거에요.
-        //sto 그래프 데이터 순서[title,[날짜],[초록색 데이터입력값],[노란색 데이터입력값]]
-        /*<![CDATA[*/
-        const serverData = {
-            date: "11/13",
-            title: "요약",
-            content: "오늘은 ‘똑같은 사진끼리 매칭(3array)’을 실시했습니다.<br/>서로 다른 사진 3장 중 목표 카드 1장과 같은 사진을 고르는 방식입니다.",
-            ltoTitle_1: "똑같은 사진끼리 매칭(3array)",
-            ltoContent_1: "오늘은 ‘파랑 컵-메가블록-칫솔’, ‘파랑 컵-칫솔-가위’, ‘투명 컵-바나나-딸기’, ‘공-색연필-블록’을 실시했습니다. <br/>관련된 교육을 가정에서도 반복해주시면 아이의 행동 숙달에 더욱 효과적입니다.",
-            ltoTitle_2: "일반화 사진 매칭(3array)",
-            ltoContent_2: "오늘은 ‘숟가락, 양말, 칫솔’, ‘숟가락, 곰돌이, 컵’, ‘축구공, 가위, 곰돌이’, '블록, 양말, 컵'을 실시했습니다. <br/>관련된 교육을 가정에서도 반복해주시면 아이의 행동 숙달에 더욱 효과적입니다.",
-            sto_1Array: ["파랑 컵-메가블록-칫솔", ['23/11/03', '23/11/05', '23/11/07', '23/11/10'], [30, 60, 90, 20], [70, 40, 10, 80]],
-            sto_2Array: ["파랑 컵-칫솔-가위", ['23/11/03', '23/11/05', '23/11/07', '23/11/10'], [30, 60, 90, 20], [70, 40, 10, 80]],
-            sto_3Array: ["투명 컵-바나나-딸기", ['23/11/03', '23/11/05', '23/11/07', '23/11/10'], [30, 60, 90, 20], [70, 40, 10, 80]],
-            sto_4Array: ["공-색연필-블록", ['23/11/03', '23/11/05', '23/11/07', '23/11/10'], [30, 60, 90, 20], [70, 40, 10, 80]],
-            sto_5Array: ["숟가락, 양말, 칫솔", ['23/10/03', '23/10/05', '23/10/07', '23/10/10'], [10, 50, 20, 10], [90, 80, 60, 70]],
-            sto_6Array: ["숟가락, 곰돌이, 컵", ['23/10/03', '23/10/05', '23/10/07', '23/10/10'], [10, 50, 20, 10], [90, 80, 60, 70]],
-            sto_7Array: ["축구공, 가위, 곰돌이", ['23/10/03', '23/10/05', '23/10/07', '23/10/10'], [10, 50, 20, 10], [90, 80, 60, 70]],
-            sto_8Array: ["블록, 양말, 컵", ['23/10/03', '23/10/05', '23/10/07', '23/10/10'], [10, 50, 20, 10], [90, 80, 60, 70]],
-
-
-        };
-
-        //요약 부분 데이터
-        document.getElementById('todayCommentContainer').innerHTML = `
-                    <div style="width: 100%; height: 100%; padding-top: 20px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
-                    <div style="padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-                    <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                    <div style="width: 84px; height: 54px; padding: 10px; background: #7F5AF0; border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                    <div style="color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word">
-                        ${serverData.date}
-                    </div>
-                    </div>
-                    <div style="width: 440px; height: 54px; padding: 10px; background: white; border-top-left-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                    <div style="color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word">
-                        ${serverData.title}
-                    </div>
-                    </div>
-                    </div>
-                    <div style="width: 700px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
-                    <div style="color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word">
-                        ${serverData.content}
-                    </div>
+    <div th:style="'width: 100%; height: 100%; padding-top: 20px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex'">
+        <div th:style="'padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; display: flex'">
+            <div th:style="'justify-content: flex-start; align-items: flex-start; display: inline-flex'">
+                <div th:style="'width: 84px; height: 54px; padding: 10px; background: #7F5AF0; border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex'">
+                    <div th:style="'color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word'"
+                         th:text="${date}">
                     </div>
                 </div>
-                `;
-        /*]]>*/
-    </script>
+                <div th:style="'width: 400px; height: 54px; padding: 10px; background: white; border-top-left-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex'">
+                    <div th:style="'color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word'">
+                        요약
+                    </div>
+                </div>
+            </div>
+            <div th:style="'width: 630px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex'">
+                <div th:style="'color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word'"
+                     th:text="${content}"></div>
+            </div>
+        </div>
+    </div>
+    <!--lto comment-->
 
-    <div class="todayLtoComment_01" id="todayLtoComment_01Container"></div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- 아래 스크립트 부분을 다 복사하신 후에 </script>뒤에 붙여 넣으시면 추가 가능합니다.  -->
-
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        function createChartDiv(chartId, dataArray, leftPosition) {
-            return `
-                        <div style="width: 150px; height: 300px; left: ${leftPosition}px; top: 0px; position: absolute">
-                            <div style="width: 160px; height: 300px; left: 0px; top: 0px; position: absolute; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px"></div>
-                            <div style="width: 160px; height: 300px; left: 2px; top: 46.95px; position: absolute">
-                                <div style="width: 160px; height: 300px;">
-                                    <canvas id="${chartId}" width="130" height="200"></canvas>
-                                </div>
-                            </div>
-                            <div style="width: 120px; height: 25.52px; left: 29.97px; top: 384px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 2px; display: inline-flex"></div>
-                            <div style="width: 240px; left: 12.11px; top: 23.24px; position: absolute; color: black; font-size: 14px; font-family: NanumBarunGothic; font-weight: 600; line-height: 15px; word-wrap: break-word">
-                                ${dataArray[0]}
+    <div th:each="lto, iStat : ${lto}">
+        <div th:style="'align-self: stretch; flex: 1 1 0; padding-top: 16px; padding-bottom: 24px; padding-left: 16px; padding-right: 16px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 8px; display: flex'">
+            <div th:style="'padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; display: flex'">
+                <div th:style="'justify-content: flex-start; align-items: flex-start; display: inline-flex'">
+                    <div th:style="'width: 84px; height: 40px; padding: 10px; background: #7F5AF0; border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex'">
+                        <div th:style="'color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word'">
+                            LTO
+                        </div>
+                    </div>
+                    <div th:style="'width: 440px; height: 40px; padding: 10px; background: white; border-bottom-right-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex'">
+                        <div th:style="'color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word'"
+                             th:text="${lto.title}">
+                        </div>
+                    </div>
+                </div>
+                <div th:style="'width: 630px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex'">
+                    <div th:style="'color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word'"
+                         th:text="${lto.content}">
+                    </div>
+                </div>
+                <div th:style="'width: 630px; height: 280px; position: relative'">
+                    <div th:each="sto, stoArrStat : ${lto.stoArray}" style="width: 150px; height: 280px;"
+                         th:style="'left:' + (${stoArrStat.index} * 165) + 'px; top: 0px; position: absolute'">
+                        <div th:style="'width: 150px; height: 280px; left: 0px; top: 0px; position: absolute; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px'"></div>
+                        <div th:style="'width: 150px; height: 300px; left: 8.83px; top: 46.95px; position: absolute'">
+                            <div th:style="'width: 150px; height: 26.21px; left: 29.99px; top: 384px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 2px; display: inline-flex'"
+                                 th:text="${sto.name}">
                             </div>
                         </div>
-                    `;
-        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-        // lto 코멘트 부분 입니다
-        document.getElementById('todayLtoComment_01Container').innerHTML = `
-                <div style="align-self: stretch; flex: 1 1 0; padding-top: 16px; padding-bottom: 24px; padding-left: 16px; padding-right: 16px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-                <div style="padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-                <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                <div style="width: 84px; height: 54px; padding: 10px; background: #7F5AF0; border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                <div style="color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word">LTO</div>
-                </div>
-                <div style="width: 440px; height: 54px; padding: 10px; background: white; border-bottom-right-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                <div style="color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word">
-                    ${serverData.ltoTitle_1}
-                </div>
-                </div>
-                </div>
-                <div style="width: 700px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
-                <div style="color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word">
-                    ${serverData.ltoContent_1}
-                </div>
-                </div>
-                <div style="width: 700px; height: 300px; position: relative">
-
-                    ${createChartDiv("myChart_1", serverData.sto_1Array, 0)}
-                    ${createChartDiv("myChart_2", serverData.sto_2Array, 190)}
-                    ${createChartDiv("myChart_3", serverData.sto_3Array, 380)}
-                    ${createChartDiv("myChart_4", serverData.sto_4Array, 570)}
-
-                </div>
-                </div>
-                </div>
-
-                <!--두번째 LTO 시작-->
-
-                <div style="align-self: stretch; flex: 1 1 0; padding-top: 16px; padding-bottom: 24px; padding-left: 16px; padding-right: 16px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-                <div style="padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-                <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                <div style="width: 84px; height: 54px; padding: 10px; background: #7F5AF0; border-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                <div style="color: white; font-size: 22px; font-family: NanumBarunGothic; font-weight: 400; line-height: 22px; word-wrap: break-word">LTO</div>
-                </div>
-                <div style="width: 440px; height: 54px; padding: 10px; background: white; border-bottom-right-radius: 10px; border-top-right-radius: 10px; justify-content: center; align-items: center; gap: 10px; display: flex">
-                <div style="color: black; font-size: 24px; font-family: NanumBarunGothic; font-weight: 500; line-height: 24px; letter-spacing: 0.24px; word-wrap: break-word">
-                    ${serverData.ltoTitle_2}
-                </div>
-                </div>
-                </div>
-                <div style="width: 700px; height: 124px; padding: 10px; background: white; box-shadow: 0px 4px 4px inset; border-radius: 10px; border: 1px #0047B3 solid; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
-                <div style="color: #0047B3; font-size: 16px; font-family: NanumBarunGothic; font-weight: 600; line-height: 24px; letter-spacing: 0.16px; word-wrap: break-word">
-                    ${serverData.ltoContent_2}
-                </div>
-                </div>
-                <div style="width: 700px; height: 300px; position: relative">
-
-                    ${createChartDiv("myChart_5", serverData.sto_5Array, 0)}
-                    ${createChartDiv("myChart_6", serverData.sto_6Array, 190)}
-                    ${createChartDiv("myChart_7", serverData.sto_7Array, 380)}
-                    ${createChartDiv("myChart_8", serverData.sto_8Array, 570)}
-
-                </div>
-                </div>
-                </div>
-
-                <!--두번째 lto 끝-->
-                <!--여기 뒤에 lto 추가해주세요-->
-                `;
-        /*]]>*/
-    </script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        function createLineChart(id, labels, data) {
-            const config = {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '',
-                        data: data[2],
-                        fill: false,
-                        borderColor: 'rgba(52, 198, 72, 1)',
-                        tension: 0.1
-                    }, {
-                        label: '',
-                        data: data[3],
-                        fill: false,
-                        borderColor: 'rgba(252, 187, 64, 1)',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            };
-
-            var myChart = new Chart(document.getElementById(id), config);
-        }
-
-        // Usage
-        createLineChart('myChart_1', serverData.sto_1Array[1], serverData.sto_1Array);
-        createLineChart('myChart_2', serverData.sto_2Array[1], serverData.sto_2Array);
-        createLineChart('myChart_3', serverData.sto_3Array[1], serverData.sto_3Array);
-        createLineChart('myChart_4', serverData.sto_4Array[1], serverData.sto_4Array);
-        createLineChart('myChart_5', serverData.sto_5Array[1], serverData.sto_5Array);
-        createLineChart('myChart_6', serverData.sto_6Array[1], serverData.sto_6Array);
-        createLineChart('myChart_7', serverData.sto_7Array[1], serverData.sto_7Array);
-        createLineChart('myChart_8', serverData.sto_8Array[1], serverData.sto_8Array);
-        /*]]>*/
-    </script>
 </div>
 </body>
 </html>
