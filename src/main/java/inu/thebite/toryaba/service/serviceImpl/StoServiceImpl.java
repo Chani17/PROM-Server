@@ -5,10 +5,7 @@ import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.sto.*;
-import inu.thebite.toryaba.repository.LtoRepository;
-import inu.thebite.toryaba.repository.PointRepository;
-import inu.thebite.toryaba.repository.StoRepository;
-import inu.thebite.toryaba.repository.TodoRepository;
+import inu.thebite.toryaba.repository.*;
 import inu.thebite.toryaba.service.PointService;
 import inu.thebite.toryaba.service.StoService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +25,7 @@ public class StoServiceImpl implements StoService {
     private final PointService pointService;
     private final PointRepository pointRepository;
     private final TodoRepository todoRepository;
+    private final DetailRepository detailRepository;
 
 
     @Transactional
@@ -191,6 +189,7 @@ public class StoServiceImpl implements StoService {
         if(stoRepository.findById(stoId).isPresent()) {
             stoRepository.deleteById(stoId);
             todoRepository.deleteByStoId(stoId);
+            detailRepository.deleteByStoId(stoId);
         } else {
             throw new IllegalStateException("해당하는 STO가 존재하지 않습니다.");
         }
