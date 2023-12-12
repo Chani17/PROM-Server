@@ -2,18 +2,28 @@ package inu.thebite.toryaba.service;
 
 
 import inu.thebite.toryaba.entity.Lto;
-import inu.thebite.toryaba.model.lto.AddLtoRequest;
+import inu.thebite.toryaba.model.lto.LtoGraphResponse;
+import inu.thebite.toryaba.model.lto.LtoRequest;
+import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.lto.UpdateLtoStatusRequest;
 
 import java.util.List;
 
 public interface LtoService {
 
-    Lto addLto(int domainNumber, AddLtoRequest addLtoRequest);
+    LtoResponse addLto(Long domainId, Long studentId, LtoRequest ltoRequest);
 
-    Lto updateLtoStatus(int domainNumber, int ltoNumber, UpdateLtoStatusRequest updateLtoStatusRequest);
+    LtoResponse updateLtoStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
 
-    List<Lto> getLtoList(int domainNumber);
+    List<LtoResponse> getLtoList(Long studentId);
 
-    void deleteLto(int domainNumber, int ltoNumber);
+    boolean deleteLto(Long ltoId);
+
+    LtoResponse updateLtoHitStatus(Long ltoId, UpdateLtoStatusRequest updateLtoStatusRequest);
+
+    LtoResponse updateLto(Long ltoId, LtoRequest ltoRequest);
+
+    List<LtoGraphResponse> getLtoGraph(Long ltoId);
+
+    List<LtoResponse> getLtoListByStudent(Long studentId, Long domainId);
 }

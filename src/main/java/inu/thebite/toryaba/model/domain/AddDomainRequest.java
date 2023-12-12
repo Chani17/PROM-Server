@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class AddDomainRequest {
 
-    private int number;
-
     private String name;
+
+    private String type;
 
     private String contents;
 

@@ -1,12 +1,16 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Table(name = "tb_center")
 public class Center extends BaseEntity {
 
@@ -17,4 +21,19 @@ public class Center extends BaseEntity {
 
     @Column(name = "center_name", length = 45, nullable = false)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Director director;
+
+    public static Center createCenter(String name, Director director) {
+        Center center = new Center();
+        center.name = name;
+        center.director = director;
+        return center;
+    }
+
+    public void updateCenter(String name) {
+        this.name = name;
+    }
 }
