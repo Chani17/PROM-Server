@@ -56,6 +56,7 @@ public class Student extends BaseEntity {
         student.etc = etc;
         student.parentName = parentName;
         student.startDate = startDate;
+        student.endDate = "";
         student.registerDate = LocalDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         student.toryClass = toryClass;
         return student;
