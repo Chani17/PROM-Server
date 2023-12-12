@@ -32,6 +32,12 @@ public class ClassController {
     }
 
     // get class list
+    @GetMapping("/{centerId}/classes")
+    public List<Class> getClassListByCenter(@PathVariable Long centerId) {
+        List<Class> classList = classService.getClassListByCenter(centerId);
+        return classList;
+    }
+
     @GetMapping("/classes")
     public List<Class> getClassList() {
         List<Class> classList = classService.getClassList();

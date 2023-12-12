@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,22 +96,22 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<StoSummaryResponse> getTodoList(Long studentId) {
+    public StoSummaryResponse getTodoList(Long studentId) {
 
-        List<StoSummaryResponse> stoList = new ArrayList<>();
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
         Todo todo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
                 orElseThrow(() -> new IllegalStateException("해당 Todo List가 존재하지 않습니다."));
 
-        for(Long stoId : todo.getStoList()) {
-            Sto sto = stoRepository.findById(stoId)
-                    .orElseThrow(() -> new IllegalStateException("해당 STO가 존재하지 않습니다."));
+        StoSummaryResponse response = StoSummaryResponse.response(todo.getId(), LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), todo.getStoList(), student);
+        return response;
 
-            StoSummaryResponse response = StoSummaryResponse.response(sto.getId(), sto.getName(), sto.getStatus(), sto.getLto());
-            stoList.add(response);
-        }
-        return stoList;
+//        for(Long stoId : todo.getStoList()) {
+//            Sto sto = stoRepository.findById(stoId)
+//                    .orElseThrow(() -> new IllegalStateException("해당 STO가 존재하지 않습니다."));
+//
+//            StoSummaryResponse response = StoSummaryResponse.response(sto.getId(), sto.getName(), sto.getStatus(), sto.getLto());
+//            stoList.add(response);
     }
 }

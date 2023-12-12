@@ -7,23 +7,24 @@ import inu.thebite.toryaba.model.sto.*;
 import java.util.List;
 
 public interface StoService {
-    Sto addSto(Long ltoId, AddStoRequest addStoRequest);
+    StoResponse addSto(Long ltoId, AddStoRequest addStoRequest);
 
-    Sto updateStoStatus(Long stoId, String status);
+    StoResponse updateStoStatus(Long stoId, String status);
 
-    Sto updateStoHitStatus(Long stoId, String status);
+    StoResponse updateStoHitStatus(Long stoId, String status);
 
-    List<Sto> getStoList();
+    List<StoResponse> getStoList(Long studentId);
 
-    List<Sto> getStoListByLtoId(Long ltoId);
+    List<StoResponse> getStoListByLtoId(Long ltoId);
 
-    void deleteSto(Long stoId);
+    boolean deleteSto(Long stoId);
 
-    List<String> updateImageList(Long stoId, UpdateImageList updateImageList);
+    StoResponse updateImageList(Long stoId, UpdateImageList updateImageList);
 
-    Sto updateSto(Long stoId, UpdateStoRequest updateStoRequest);
+    StoResponse updateSto(Long stoId, UpdateStoRequest updateStoRequest);
 
-    Sto updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
+    StoResponse updateStoRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
-    Sto updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
+    StoResponse updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
+
 }

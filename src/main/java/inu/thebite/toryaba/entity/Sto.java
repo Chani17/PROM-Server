@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -92,12 +93,13 @@ public class Sto extends BaseEntity {
     private List<String> imageList = new ArrayList<>();
 
     // 포인트
+    @JsonManagedReference
     @Column(name = "sto_point_list")
     @OneToMany(mappedBy = "sto", cascade = CascadeType.ALL)
     private List<Point> pointList = new ArrayList<>();
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lto_seq")
     private Lto lto;
 
