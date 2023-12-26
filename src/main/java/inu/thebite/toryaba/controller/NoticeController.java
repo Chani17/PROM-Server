@@ -1,14 +1,12 @@
 package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.model.notice.*;
-import inu.thebite.toryaba.parseThymeleafTemplate;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
