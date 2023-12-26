@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8"/>
+<head>
+    <title>알림장</title>
+    <style>
+        canvas{
+            width: 150px;
+            height: 240px;
+
+        }
+        .container {
+            width: 21cm;
+            min-height: 29.7cm;
+            margin: 0 auto;
+            background: #eee;
+        }
+        .header {
+            width: 100%;
+            height: 100%;
+            background: #2E00BC;
+            box-shadow: 0px -1px 0px inset;
+            text-align: center;
+        }
+        .header-title {
+            color: white;
+            font-size: 22px;
+            font-family: NanumBarunGothic;
+            font-weight: 400;
+            line-height: 22px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .header-title-yoyak {
+            color: black;
+            font-size: 24px;
+            font-family: NanumBarunGothic;
+            font-weight: 500;
+            text-align: center;
+            line-height: 24px;
+            letter-spacing: 0.24px;
+            overflow: hidden;
+        }
+        .content {
+            width: 732px;
+            height: 124px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            border: 1px #0047B3 solid;
+            float: left;
+        }
+        .content-text {
+            color: #0047B3;
+            font-size: 16px;
+            font-family: NanumBarunGothic;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0.16px;
+            overflow: hidden;
+        }
+        .lto-container {
+            padding-top: 16px;
+            padding-bottom: 24px;
+        }
+        .lto-content-box {
+            padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background: #E7EBF0;
+            border-radius: 10px;
+        }
+        .total-header {
+            width: 84px;
+            height: 40px;
+            padding: 10px;
+            background: #7F5AF0;
+            border-radius: 10px;
+            float: left;
+        }
+        .lto-header {
+            width: 84px;
+            height: 40px;
+            padding: 10px;
+            background: #7F5AF0;
+            border-radius: 10px;
+            float: left;
+        }
+        .lto-header-text {
+            color: white;
+            font-size: 22px;
+            font-family: NanumBarunGothic;
+            font-weight: 400;
+            line-height: 22px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .lto-title-box {
+            width: 400px;
+            height: 40px;
+            padding: 10px;
+            background: white;
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
+            float: left;
+        }
+        .lto-title-text {
+            color: black;
+            font-size: 24px;
+            font-family: NanumBarunGothic;
+            font-weight: 500;
+            text-align: center;
+            line-height: 24px;
+            letter-spacing: 0.24px;
+            overflow: hidden;
+        }
+        .lto-content {
+            width: 732px;
+            height: 124px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            border: 1px #0047B3 solid;
+            float: left;
+        }
+        .lto-content-text {
+            color: #0047B3;
+            font-size: 16px;
+            font-family: NanumBarunGothic;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0.16px;
+            overflow: hidden;
+        }
+        .lto-sto{
+            width: 750px;
+            height: 300px;
+            position: relative;
+            clear: both;
+        }
+        .sto-array {
+            padding-top: 10px;
+            width: 732px;
+            height: 300px;
+            position: absolute;
+        }
+        .sto-array-content {
+            width: 732px;
+            height: 280px;
+            position: absolute;
+            background: white;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .sto-name {
+            width: 732px;
+            height: 26px;
+            padding-top: 10px;
+            position: absolute;
+            overflow: hidden;
+            text-align: center;
+        }
+        .chart-container{
+            width: 732px;
+            height: 250px;
+            padding-top: 40px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-title">Notice board</div>
+    </div>
+    <div class="todayComment" id="todayCommentContainer"></div>
+    <div style="padding-top: 20px;">
+        <div style="padding-bottom: 20px; padding-left: 20px; padding-right: 20px; background: #E7EBF0; border-radius: 10px;">
+            <!-- 여기부터 -->
+            <div style="display: block;">
+                <div class="total-header">
+                    <div class="header-title" th:text="${date}"></div>
+                </div>
+                <div class="lto-title-box">
+                    <div class="header-title-yoyak">요약</div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-text" th:text="${content}">뀨</div>
+            </div>
+            <div style="width: 0px; height: 20px; position: relative; clear: both;">
+            </div>
+        </div>
+    </div>
+    <!--LTO 와 STO 시작-->
+    <div th:each="lto, iStat : ${lto}" class="lto-container">
+        <div class="lto-content-box">
+            <div style="display: block;">
+                <div class="lto-header">
+                    <div class="lto-header-text">LTO</div>
+                </div>
+                <div class="lto-title-box">
+                    <div class="lto-title-text" th:text="${lto.title}">뀨뀨</div>
+                </div>
+            </div>
+            <div class="lto-content">
+                <div class="lto-content-text" th:text="${lto.content}">뀨뀨뀨</div>
+            </div>
+            <div class="lto-sto">
+                <div th:each="sto, stoIndex : ${lto.stoArray}" class="sto-array"
+                     th:style="'left: ' + ${stoIndex.index * 165} + 'px; top: 0px;'">
+                    <div class="sto-array-content">
+                        <div class="sto-name" th:text="${sto.name}">뀨</div>
+                        <div class="chart-container">
+                            <canvas th:id="'myChart' + ${iStat.index} + '-' + ${stoIndex.index}" width="700px" height="240px"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 스크립트를 페이지 하단으로 이동 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    /* 페이지 로드 후 실행되도록 수정 */
+    document.addEventListener("DOMContentLoaded", function() {
+        /* lto 배열을 반복하며 차트 생성 */
+        /* 이 부분에 lto 배열이 제대로 존재한다고 가정하고 수정 */
+        var ltoArray = /*[[${lto}]]*/ [];
+        for (var i = 0; i < ltoArray.length; i++) {
+            var stoArray = ltoArray[i].stoArray;
+            for (var j = 0; j < stoArray.length; j++) {
+                var labelsArray = stoArray[j].date;
+                var plusRateArray = stoArray[j].plusRate;
+                var minusRateArray = stoArray[j].minusRate;
+                createChartDiv('myChart' + i + '-' + j, stoArray[j].name, j*190);
+                /* 차트 생성 함수 호출 */
+                createLineChart('myChart' + i + '-' + j, labelsArray, plusRateArray, minusRateArray);
+            }
+        }
+    });
+    function createLineChart(id, labels, plusRate, minusRate) {
+        const config = {
+            type: 'line',
+            data: {
+                /*첫번째 데이터*/
+                labels: labels,
+                datasets: [{
+                    label: '',
+                    data: plusRate,
+                    fill: false,
+                    borderColor: 'rgba(52, 198, 72, 1)',
+                    tension: 0.1
+                }, {
+                    /*두번째 데이터*/
+                    label: '',
+                    data: minusRate,
+                    fill: false,
+                    borderColor: 'rgba(252, 187, 64, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        };
+        /* 차트 생성 */
+        var myChart = new Chart(document.getElementById(id), config);
+    }
+    /*]]>*/
+</script>
+<script th:inline="javascript">
+    function createChartDiv(chartId, dataArray, leftPosition) {
+        return `
+                        <div style="width: 150px; height: 300px; left: ${leftPosition}px; top: 0px; position: absolute">
+                            <div style="width: 160px; height: 300px; left: 0px; top: 0px; position: absolute; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px"></div>
+                            <div style="width: 160px; height: 300px; left: 2px; top: 46.95px; position: absolute">
+                                <div style="width: 160px; height: 300px;">
+                                    <canvas id="${chartId}" width="130" height="200"></canvas>
+                                </div>
+                            </div>
+                            <div style="width: 120px; height: 25.52px; left: 29.97px; top: 384px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 2px; display: inline-flex"></div>
+                            <div style="width: 240px; left: 12.11px; top: 23.24px; position: absolute; color: black; font-size: 14px; font-family: NanumBarunGothic; font-weight: 600; line-height: 15px; word-wrap: break-word">
+                                ${dataArray}
+                            </div>
+                        </div>
+                    `;
+    }
+</script>
+</body>
+</html>
