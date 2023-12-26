@@ -1,8 +1,9 @@
 package inu.thebite.toryaba.model.user;
 
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+
+@Getter
 public class LoginUserRequest {
 
     private String id;
