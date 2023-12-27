@@ -4,6 +4,6 @@ import inu.thebite.toryaba.model.user.AddDirectorRequest;
 
 public interface TherapistService {
 
-    void joinTherapistUser(Long centerId, AddDirectorRequest addDirectorRequest);
+    String joinTherapist(Long centerId, AddDirectorRequest addDirectorRequest);
 
 }

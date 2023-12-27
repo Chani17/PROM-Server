@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/member")
+@RequestMapping(value = "/members")
 public class MemberController {
 
     private final DirectorService directorService;
@@ -21,19 +21,17 @@ public class MemberController {
     private final MemberService memberService;
 
     // join principal user
-    // need a security config
     @PostMapping("/join")
-    public ResponseEntity joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
-        directorService.joinPrincipalUser(addDirectorRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public String joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
+        String directorId = directorService.joinDirector(addDirectorRequest);
+        return directorId;
     }
 
     // join therapist member
-    // need a security config
     @PostMapping("/{centerId}/join")
-    public ResponseEntity joinTherapistUser(@PathVariable Long centerId, @RequestBody AddDirectorRequest addDirectorRequest) {
-        therapistService.joinTherapistUser(centerId, addDirectorRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public String joinTherapistUser(@PathVariable Long centerId, @RequestBody AddDirectorRequest addDirectorRequest) {
+        String therapistId = therapistService.joinTherapist(centerId, addDirectorRequest);
+        return therapistId;
     }
 
     // login user
