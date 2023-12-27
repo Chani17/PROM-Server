@@ -3,7 +3,7 @@ package inu.thebite.toryaba.model.user;
 import lombok.Data;
 
 @Data
-public class AddUserRequest {
+public class AddTherapistRequest {
 
     private String id;
 
@@ -14,4 +14,6 @@ public class AddUserRequest {
     private String email;
 
     private String phone;
+
+    private Long centerId;
 }

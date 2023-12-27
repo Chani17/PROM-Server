@@ -1,9 +1,13 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
+import inu.thebite.toryaba.entity.Director;
+import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+
 
     @Override
     public void login(LoginUserRequest loginUserRequest) {

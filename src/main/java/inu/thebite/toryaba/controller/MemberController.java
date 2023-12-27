@@ -1,7 +1,7 @@
 package inu.thebite.toryaba.controller;
 
 
-import inu.thebite.toryaba.model.user.AddUserRequest;
+import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.service.MemberService;
 import inu.thebite.toryaba.service.DirectorService;
@@ -23,16 +23,16 @@ public class MemberController {
     // join principal user
     // need a security config
     @PostMapping("/join")
-    public ResponseEntity joinPrincipalUser(@RequestBody AddUserRequest addUserRequest) {
-        directorService.joinPrincipalUser(addUserRequest);
+    public ResponseEntity joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
+        directorService.joinPrincipalUser(addDirectorRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // join therapist member
     // need a security config
     @PostMapping("/{centerId}/join")
-    public ResponseEntity joinTherapistUser(@PathVariable Long centerId, @RequestBody AddUserRequest addUserRequest) {
-        therapistService.joinTherapistUser(centerId, addUserRequest);
+    public ResponseEntity joinTherapistUser(@PathVariable Long centerId, @RequestBody AddDirectorRequest addDirectorRequest) {
+        therapistService.joinTherapistUser(centerId, addDirectorRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
