@@ -4,16 +4,19 @@ package inu.thebite.toryaba.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
 @Configuration
 public class WebConfig {
 
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsService userService;
 
     /**
      * Spring Security 모든 기능 비활성화
@@ -59,4 +62,28 @@ public class WebConfig {
                 .build();
     }
 
+
+    /**
+     * 인증 관리자 관련 설정
+     * 사용자 정보를 가져올 서비스를 재정의하거나, 인증 방법(LDAP, JDGC 기반 인증 등)을 설정할 때 사용
+     * @param http
+     * @param bCryptPasswordEncoder
+     * @param userDetailsService
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) throws Exception {
+       return http
+               .getSharedObject(AuthenticationManagerBuilder.class)
+               .userDetailsService(userService)
+               .passwordEncoder(bCryptPasswordEncoder)
+               .and()
+               .build();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
