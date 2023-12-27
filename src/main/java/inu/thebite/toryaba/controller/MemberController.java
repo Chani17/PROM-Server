@@ -3,7 +3,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.model.user.AddUserRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
-import inu.thebite.toryaba.service.LoginService;
+import inu.thebite.toryaba.service.MemberService;
 import inu.thebite.toryaba.service.DirectorService;
 import inu.thebite.toryaba.service.TherapistService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MemberController {
 
     private final DirectorService directorService;
     private final TherapistService therapistService;
-    private final LoginService loginService;
+    private final MemberService memberService;
 
     // join principal user
     // need a security config
@@ -41,7 +41,7 @@ public class MemberController {
     // need to modify return value
     @GetMapping("/login")
     public ResponseEntity loginUser(@RequestBody LoginUserRequest loginUserRequest) {
-        loginService.login(loginUserRequest);
+        memberService.login(loginUserRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
