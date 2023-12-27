@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -70,12 +71,17 @@ public class TokenProvider {
         }
     }
 
-
+    /**
+     * Token 기반으로 인증 정보를 가져오는 메서드
+     * @param token
+     * @return
+     */
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("LEVEL4"));
 
-        return new UsernamePAsswordAuthenticationToken(new )
+        // getClaims()을 통해 claim 반환받아 사용자 이메일이 들어 있는 token 제목 sub와 token 기반으로 인증 정보 생성
+        return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities), token, authorities);
     }
 
     /**
@@ -88,5 +94,18 @@ public class TokenProvider {
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    /**
+     * Token 기반으로 user ID를 가져오는 메서드
+     *
+     * @param token
+     * @return
+     */
+    public String getMemberId(String token) {
+        Claims claims = getClaims(token);
+
+        // claims에서 id 키로 저장된 값을 가져와 반환
+        return claims.get("id", String.class);
     }
 }
