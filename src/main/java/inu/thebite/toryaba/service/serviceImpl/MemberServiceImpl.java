@@ -2,13 +2,13 @@ package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
-import inu.thebite.toryaba.service.LoginService;
+import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LoginServiceImpl implements LoginService {
+public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 

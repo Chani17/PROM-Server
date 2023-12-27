@@ -78,6 +78,7 @@ public class WebConfig {
                .getSharedObject(AuthenticationManagerBuilder.class)
                .userDetailsService(userService)
                .passwordEncoder(bCryptPasswordEncoder)
+               // 다른 방법 찾아보기
                .and()
                .build();
     }
