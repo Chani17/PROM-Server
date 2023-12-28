@@ -3,7 +3,7 @@ package inu.thebite.toryaba.config.jwt;
 import inu.thebite.toryaba.entity.Director;
 import inu.thebite.toryaba.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
-import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

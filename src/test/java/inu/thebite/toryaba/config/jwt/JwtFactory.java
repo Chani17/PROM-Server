@@ -16,7 +16,6 @@ import java.util.Map;
 import static java.util.Collections.*;
 
 @Getter
-@Builder
 public class JwtFactory {
 
     private String subject = "test@gmail.com";
@@ -30,7 +29,7 @@ public class JwtFactory {
     @Value("${jwt.secret_key}")
     private String secret_key;
 
-
+    @Builder
     public JwtFactory(String subject, Date issuedAt, Date expiration, Map<String, Object> claims) {
         this.subject = subject != null ? subject : this.subject;
         this.issuedAt = issuedAt != null ? issuedAt : this.issuedAt;
