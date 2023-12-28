@@ -33,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Override
     public Member findById(String id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected Member"));
