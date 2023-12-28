@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -100,7 +101,7 @@ public class TokenProviderTest {
     @Test
     void getAuthentication() {
         // given
-        String userId = "test1@gmail.com";
+        String userId = "test1";
         String token = JwtFactory.builder()
                 .subject(userId)
                 .build()
@@ -111,5 +112,25 @@ public class TokenProviderTest {
 
         // then
         assertThat(((UserDetails) authentication.getPrincipal()).getUsername()).isEqualTo(userId);
+    }
+
+    /**
+     * getUserId() 검증 테스트
+     */
+    @DisplayName("getUserId() : token으로 유저 ID를 가져올 수 있다.")
+    @Test
+    void getUserId() {
+        // given
+        String userId = "test1";
+        String token = JwtFactory.builder()
+                .claims(Map.of("id", userId))
+                .build()
+                .createToken(issuer, secret_key);
+
+        // when
+        String memberIdByToken = tokenProvider.getMemberId(token);
+
+        // then
+        assertThat(memberIdByToken).isEqualTo(userId);
     }
 }
