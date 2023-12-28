@@ -56,9 +56,9 @@ public class TokenProviderTest {
 
 
     /**
-     * validToken() 검증 테스트
+     * invalidToken() 검증 테스트
      */
-    @DisplayName("validToken() : 만료된 token인 때에 유효성 검증에 실패한다.")
+    @DisplayName("invalidToken() : 만료된 token인 때에 유효성 검증에 실패한다.")
     @Test
     void validToken_invalidToken() {
         // given
@@ -72,5 +72,22 @@ public class TokenProviderTest {
 
         // then
         assertThat(result).isFalse();
+    }
+
+    /**
+     * validToken() 검증 테스트
+     */
+    @DisplayName("validToken() : 유효한 token인 때에 유효성 검증에 성공한다.")
+    @Test
+    void validToken_validToken() {
+        // given
+        String token = JwtFactory.withDefaultValues()
+                .createToken(issuer, secret_key);
+
+        // when
+        boolean result = tokenProvider.validToken(token);
+
+        // then
+        assertThat(result).isTrue();
     }
 }
