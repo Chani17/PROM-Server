@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.Director;
+import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
@@ -16,7 +17,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
-
     @Override
     public void login(LoginUserRequest loginUserRequest) {
 
@@ -31,6 +31,10 @@ public class MemberServiceImpl implements MemberService {
         } else {
             throw new IllegalStateException("해당 계정이 존재하지 않습니다.");
         }
+    }
 
+    public Member findById(String id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Unexpected Member"));
     }
 }
