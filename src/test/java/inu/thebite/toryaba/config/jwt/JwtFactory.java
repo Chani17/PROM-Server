@@ -4,6 +4,8 @@ package inu.thebite.toryaba.config.jwt;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.Duration;
@@ -13,7 +15,8 @@ import java.util.Map;
 
 import static java.util.Collections.*;
 
-
+@Getter
+@Builder
 public class JwtFactory {
 
     private String subject = "test@gmail.com";
@@ -33,6 +36,10 @@ public class JwtFactory {
         this.issuedAt = issuedAt != null ? issuedAt : this.issuedAt;
         this.expiration = expiration != null ? expiration : this.expiration;
         this.claims = claims != null ? claims : this.claims;
+    }
+
+    public static JwtFactory withDefaultValues() {
+        return JwtFactory.builder().build();
     }
 
     // jjwt library를 사용해 JWT Token 생성
