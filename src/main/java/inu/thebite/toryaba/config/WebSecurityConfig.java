@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,11 +25,12 @@ public class WebSecurityConfig {
      * 현재는 사용하지 않을 것 같아 주석처리
      * @return
      */
-//    @Bean
-//    public WebSecurityCustomizer configure() {
-//        return (web) -> web.ignoring()
-//                .requestMatchers("/static/**");
-//    }
+    @Bean
+    public WebSecurityCustomizer configure() {
+        return (web) -> web.ignoring()
+                .requestMatchers("/static/**")
+                .requestMatchers("/h2-console/**");
+    }
 
 
     /**
