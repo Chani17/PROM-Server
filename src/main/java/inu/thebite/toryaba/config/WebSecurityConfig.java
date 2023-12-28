@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @RequiredArgsConstructor
 @Configuration
@@ -25,12 +27,12 @@ public class WebSecurityConfig {
      * 현재는 사용하지 않을 것 같아 주석처리
      * @return
      */
-    @Bean
-    public WebSecurityCustomizer configure() {
-        return (web) -> web.ignoring()
-                .requestMatchers("/static/**")
-                .requestMatchers("/h2-console/**");
-    }
+//    @Bean
+//    public WebSecurityCustomizer configure() {
+//        return (web) -> web.ignoring()
+//                .requestMatchers("/static/**")
+//                .requestMatchers("/h2-console/**");
+//    }
 
 
     /**
@@ -41,11 +43,11 @@ public class WebSecurityConfig {
      * @throws Exception
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         return http
                 // 인증, 인가 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/members/login").permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/members/login")).permitAll()
                         .anyRequest().authenticated()
                 )
                 // 폼 기반 로그인 설정
