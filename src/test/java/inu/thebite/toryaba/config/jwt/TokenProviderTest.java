@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Duration;
 import java.util.Date;
@@ -89,5 +91,25 @@ public class TokenProviderTest {
 
         // then
         assertThat(result).isTrue();
+    }
+
+    /**
+     * getAuthentication() 검증 테스트
+     */
+    @DisplayName("getAuthentication() : token 기반으로 인증 정보를 가져올 수 있다.")
+    @Test
+    void getAuthentication() {
+        // given
+        String userId = "test1@gmail.com";
+        String token = JwtFactory.builder()
+                .subject(userId)
+                .build()
+                .createToken(issuer, secret_key);
+
+        // when
+        Authentication authentication = tokenProvider.getAuthentication(token);
+
+        // then
+        assertThat(((UserDetails) authentication.getPrincipal()).getUsername()).isEqualTo(userId);
     }
 }
