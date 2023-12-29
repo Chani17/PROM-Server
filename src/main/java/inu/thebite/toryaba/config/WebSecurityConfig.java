@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     private final UserDetailsService userService;
@@ -47,7 +49,7 @@ public class WebSecurityConfig {
         return http
                 // 인증, 인가 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(new MvcRequestMatcher(introspector, "/members/login")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/members/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 // 폼 기반 로그인 설정

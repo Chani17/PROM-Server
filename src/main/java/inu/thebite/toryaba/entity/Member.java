@@ -18,7 +18,7 @@ public abstract class Member {
     @Column(name = "member_id", length = 20, nullable = false, unique = true)
     protected String id;
 
-    @Column(name = "member_pw", length = 45, nullable = false)
+    @Column(name = "member_pw", length = 100, nullable = false, unique = true)
     protected String password;
 
     @Column(name = "member_name", length = 45)
@@ -27,7 +27,7 @@ public abstract class Member {
     @Column(name = "member_email", length = 45)
     protected String email;
 
-    @Column(name = "member_phone", length = 13)
+    @Column(name = "member_phone", length = 13, unique = true)
     protected String phone;
 
     @Enumerated(value = EnumType.STRING)
