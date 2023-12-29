@@ -56,6 +56,8 @@ public class WebSecurityConfig {
                 // defaultSuccessUrl 설정 추가 여부
                 .formLogin(form -> form
                         .loginPage("/members/login")
+                        // 로그인 성공 시 보여줘야할 화면은?
+                        /*.defaultSuccessUrl("/")*/
                 )
                 // 로그아웃 설정
                 .logout((logout) -> logout
