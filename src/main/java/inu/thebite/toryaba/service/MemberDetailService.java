@@ -29,6 +29,6 @@ public class MemberDetailService implements UserDetailsService {
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
 
         // User parameter 다시 확인하기!
-        return new User(findMember.getId(), "", Collections.singleton(new SimpleGrantedAuthority(findMember.getAuth().toString())));
+        return new User(findMember.getId(), findMember.getPassword(), Collections.singleton(new SimpleGrantedAuthority(findMember.getAuth().toString())));
     }
 }

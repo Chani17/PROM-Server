@@ -30,7 +30,7 @@ public class TokenProvider {
     @Value("${jwt.secret_key}")
     private String secretKey;
 
-    private Long tokenValidMilliseconds = 1000L * 60 * 60;      // 1시간 유효
+    private Long tokenValidMilliseconds = 1000L * 60;      // 1분 유효
 
     /**
      * JWT Token 생성 메서드

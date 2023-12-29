@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -73,21 +74,28 @@ public class WebSecurityConfig {
     /**
      * 인증 관리자 관련 설정
      * 사용자 정보를 가져올 서비스를 재정의하거나, 인증 방법(LDAP, JDGC 기반 인증 등)을 설정할 때 사용
-     * @param http
-     * @param bCryptPasswordEncoder
-     * @param userDetailsService
+     */
+//    @Bean
+//    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) throws Exception {
+//       return http
+//               .getSharedObject(AuthenticationManagerBuilder.class)
+//               .userDetailsService(userService)
+//               .passwordEncoder(bCryptPasswordEncoder)
+//               // 다른 방법 찾아보기
+//               .and()
+//               .build();
+//    }
+
+    /**
+     * AuthenticationManager는 Spring Security 인증 담당
+     * 사용자 인증 시 UserDetailsService와 PasswordEncoder를 사용
+     * @param authenticationConfiguration
      * @return
      * @throws Exception
      */
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) throws Exception {
-       return http
-               .getSharedObject(AuthenticationManagerBuilder.class)
-               .userDetailsService(userService)
-               .passwordEncoder(bCryptPasswordEncoder)
-               // 다른 방법 찾아보기
-               .and()
-               .build();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+      return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
