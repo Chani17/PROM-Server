@@ -6,7 +6,7 @@ import inu.thebite.toryaba.model.user.AddTherapistRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 
 public interface MemberService {
-    void login(LoginUserRequest loginUserRequest);
+    Member login(LoginUserRequest loginUserRequest);
 
     Member findById(String id);
 }

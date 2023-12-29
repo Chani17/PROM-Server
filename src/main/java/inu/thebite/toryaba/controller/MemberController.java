@@ -1,6 +1,8 @@
 package inu.thebite.toryaba.controller;
 
 
+import inu.thebite.toryaba.config.jwt.TokenProvider;
+import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.model.user.CreateAccessTokenRequest;
 import inu.thebite.toryaba.model.user.CreateAccessTokenResponse;
@@ -22,6 +24,7 @@ public class MemberController {
     private final TherapistService therapistService;
     private final MemberService memberService;
     private final TokenService tokenService;
+    private final TokenProvider tokenProvider;
 
     // join principal user
     @PostMapping("/members/join")
@@ -39,9 +42,10 @@ public class MemberController {
 
     // login user
     @GetMapping("/members/login")
-    public ResponseEntity loginUser(@RequestBody LoginUserRequest loginUserRequest) {
-        memberService.login(loginUserRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<String> loginUser(@RequestBody LoginUserRequest loginUserRequest) {
+        Member member = memberService.login(loginUserRequest);
+        String token = tokenProvider.createToken(member);
+        return ResponseEntity.ok(token);
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function

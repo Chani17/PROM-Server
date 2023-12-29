@@ -16,21 +16,18 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public void login(LoginUserRequest loginUserRequest) {
+    public Member login(LoginUserRequest loginUserRequest) {
+        Member member = memberRepository.findById(loginUserRequest.getId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
 
-        if(memberRepository.findById(loginUserRequest.getId()).isPresent()) {
-            if(!memberRepository.findById(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
-                throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
-            }
-        } else if(memberRepository.findById(loginUserRequest.getId()).isPresent()) {
-            if(!memberRepository.findById(loginUserRequest.getId()).get().getPassword().equals(loginUserRequest.getPassword())) {
-                throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
-            }
-        } else {
-            throw new IllegalStateException("해당 계정이 존재하지 않습니다.");
+        if(!bCryptPasswordEncoder.matches(loginUserRequest.getPassword(), member.getPassword())) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
+
+        return member;
     }
 
     @Override

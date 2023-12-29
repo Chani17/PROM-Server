@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.config.jwt;
 
 import inu.thebite.toryaba.entity.Member;
+import inu.thebite.toryaba.service.MemberDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,6 +33,8 @@ public class TokenProvider {
     private String secretKey;
 
     private Long tokenValidMilliseconds = 1000L * 60;      // 1분 유효
+    private final MemberDetailService memberDetailService;
+
 
     /**
      * JWT Token 생성 메서드
@@ -62,6 +66,7 @@ public class TokenProvider {
      */
     public boolean validToken(String token) {
         try {
+            // PAYLOAD
             Jwts.parser()
                     .setSigningKey(secretKey)           // 비밀값으로 복호화
                     .parseClaimsJws(token);
@@ -72,16 +77,30 @@ public class TokenProvider {
     }
 
     /**
-     * Token 기반으로 인증 정보를 가져오는 메서드
+     * Token 기반으로 인증 정보(객체)를 가져오는 메서드
      * @param token
      * @return
      */
     public Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
-        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("LEVEL4"));
 
-        // getClaims()을 통해 claim 반환받아 사용자 이메일이 들어 있는 token 제목 sub와 token 기반으로 인증 정보 생성
-        return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities), token, authorities);
+//        Claims claims = getClaims(token);
+//        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("LEVEL4"));
+//
+//        // getClaims()을 통해 claim 반환받아 사용자 이메일이 들어 있는 token 제목 sub와 token 기반으로 인증 정보 생성
+//        return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities), token, authorities);
+
+        /**
+         * getMemberId을 호출하여 Token에 저장되어 있는 회원의 정보를 가져온다.
+         * userDetailsService.loadUserByUsername(회원 id)를 호출하여 UserDetails 타입을 객체에 반환
+         */
+        UserDetails userDetails = memberDetailService.loadUserByUsername(getMemberId(token));
+
+        /**
+         * 반환받은 UserDetails 타입의 객체를 이용하여 Authentication(interface)을 구현하는 UsernamePasswordAuthenticationToken을 생성하여 반환
+         * 이때, 인증 객체의 principal에는 userdetails가 들어가게 됨.
+         * 결국, Authentication -> principal(user 타입) -> username이 회원의 정보, user객체에서 회원의 정보를 찾아낼 수 있다.
+         */
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     /**
@@ -98,7 +117,6 @@ public class TokenProvider {
 
     /**
      * Token 기반으로 user ID를 가져오는 메서드
-     *
      * @param token
      * @return
      */
