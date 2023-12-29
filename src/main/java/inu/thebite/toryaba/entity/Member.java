@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public abstract class Member {
 
     @Id
-    @Column(name = "member_id", length = 20, nullable = false, unique = true)
+    @Column(name = "member_id", length = 25, nullable = false, unique = true)
     protected String id;
 
     @Column(name = "member_pw", length = 100, nullable = false, unique = true)
