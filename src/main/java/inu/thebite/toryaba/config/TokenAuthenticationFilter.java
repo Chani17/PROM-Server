@@ -30,15 +30,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        System.out.println("doFilterInternal 들어옴");
         // 요청 header의 Authorization 키의 값 조회
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
-
+        System.out.println("Authorization = " + authorizationHeader);
         // 가져온 값에서 접두사 제거
         String token = getAccessToken(authorizationHeader);
+        System.out.println("dofilter의 token = " + token);
 
         // 가져온 token이 유효한지 확인하고, 유효한 때는 인증 정보 설정
         if(StringUtils.hasText(token) && tokenProvider.validToken(token)) {
+            System.out.println("토큰이 있고, 유효함을 인증");
             // token이 유효하다면 인증 객체를 만드는 메서드 호출
             Authentication authentication = tokenProvider.getAuthentication(token);
 

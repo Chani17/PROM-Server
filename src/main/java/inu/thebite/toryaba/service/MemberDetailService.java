@@ -26,9 +26,10 @@ public class MemberDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Member findMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
 
         // User parameter 다시 확인하기!
+        System.out.println("findMember.getAuth().toString() = " + findMember.getAuth().toString());
         return new User(findMember.getId(), findMember.getPassword(), Collections.singleton(new SimpleGrantedAuthority(findMember.getAuth().toString())));
     }
 }

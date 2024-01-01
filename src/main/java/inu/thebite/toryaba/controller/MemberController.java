@@ -41,15 +41,17 @@ public class MemberController {
     }
 
     // login user
-    @GetMapping("/members/login")
+    @PostMapping("/members/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginUserRequest loginUserRequest) {
+        System.out.println("loginUser called");
         Member member = memberService.login(loginUserRequest);
         String token = tokenProvider.createToken(member);
+        System.out.println("token = " + token);
         return ResponseEntity.ok(token);
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
-    @PostMapping("/token")
+    @PostMapping("/members/token")
     public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {
         String newAccessToken = tokenService.createNewAccessToken(request.getRefreshToken());
         return ResponseEntity.status(HttpStatus.CREATED).body(new CreateAccessTokenResponse(newAccessToken));

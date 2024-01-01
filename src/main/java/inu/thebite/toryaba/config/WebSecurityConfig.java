@@ -10,15 +10,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class WebSecurityConfig {
 
     private final UserDetailsService userService;
@@ -30,12 +32,11 @@ public class WebSecurityConfig {
      * 현재는 사용하지 않을 것 같아 주석처리
      * @return
      */
-//    @Bean
-//    public WebSecurityCustomizer configure() {
-//        return (web) -> web.ignoring()
-//                .requestMatchers("/static/**")
-//                .requestMatchers("/h2-console/**");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().
+                requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
+    }
 
 
     /**
@@ -48,22 +49,24 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         return http
+                // session 사용 x
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 인증, 인가 설정
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(new MvcRequestMatcher(introspector, "/members/**")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/centers/**")).hasRole("LEVEL4")
                         .anyRequest().authenticated()
                 )
                 // 폼 기반 로그인 설정
                 // defaultSuccessUrl 설정 추가 여부
-                .formLogin(form -> form
-                        .loginPage("/members/login")
-                        // 로그인 성공 시 보여줘야할 화면은?
-                        /*.defaultSuccessUrl("/")*/
-                )
+//                .formLogin(form -> form
+//                        .loginPage("/members/login").permitAll()
+//                        // 로그인 성공 시 보여줘야할 화면은?
+//                        /*.defaultSuccessUrl("/")*/
+//                )
                 // 로그아웃 설정
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/members/login")
-                        .invalidateHttpSession(true)
                 )
                 // csrf 비활성화(나중에는 활성화 해야함)
                 .csrf((csrf) -> csrf.disable())

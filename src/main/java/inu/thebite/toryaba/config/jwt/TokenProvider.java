@@ -32,7 +32,7 @@ public class TokenProvider {
     @Value("${jwt.secret_key}")
     private String secretKey;
 
-    private Long tokenValidMilliseconds = 1000L * 60;      // 1분 유효
+    private Long tokenValidMilliseconds = 1000L * 60 * 5;      // 5분 유효
     private final MemberDetailService memberDetailService;
 
 
@@ -45,7 +45,7 @@ public class TokenProvider {
         Date now = new Date();
 
         return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)                       // header typ: JWT
+//                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)                       // header typ: JWT
                 .setIssuer(issuer)                                                  // 내용 iss : yml에서 설정한 값
                 .setIssuedAt(now)                                                   // 내용 iat : 현재 시간
                 .setExpiration(new Date(now.getTime() + tokenValidMilliseconds))    // 내용 exp : 유효 시간
