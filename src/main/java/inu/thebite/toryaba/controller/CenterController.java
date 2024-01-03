@@ -27,34 +27,33 @@ public class CenterController {
     // add center
     @PostMapping("/centers")
     public Center addCenter(@LoginMember User user, @RequestBody CenterRequest centerRequest) {
-        log.info("addCenter 들어옴");
-        log.info("user = {}", user.getAuthorities().stream().toList());
         String userId = user.getUsername();
-        log.info("userId = {}", userId);
         Center center = centerService.addCenter(userId, centerRequest);
-        log.info("center = {}", center);
         return center;
     }
 
     // update center
     @PatchMapping("/centers/{centerId}")
-    public Center updateCenter(@PathVariable Long centerId, @RequestBody CenterRequest centerRequest) {
-        Center center = centerService.updateCenter(centerId, centerRequest);
+    public Center updateCenter(@LoginMember User user, @PathVariable Long centerId, @RequestBody CenterRequest centerRequest) {
+        String userId = user.getUsername();
+        Center center = centerService.updateCenter(userId, centerId, centerRequest);
         return center;
     }
 
 
     // delete center
     @DeleteMapping("/centers/{centerId}")
-    public ResponseEntity deleteCenter(@PathVariable Long centerId) {
-        centerService.deleteCenter(centerId);
+    public ResponseEntity deleteCenter(@LoginMember User user, @PathVariable Long centerId) {
+        String userId = user.getUsername();
+        centerService.deleteCenter(userId, centerId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // get center list
-    @GetMapping("/center/{id}")
-    public List<Center> getCenterList(@PathVariable String id) {
-        List<Center> centerList = centerService.getCenterList(id);
+    @GetMapping("/center")
+    public List<Center> getCenterList(@LoginMember User user) {
+        String userId = user.getUsername();
+        List<Center> centerList = centerService.getCenterList(userId);
         return centerList;
     }
 }
