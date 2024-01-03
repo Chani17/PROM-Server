@@ -28,26 +28,22 @@ public class MemberController {
 
     // join principal user
     @PostMapping("/members/join")
-    public String joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
-        String directorId = directorService.joinDirector(addDirectorRequest);
-        return directorId;
+    public void joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
+        directorService.joinDirector(addDirectorRequest);
     }
 
     // join therapist member
     @PostMapping("/members/{centerId}/join")
-    public String joinTherapistUser(@PathVariable Long centerId, @RequestBody AddDirectorRequest addDirectorRequest) {
-        String therapistId = therapistService.joinTherapist(centerId, addDirectorRequest);
-        return therapistId;
+    public void joinTherapistUser(@PathVariable Long centerId, @RequestBody AddDirectorRequest addDirectorRequest) {
+        therapistService.joinTherapist(centerId, addDirectorRequest);
     }
 
     // login user
     @PostMapping("/members/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginUserRequest loginUserRequest) {
-        System.out.println("loginUser called");
+    public String loginUser(@RequestBody LoginUserRequest loginUserRequest) {
         Member member = memberService.login(loginUserRequest);
         String token = tokenProvider.createToken(member);
-        System.out.println("token = " + token);
-        return ResponseEntity.ok(token);
+        return token;
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
