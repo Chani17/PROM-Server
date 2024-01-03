@@ -4,6 +4,7 @@ import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.service.MemberDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class TokenProvider {
 
     @Value("${jwt.issuer}")
@@ -33,7 +35,6 @@ public class TokenProvider {
 
     private Long tokenValidMilliseconds = 1000L * 60 * 5;      // 5분 유효
     private final MemberDetailService memberDetailService;
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 
     /**
@@ -42,18 +43,23 @@ public class TokenProvider {
      * @return token
      */
     public String createToken(Member member) {
-        log.trace("crateToken 들어옴");
+        log.info("crateToken 들어옴");
         Date now = new Date();
 
-        return Jwts.builder()
+        String token = Jwts.builder()
 //                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)                       // header typ: JWT
                 .setIssuer(issuer)                                                  // 내용 iss : yml에서 설정한 값
                 .setIssuedAt(now)                                                   // 내용 iat : 현재 시간
                 .setExpiration(new Date(now.getTime() + tokenValidMilliseconds))    // 내용 exp : 유효 시간
-                .setSubject(member.getEmail())                                      // 내용 sub : user email
+                .setSubject(member.getId())                                      // 내용 sub : user email
                 .claim("id", member.getId())                                  // 클레임 id : user ID
                 .signWith(SignatureAlgorithm.HS256, secretKey)                      // signature : 비밀값과 함께 해시값을 HS256 방식으로 암호화
                 .compact();
+
+        log.info("createToken = {}", token);
+        log.trace("createToken = {}", token);
+        log.debug("createToken = {}", token);
+        return token;
     }
 
 
@@ -67,11 +73,12 @@ public class TokenProvider {
      */
     public boolean validToken(String token) {
         try {
-            log.trace("validToken 들어옴");
+            log.info("validToken 들어옴");
             // PAYLOAD
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)           // 비밀값으로 복호화
                     .parseClaimsJws(token);
+            log.info("validToken claims = {}", claims);
             log.trace("validToken claims = {}", claims);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {         // 복호화 과정에서 에러가 나면 유효하지 않은 Token
@@ -85,7 +92,7 @@ public class TokenProvider {
      * @return
      */
     public Authentication getAuthentication(String token) {
-        log.trace("getAuthentication 들어옴");
+        log.info("getAuthentication 들어옴");
 
 //        Claims claims = getClaims(token);
 //        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("LEVEL4"));
@@ -97,13 +104,13 @@ public class TokenProvider {
          * getMemberId을 호출하여 Token에 저장되어 있는 회원의 정보를 가져온다.
          * userDetailsService.loadUserByUsername(회원 id)를 호출하여 UserDetails 타입을 객체에 반환
          */
-        Claims claims = getClaims(token);
-        if (claims.get("auth") == null) {
-            throw new IllegalStateException("권한 정보가 없는 토큰입니다.");
-        }
+//        Claims claims = getClaims(token);
+//        if (claims.get("auth") == null) {
+//            throw new IllegalStateException("권한 정보가 없는 토큰입니다.");
+//        }
 
         UserDetails userDetails = memberDetailService.loadUserByUsername(getMemberId(token));
-        log.trace("userDetails = {}", userDetails);
+        log.info("userDetails = {}", userDetails);
 
         /**
          * 반환받은 UserDetails 타입의 객체를 이용하여 Authentication(interface)을 구현하는 UsernamePasswordAuthenticationToken을 생성하여 반환
@@ -119,7 +126,7 @@ public class TokenProvider {
      * @return Claims 정보
      */
     private Claims getClaims(String token) {
-        log.trace("getClaims 들어옴");
+        log.info("getClaims 들어옴");
         return Jwts.parser()                    // Claims 조회
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
@@ -132,10 +139,8 @@ public class TokenProvider {
      * @return
      */
     public String getMemberId(String token) {
-        log.trace("getMemberID 들어옴");
-        Claims claims = getClaims(token);
-
-        // claims에서 id 키로 저장된 값을 가져와 반환
-        return claims.get("id", String.class);
+        log.info("getMemberID 들어옴");
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().getSubject();
     }
 }

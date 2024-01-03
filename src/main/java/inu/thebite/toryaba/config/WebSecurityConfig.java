@@ -1,9 +1,13 @@
 package inu.thebite.toryaba.config;
 
 
+import inu.thebite.toryaba.config.jwt.TokenProvider;
+import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
@@ -24,9 +29,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class WebSecurityConfig {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
+    private final TokenProvider tokenProvider;
 
     /**
      * Spring Security 모든 기능 비활성화
@@ -37,7 +43,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        log.trace("WebSecurityCustomizer 들어옴");
+        log.info("WebSecurityCustomizer 들어옴");
         return (web) -> web.ignoring().
                 requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
     }
@@ -52,8 +58,9 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
-        log.trace("filterChain 들어옴");
+        log.info("filterChain 들어옴");
         return http
+
                 // session 사용 x
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 인증, 인가 설정
@@ -71,12 +78,13 @@ public class WebSecurityConfig {
 //                        /*.defaultSuccessUrl("/")*/
 //                )
                 // 로그아웃 설정
-                .logout((logout) -> logout
-                        .logoutSuccessUrl("/members/login")
-                )
+//                .logout((logout) -> logout
+//                        .logoutSuccessUrl("/members/login")
+//                )
                 // csrf 비활성화(나중에는 활성화 해야함)
                 .csrf((csrf) -> csrf.disable())
                 .httpBasic((basic) -> basic.disable())
+                .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -105,13 +113,13 @@ public class WebSecurityConfig {
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        log.trace("authenticationManager 들어옴");
+        log.info("authenticationManager 들어옴");
       return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        log.trace("bCryptPasswordEncoder 들어옴");
+        log.info("bCryptPasswordEncoder 들어옴");
         return new BCryptPasswordEncoder();
     }
 }

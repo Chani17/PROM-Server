@@ -3,6 +3,7 @@ package inu.thebite.toryaba.service;
 import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,11 +21,10 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MemberDetailService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
-
 
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
@@ -32,7 +32,7 @@ public class MemberDetailService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
 
         // User parameter 다시 확인하기!
-        log.trace("findMember.getAuth().toString() = " + findMember.getAuth().toString());
+        log.info("findMember.getAuth().toString() = {}", findMember.getAuth().toString());
         return new User(findMember.getId(), findMember.getPassword(), Collections.singleton(new SimpleGrantedAuthority(findMember.getAuth().toString())));
     }
 }
