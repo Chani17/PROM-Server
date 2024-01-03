@@ -2,8 +2,11 @@ package inu.thebite.toryaba.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,10 +23,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @RequiredArgsConstructor
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final UserDetailsService userService;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /**
      * Spring Security 모든 기능 비활성화
@@ -34,6 +37,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
+        log.trace("WebSecurityCustomizer 들어옴");
         return (web) -> web.ignoring().
                 requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
     }
@@ -48,13 +52,15 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+        log.trace("filterChain 들어옴");
         return http
                 // session 사용 x
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 인증, 인가 설정
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(new MvcRequestMatcher(introspector, "/members/**")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(introspector, "/centers/**")).hasRole("LEVEL4")
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/error")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/centers/**")).hasRole("DIRECTOR")
                         .anyRequest().authenticated()
                 )
                 // 폼 기반 로그인 설정
@@ -70,6 +76,7 @@ public class WebSecurityConfig {
                 )
                 // csrf 비활성화(나중에는 활성화 해야함)
                 .csrf((csrf) -> csrf.disable())
+                .httpBasic((basic) -> basic.disable())
                 .build();
     }
 
@@ -98,11 +105,13 @@ public class WebSecurityConfig {
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        log.trace("authenticationManager 들어옴");
       return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        log.trace("bCryptPasswordEncoder 들어옴");
         return new BCryptPasswordEncoder();
     }
 }

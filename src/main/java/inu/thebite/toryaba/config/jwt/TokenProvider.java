@@ -2,11 +2,10 @@ package inu.thebite.toryaba.config.jwt;
 
 import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.service.MemberDetailService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +33,7 @@ public class TokenProvider {
 
     private Long tokenValidMilliseconds = 1000L * 60 * 5;      // 5분 유효
     private final MemberDetailService memberDetailService;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 
     /**
@@ -42,6 +42,7 @@ public class TokenProvider {
      * @return token
      */
     public String createToken(Member member) {
+        log.trace("crateToken 들어옴");
         Date now = new Date();
 
         return Jwts.builder()
@@ -66,11 +67,13 @@ public class TokenProvider {
      */
     public boolean validToken(String token) {
         try {
+            log.trace("validToken 들어옴");
             // PAYLOAD
-            Jwts.parser()
+            Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)           // 비밀값으로 복호화
                     .parseClaimsJws(token);
-            return true;
+            log.trace("validToken claims = {}", claims);
+            return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {         // 복호화 과정에서 에러가 나면 유효하지 않은 Token
             return false;
         }
@@ -82,6 +85,7 @@ public class TokenProvider {
      * @return
      */
     public Authentication getAuthentication(String token) {
+        log.trace("getAuthentication 들어옴");
 
 //        Claims claims = getClaims(token);
 //        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("LEVEL4"));
@@ -93,7 +97,13 @@ public class TokenProvider {
          * getMemberId을 호출하여 Token에 저장되어 있는 회원의 정보를 가져온다.
          * userDetailsService.loadUserByUsername(회원 id)를 호출하여 UserDetails 타입을 객체에 반환
          */
+        Claims claims = getClaims(token);
+        if (claims.get("auth") == null) {
+            throw new IllegalStateException("권한 정보가 없는 토큰입니다.");
+        }
+
         UserDetails userDetails = memberDetailService.loadUserByUsername(getMemberId(token));
+        log.trace("userDetails = {}", userDetails);
 
         /**
          * 반환받은 UserDetails 타입의 객체를 이용하여 Authentication(interface)을 구현하는 UsernamePasswordAuthenticationToken을 생성하여 반환
@@ -109,6 +119,7 @@ public class TokenProvider {
      * @return Claims 정보
      */
     private Claims getClaims(String token) {
+        log.trace("getClaims 들어옴");
         return Jwts.parser()                    // Claims 조회
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
@@ -121,6 +132,7 @@ public class TokenProvider {
      * @return
      */
     public String getMemberId(String token) {
+        log.trace("getMemberID 들어옴");
         Claims claims = getClaims(token);
 
         // claims에서 id 키로 저장된 값을 가져와 반환

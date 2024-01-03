@@ -31,7 +31,7 @@ public abstract class Member {
     protected String phone;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "member_auth", length = 7)
+    @Column(name = "member_auth", length = 20)
     protected MemberStatus auth;
 
     @Column(name = "member_approval_yn", length = 1)

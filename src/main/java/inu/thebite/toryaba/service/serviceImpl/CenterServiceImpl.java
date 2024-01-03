@@ -60,7 +60,7 @@ public class CenterServiceImpl implements CenterService {
 
         List<Center> centerList = new ArrayList<>();
 
-        if(memberRepository.findById(id).get().getAuth().equals(MemberStatus.LEVEL2)) {
+        if(memberRepository.findById(id).get().getAuth().equals(MemberStatus.ROLE_THERAPIST)) {
             Long centerId = memberRepository.findByTherapistId(id);
             Center center = centerRepository.findByCenterId(centerId);
             centerList.add(center);

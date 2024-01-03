@@ -26,7 +26,7 @@ public class Therapist extends Member {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.auth = MemberStatus.LEVEL2;
+        this.auth = MemberStatus.ROLE_THERAPIST;
         this.approvalYN = "N";
         this.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         this.center = center;

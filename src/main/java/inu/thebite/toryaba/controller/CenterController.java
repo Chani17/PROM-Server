@@ -6,6 +6,8 @@ import inu.thebite.toryaba.entity.Center;
 import inu.thebite.toryaba.model.center.CenterRequest;
 import inu.thebite.toryaba.service.CenterService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
@@ -19,15 +21,17 @@ public class CenterController {
 
     private final CenterService centerService;
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
+
     // add center
     @PostMapping("/centers")
     public Center addCenter(@LoginMember User user, @RequestBody CenterRequest centerRequest) {
-        System.out.println("addCenter 들어옴");
-        System.out.println("User = " + user);
+        log.trace("addCenter 들어옴");
+        log.trace("user = {}", user.getAuthorities().stream().toList());
         String userId = user.getUsername();
-        System.out.println("userId = " + userId);
+        log.trace("userId = {}", userId);
         Center center = centerService.addCenter(userId, centerRequest);
-        System.out.println("center = " + center);
+        log.trace("center = {}", center);
         return center;
     }
 
