@@ -50,14 +50,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 가져온 값에서 접두사 제거
         String token = resolveToken(authorizationHeader);
         log.info("dofilter의 token = {}" + token);
-        log.trace("dofilter의 token = {}" + token);
 
         checkTokenPermissions(token);
         verifyTokenAndGetAuthorities(token);
 
         boolean result = tokenProvider.validToken(token);
         log.info("validToken result = {}", result);
-        log.trace("validToken result = {}", result);
 
         // 가져온 token이 유효한지 확인하고, 유효한 때는 인증 정보 설정
         if(result) {
