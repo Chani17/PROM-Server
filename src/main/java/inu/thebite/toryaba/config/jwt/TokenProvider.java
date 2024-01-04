@@ -33,7 +33,7 @@ public class TokenProvider {
     @Value("${jwt.secret_key}")
     private String secretKey;
 
-    private Long tokenValidMilliseconds = 1000L * 60;      // 1분 유효
+    private Long tokenValidMilliseconds = 1000L * 10;      // 10초 유효
     private final MemberDetailService memberDetailService;
 
 
@@ -57,8 +57,6 @@ public class TokenProvider {
                 .compact();
 
         log.info("createToken = {}", token);
-        log.trace("createToken = {}", token);
-        log.debug("createToken = {}", token);
         return token;
     }
 
