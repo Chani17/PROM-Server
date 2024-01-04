@@ -43,7 +43,6 @@ public class WebSecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        log.info("WebSecurityCustomizer 들어옴");
         return (web) -> web.ignoring().
                 requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
     }
@@ -58,7 +57,6 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
-        log.info("filterChain 들어옴");
         return http
 
                 // session 사용 x
@@ -115,13 +113,11 @@ public class WebSecurityConfig {
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        log.info("authenticationManager 들어옴");
       return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        log.info("bCryptPasswordEncoder 들어옴");
         return new BCryptPasswordEncoder();
     }
 }

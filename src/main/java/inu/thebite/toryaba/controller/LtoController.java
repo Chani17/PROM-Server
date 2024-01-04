@@ -30,34 +30,34 @@ public class LtoController {
 
     // modified LTO status(stop, in progress)
     @PatchMapping("/ltos/{ltoId}/status")
-    public LtoResponse updateStatus(@LoginMember User user, @PathVariable Long ltoId, @RequestBody UpdateLtoStatusRequest updateLtoStatusRequest) {
+    public LtoResponse updateStatus(@PathVariable Long ltoId, @RequestBody UpdateLtoStatusRequest updateLtoStatusRequest) {
         LtoResponse updateLto = ltoService.updateLtoStatus(ltoId, updateLtoStatusRequest);
         return updateLto;
     }
 
     //modified LTO status(hit)
     @PatchMapping("/ltos/{ltoId}/hit/status")
-    public LtoResponse updateHitStatus(@LoginMember User user, @PathVariable Long ltoId, @RequestBody UpdateLtoStatusRequest updateLtoStatusRequest) {
+    public LtoResponse updateHitStatus(@PathVariable Long ltoId, @RequestBody UpdateLtoStatusRequest updateLtoStatusRequest) {
         LtoResponse updateLto = ltoService.updateLtoHitStatus(ltoId, updateLtoStatusRequest);
         return updateLto;
     }
 
     // update LTO contents
     @PatchMapping("/ltos/{ltoId}")
-    public LtoResponse updateLto(@LoginMember User user, @PathVariable Long ltoId, @RequestBody LtoRequest ltoRequest) {
+    public LtoResponse updateLto(@PathVariable Long ltoId, @RequestBody LtoRequest ltoRequest) {
         LtoResponse lto = ltoService.updateLto(ltoId, ltoRequest);
         return lto;
     }
 
     // get LTO List
     @GetMapping("/{studentId}/ltos")
-    public List<LtoResponse> getLtoList(@LoginMember User user, @PathVariable Long studentId) {
+    public List<LtoResponse> getLtoList(@PathVariable Long studentId) {
         List<LtoResponse> ltoList = ltoService.getLtoList(studentId);
         return ltoList;
     }
 
     @GetMapping("/{domainId}/{studentId}/ltos")
-    public List<LtoResponse> getLtoListByStudent(@LoginMember User user, @PathVariable Long studentId, @PathVariable Long domainId) {
+    public List<LtoResponse> getLtoListByStudent(@PathVariable Long studentId, @PathVariable Long domainId) {
         List<LtoResponse> ltoList = ltoService.getLtoListByStudent(studentId, domainId);
         return ltoList;
     }

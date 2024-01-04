@@ -15,11 +15,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        log.trace("supportParameter 들어옴");
         boolean isLoginMemberAnnotation = parameter.getParameterAnnotation(LoginMember.class) != null;
         boolean isUserClass = User.class.equals(parameter.getParameterType());
         return isLoginMemberAnnotation && isUserClass;
@@ -27,7 +24,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        log.trace("resolveArgument 들어옴");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return user;

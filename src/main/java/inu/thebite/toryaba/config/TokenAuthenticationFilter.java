@@ -45,17 +45,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         // 요청 header의 Authorization 키의 값 조회
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
-        log.info("Authorization = {}" + authorizationHeader);
 
         // 가져온 값에서 접두사 제거
         String token = resolveToken(authorizationHeader);
-        log.info("dofilter의 token = {}" + token);
 
 //        checkTokenPermissions(token);
 //        verifyTokenAndGetAuthorities(token);
 
         boolean result = tokenProvider.validToken(token);
-        log.info("validToken result = {}", result);
 
         // 가져온 token이 유효한지 확인하고, 유효한 때는 인증 정보 설정
         if(result) {
@@ -65,12 +62,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             // 만들어온 인증 객체를 스레드 로컬(저장소)의 Security Context Holder에 넣는다. -> 인징이 완료된 것이다!
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("sc = {}", SecurityContextHolder.getContext());
         } else {
             log.info("토큰이 없거나 유효하지 않음");
         }
         filterChain.doFilter(request, response);
-        log.info("doFilterInternal 끝");
     }
 
 //    public String resolveToken(HttpServletRequest request) {
@@ -88,7 +83,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //    }
 
     private String resolveToken(String authorizationHeader) {
-        log.info("resolveToken 끝");
         if(authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
             return authorizationHeader.substring(TOKEN_PREFIX.length());
         }
@@ -99,7 +93,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private void checkTokenPermissions(String token) {
         try {
             Claims claims = Jwts.parser()
-                    .setSigningKey("your-secret-key")  // 사용한 시크릿 키를 설정
+                    .setSigningKey(secretKey)  // 사용한 시크릿 키를 설정
                     .parseClaimsJws(token.replace("Bearer ", ""))
                     .getBody();
 

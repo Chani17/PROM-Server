@@ -44,7 +44,6 @@ public class TokenProvider {
      * @return token
      */
     public String createToken(Member member) {
-        log.info("crateToken 들어옴");
         Date now = new Date();
 
         String token = Jwts.builder()
@@ -57,7 +56,6 @@ public class TokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)                      // signature : 비밀값과 함께 해시값을 HS256 방식으로 암호화
                 .compact();
 
-        log.info("createToken = {}", token);
         return token;
     }
 
@@ -72,12 +70,11 @@ public class TokenProvider {
      */
     public boolean validToken(String token) {
         try {
-            log.info("validToken 들어옴");
             // PAYLOAD
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)           // 비밀값으로 복호화
                     .parseClaimsJws(token);
-            log.info("validToken claims = {}", claims);
+
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {         // 복호화 과정에서 에러가 나면 유효하지 않은 Token
             return false;
@@ -90,7 +87,6 @@ public class TokenProvider {
      * @return
      */
     public Authentication getAuthentication(String token) {
-        log.info("getAuthentication 들어옴");
 
 //        Claims claims = getClaims(token);
 //        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("LEVEL4"));
@@ -108,7 +104,6 @@ public class TokenProvider {
 //        }
 
         UserDetails userDetails = memberDetailService.loadUserByUsername(getMemberId(token));
-        log.info("userDetails = {}", userDetails);
 
         /**
          * 반환받은 UserDetails 타입의 객체를 이용하여 Authentication(interface)을 구현하는 UsernamePasswordAuthenticationToken을 생성하여 반환
@@ -124,7 +119,6 @@ public class TokenProvider {
      * @return Claims 정보
      */
     private Claims getClaims(String token) {
-        log.info("getClaims 들어옴");
         return Jwts.parser()                    // Claims 조회
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
@@ -137,8 +131,6 @@ public class TokenProvider {
      * @return
      */
     public String getMemberId(String token) {
-        log.info("getMemberID 들어옴");
-        log.info("getMemberID Token = {}", token);
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().getSubject();
     }

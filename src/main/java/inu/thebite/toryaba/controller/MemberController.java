@@ -53,9 +53,7 @@ public class MemberController {
     public ValidationTokenResponse validationToken(@RequestHeader Map<String, String> headers) {
         log.info("headers = {}", headers);
         String authorization = headers.get("authorization");
-        log.info("authorization = {}", authorization);
         String token = authorization.substring(7);
-        log.info("token = {}", token);
         boolean result = tokenProvider.validToken(token);
         String memberId = tokenProvider.getMemberId(token);
         Member member = memberService.findById(memberId);
@@ -64,10 +62,10 @@ public class MemberController {
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
-    @PostMapping("/members/token")
-    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {
-        String newAccessToken = tokenService.createNewAccessToken(request.getRefreshToken());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateAccessTokenResponse(newAccessToken));
-    }
+//    @PostMapping("/members/token")
+//    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {
+//        String newAccessToken = tokenService.createNewAccessToken(request.getRefreshToken());
+//        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateAccessTokenResponse(newAccessToken));
+//    }
 
 }
