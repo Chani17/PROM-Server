@@ -67,10 +67,12 @@ public class ClassServiceImpl implements ClassService {
 
     @Transactional
     @Override
-    public void deleteClass(String userId, Long classId) {
-        Class findClass = classRepository.findById(classId)
-                .orElseThrow(() -> new IllegalStateException("해당 반이 존재하지 않습니다."));
+    public boolean deleteClass(String userId, Long classId) {
 
-        classRepository.deleteById(findClass.getId());
+        if(classRepository.findById(classId).isPresent()) {
+            classRepository.deleteById(classId);
+            return true;
+        }
+        throw new IllegalStateException("해당하는 반이 존재하지 않습니다.");
     }
 }

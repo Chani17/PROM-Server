@@ -8,7 +8,7 @@ import java.util.List;
 public interface CenterService {
     Center addCenter(String userId, CenterRequest centerRequest);
 
-    void deleteCenter(String userId, Long centerId);
+    boolean deleteCenter(String userId, Long centerId);
 
     List<Center> getCenterList(String id);
 

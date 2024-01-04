@@ -75,11 +75,13 @@ public class StudentServiceImpl implements StudentService {
         return studentList;
     }
 
+    @Transactional
     @Override
-    public void deleteStudent(Long studentId) {
-        if(!studentRepository.findById(studentId).isPresent()) {
-            throw new IllegalStateException("해당 아이의 대한 정보가 존재하지 않습니다.");
+    public boolean deleteStudent(Long studentId) {
+        if(studentRepository.findById(studentId).isPresent()) {
+            studentRepository.deleteById(studentId);
+            return true;
         }
-        studentRepository.deleteById(studentId);
+        throw new IllegalStateException("해당 아이의 대한 정보가 존재하지 않습니다.");
     }
 }

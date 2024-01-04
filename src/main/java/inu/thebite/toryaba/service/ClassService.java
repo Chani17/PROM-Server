@@ -8,7 +8,7 @@ import java.util.List;
 public interface ClassService {
     Class addClass(String userId, Long centerId, ClassRequest classRequest);
 
-    void deleteClass(String userId, Long classId);
+    boolean deleteClass(String userId, Long classId);
 
     List<Class> getClassListByCenter(String userId, Long centerId);
 

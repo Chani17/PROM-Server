@@ -51,16 +51,16 @@ public class CenterServiceImpl implements CenterService {
 
     @Transactional
     @Override
-    public void deleteCenter(String userId, Long centerId) {
+    public boolean deleteCenter(String userId, Long centerId) {
 
         memberRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("로그인이 필요한 서비스입니다."));
 
-        if(!centerRepository.findById(centerId).isPresent()) {
-            throw new IllegalStateException("존재하지 않는 센터입니다.");
-        } else {
+        if(centerRepository.findById(centerId).isPresent()) {
             centerRepository.deleteById(centerId);
+            return true;
         }
+        throw new IllegalStateException("존재하지 않는 센터입니다.");
     }
 
     @Override
