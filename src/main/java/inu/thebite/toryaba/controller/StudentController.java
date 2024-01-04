@@ -23,22 +23,21 @@ public class StudentController {
 
     // add student
     @PostMapping("/{classId}/students")
-    public Student addStudent(@LoginMember User user, @PathVariable Long classId, @RequestBody AddStudentRequest addStudentRequest) {
-        String userId = user.getUsername();
-        Student student = studentService.addStudent(userId, classId, addStudentRequest);
+    public Student addStudent(@PathVariable Long classId, @RequestBody AddStudentRequest addStudentRequest) {
+        Student student = studentService.addStudent(classId, addStudentRequest);
         return student;
     }
 
     // update student info
     @PatchMapping("/students/{studentId}")
-    public Student updateStudent(@LoginMember User user, @PathVariable Long studentId, @RequestBody UpdateStudentRequest updateStudentRequest) {
+    public Student updateStudent(@PathVariable Long studentId, @RequestBody UpdateStudentRequest updateStudentRequest) {
         Student student = studentService.updateStudent(studentId, updateStudentRequest);
         return student;
     }
 
     // update startDate
     @PatchMapping("/students/{studentId}/startDate")
-    public Student updateStudentStartDate(@LoginMember User user, @PathVariable Long studentId,
+    public Student updateStudentStartDate(@PathVariable Long studentId,
                                           @RequestBody UpdateStudentDateRequest updateStudentDateRequest) {
         Student student = studentService.updateStudentStartDate(studentId, updateStudentDateRequest);
         return student;
@@ -46,7 +45,7 @@ public class StudentController {
 
     // update endDate
     @PatchMapping("/students/{studentId}/endDate")
-    public Student updateStudentEndDate(@LoginMember User user, @PathVariable Long studentId,
+    public Student updateStudentEndDate(@PathVariable Long studentId,
                                         @RequestBody UpdateStudentDateRequest updateStudentDateRequest) {
         Student student = studentService.updateStudentEndDate(studentId, updateStudentDateRequest);
         return student;
@@ -54,14 +53,14 @@ public class StudentController {
 
     // get student list
     @GetMapping("/{classId}/students")
-    public List<Student> getStudentList(@LoginMember User user, @PathVariable Long classId) {
+    public List<Student> getStudentList(@PathVariable Long classId) {
         List<Student> studentList = studentService.getStudentList(classId);
         return studentList;
     }
 
     // delete student
     @DeleteMapping("/students/{studentId}")
-    public boolean deleteStudent(@LoginMember User user, @PathVariable Long studentId) {
+    public boolean deleteStudent(@PathVariable Long studentId) {
         boolean result = studentService.deleteStudent(studentId);
         return result;
     }

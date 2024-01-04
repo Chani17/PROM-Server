@@ -1,8 +1,6 @@
 package inu.thebite.toryaba.repository;
 
-import inu.thebite.toryaba.entity.Center;
 import inu.thebite.toryaba.entity.Member;
-import inu.thebite.toryaba.model.center.CenterResponseByTherapist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

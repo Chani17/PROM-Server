@@ -22,14 +22,14 @@ public class StoController {
 
     // add STO
     @PostMapping("/{ltoId}/stos")
-    public StoResponse addSto(@LoginMember User user, @PathVariable Long ltoId, @RequestBody AddStoRequest addStoRequest) {
+    public StoResponse addSto(@PathVariable Long ltoId, @RequestBody AddStoRequest addStoRequest) {
         StoResponse sto = stoService.addSto(ltoId, addStoRequest);
         return sto;
     }
 
     // update STO status when STO status is stop or in progress
     @PatchMapping("/stos/{stoId}/status")
-    public StoResponse updateStoStatus(@LoginMember User user, @PathVariable Long stoId,
+    public StoResponse updateStoStatus(@PathVariable Long stoId,
                                @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
         StoResponse sto = stoService.updateStoStatus(stoId, updateStoStatusRequest.getStatus());
         return sto;
@@ -37,7 +37,7 @@ public class StoController {
 
     // update STO status when STO status is git
     @PatchMapping("/stos/{stoId}/hit/status")
-    public StoResponse updateStoHitStatus(@LoginMember User user, @PathVariable Long stoId,
+    public StoResponse updateStoHitStatus(@PathVariable Long stoId,
                                   @RequestBody UpdateStoStatusRequest updateStoStatusRequest) {
         StoResponse sto = stoService.updateStoHitStatus(stoId, updateStoStatusRequest.getStatus());
         return sto;
@@ -45,41 +45,40 @@ public class StoController {
 
     // update STO contents
     @PatchMapping("/stos/{stoId}")
-    public StoResponse updateSto(@LoginMember User user, @PathVariable Long stoId, @RequestBody UpdateStoRequest updateStoRequest) {
+    public StoResponse updateSto(@PathVariable Long stoId, @RequestBody UpdateStoRequest updateStoRequest) {
         StoResponse sto = stoService.updateSto(stoId, updateStoRequest);
         return sto;
     }
 
     // update image list(image url)
-    // when UpdateImageList request, I have to decide whether to use imageName or imageUrl, but these are same type.
     @PatchMapping("/stos/{stoId}/images")
-    public StoResponse updateImageList(@LoginMember User user, @PathVariable Long stoId, @RequestBody UpdateImageList updateImageList) {
+    public StoResponse updateImageList(@PathVariable Long stoId, @RequestBody UpdateImageList updateImageList) {
         StoResponse imageList = stoService.updateImageList(stoId, updateImageList);
         return imageList;
     }
 
     // update STO round
     @PatchMapping("/stos/{stoId}/round")
-    public StoResponse updateStoRound(@LoginMember User user, @PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
+    public StoResponse updateStoRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
         StoResponse sto = stoService.updateStoRound(stoId, updateStoRoundRequest);
         return sto;
     }
 
     @PatchMapping("/stos/{stoId}/hit/round")
-    public StoResponse updateStoHitRound(@LoginMember User user, @PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
+    public StoResponse updateStoHitRound(@PathVariable Long stoId, @RequestBody UpdateStoRoundRequest updateStoRoundRequest) {
         StoResponse sto = stoService.updateStoHitRound(stoId, updateStoRoundRequest);
         return sto;
     }
 
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")
-    public List<StoResponse> getStoList(@LoginMember User user, @PathVariable Long studentId) {
+    public List<StoResponse> getStoList(@PathVariable Long studentId) {
         List<StoResponse> stoList = stoService.getStoList(studentId);
         return stoList;
     }
 
     @GetMapping("/ltos/{ltoId}/stos")
-    public List<StoResponse> getStoListByLto(@LoginMember User user, @PathVariable Long ltoId) {
+    public List<StoResponse> getStoListByLto(@PathVariable Long ltoId) {
         List<StoResponse> stoList = stoService.getStoListByLtoId(ltoId);
         return stoList;
     }
