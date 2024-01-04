@@ -33,7 +33,8 @@ public class TokenProvider {
     @Value("${jwt.secret_key}")
     private String secretKey;
 
-    private Long tokenValidMilliseconds = 1000L * 10;      // 10초 유효
+    // 5일 -> 7200분
+    private Long tokenValidMilliseconds = 1000L * 60 * 10;      // 10초 유효
     private final MemberDetailService memberDetailService;
 
 
