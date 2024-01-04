@@ -2,7 +2,6 @@ package inu.thebite.toryaba.service;
 
 import inu.thebite.toryaba.model.lto.LtoGraphResponse;
 import inu.thebite.toryaba.model.point.AddPointRequest;
-import inu.thebite.toryaba.model.point.DeletePointRequest;
 import inu.thebite.toryaba.model.point.UpdatePointRequest;
 
 import java.util.List;

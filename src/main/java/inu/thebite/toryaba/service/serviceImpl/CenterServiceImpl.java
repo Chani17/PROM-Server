@@ -3,7 +3,6 @@ package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.*;
 import inu.thebite.toryaba.model.center.CenterRequest;
-import inu.thebite.toryaba.model.center.CenterResponseByTherapist;
 import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.CenterService;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,7 +1,5 @@
 package inu.thebite.toryaba.service;
 
-import inu.thebite.toryaba.entity.Image;
-import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.model.sto.*;
 
 import java.util.List;

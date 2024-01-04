@@ -43,12 +43,12 @@ public class ClassController {
         return classList;
     }
 
-    @GetMapping("/classes")
-    public List<Class> getClassList(@LoginMember User user) {
-        String userId = user.getUsername();
-        List<Class> classList = classService.getClassList(userId);
-        return classList;
-    }
+//    @GetMapping("/classes")
+//    public List<Class> getClassList(@LoginMember User user) {
+//        String userId = user.getUsername();
+//        List<Class> classList = classService.getClassList(userId);
+//        return classList;
+//    }
 
     // delete class
     @DeleteMapping("/classes/{classId}")

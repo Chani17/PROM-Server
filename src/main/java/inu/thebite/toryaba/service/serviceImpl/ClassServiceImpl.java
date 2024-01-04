@@ -5,7 +5,6 @@ import inu.thebite.toryaba.entity.Class;
 import inu.thebite.toryaba.model.childClass.ClassRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.ClassRepository;
-import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,11 +58,11 @@ public class ClassServiceImpl implements ClassService {
         return classList;
     }
 
-    @Override
-    public List<Class> getClassList(String userId) {
-        List<Class> classList = classRepository.findAll();
-        return classList;
-    }
+//    @Override
+//    public List<Class> getClassList(String userId) {
+//        List<Class> classList = classRepository.findAll();
+//        return classList;
+//    }
 
     @Transactional
     @Override

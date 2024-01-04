@@ -64,14 +64,14 @@ public class LtoController {
 
 
     @GetMapping("/ltos/{ltoId}/graphs")
-    public List<LtoGraphResponse> getLtoGraph(@LoginMember User user, @PathVariable Long ltoId) {
+    public List<LtoGraphResponse> getLtoGraph(@PathVariable Long ltoId) {
         List<LtoGraphResponse> response = ltoService.getLtoGraph(ltoId);
         return response;
     }
 
     // delete LTO
     @DeleteMapping("/ltos/{ltoId}")
-    public boolean deleteLto(@LoginMember User user, @PathVariable Long ltoId) {
+    public boolean deleteLto(@PathVariable Long ltoId) {
         boolean result = ltoService.deleteLto(ltoId);
         return result;
     }

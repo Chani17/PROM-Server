@@ -1,13 +1,10 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
-import inu.thebite.toryaba.entity.Director;
 import inu.thebite.toryaba.entity.Member;
-import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

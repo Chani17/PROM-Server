@@ -12,7 +12,7 @@ public interface ClassService {
 
     List<Class> getClassListByCenter(String userId, Long centerId);
 
-    List<Class> getClassList(String userId);
+//    List<Class> getClassList(String userId);
 
     Class updateClass(String userId, Long classId, ClassRequest classRequest);
 }

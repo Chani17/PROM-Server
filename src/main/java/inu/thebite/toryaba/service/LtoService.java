@@ -1,7 +1,6 @@
 package inu.thebite.toryaba.service;
 
 
-import inu.thebite.toryaba.entity.Lto;
 import inu.thebite.toryaba.model.lto.LtoGraphResponse;
 import inu.thebite.toryaba.model.lto.LtoRequest;
 import inu.thebite.toryaba.model.lto.LtoResponse;
