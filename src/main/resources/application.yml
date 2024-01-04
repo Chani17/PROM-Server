@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    default: prod
+    default: dev
 
   jpa:
     hibernate:
@@ -11,4 +11,6 @@ spring:
     show-sql: false
 
   thymeleaf:
-    mode: LEGACYHTML5
+    mode: HTML
+    suffix: .html
+

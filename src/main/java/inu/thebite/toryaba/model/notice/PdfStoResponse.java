@@ -14,4 +14,14 @@ public class PdfStoResponse {
     private List<Float> plusRate;
 
     private List<Float> minusRate;
+
+
+    public static PdfStoResponse pdfStoResponse(String name, List<String> date, List<Float> plusRate, List<Float> minusRate) {
+        PdfStoResponse pdfStoResponse = new PdfStoResponse();
+        pdfStoResponse.name = name;
+        pdfStoResponse.date = date;
+        pdfStoResponse.plusRate = plusRate;
+        pdfStoResponse.minusRate = minusRate;
+        return pdfStoResponse;
+    }
 }

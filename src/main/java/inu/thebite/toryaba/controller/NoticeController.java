@@ -1,26 +1,28 @@
 package inu.thebite.toryaba.controller;
 
-import com.lowagie.text.DocumentException;
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.model.notice.*;
-import inu.thebite.toryaba.parseThymeleafTemplate;
 import inu.thebite.toryaba.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.IOException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/notices")
 public class NoticeController {
 
     private final NoticeService noticeService;
 
+
     @PatchMapping("/{studentId}")
-    public NoticeResponse updateComment(@PathVariable Long studentId,
+    @ResponseBody
+    public NoticeResponse updateComment(@LoginMember User user,
+                                        @PathVariable Long studentId,
                                         @RequestParam("year") String year,
                                         @RequestParam("month") int month,
                                         @RequestParam("date") String date,
@@ -32,7 +34,9 @@ public class NoticeController {
 
     // 년, 월에 대한 Notice List 반환
     @GetMapping(value = "/{studentId}/dateList")
-    public List<DateResponse> getNoticeDateList(@PathVariable Long studentId,
+    @ResponseBody
+    public List<DateResponse> getNoticeDateList(@LoginMember User user,
+                                                @PathVariable Long studentId,
                                                 @RequestParam("year") String year,
                                                 @RequestParam("month") int month) {
         List<DateResponse> response = noticeService.getNoticeDateList(studentId, year, month);
@@ -41,7 +45,9 @@ public class NoticeController {
 
     // 해당 날짜에 대한 Notice 가져오기
     @GetMapping(value = "/{studentId}")
-    public NoticeResponse getNotice(@PathVariable Long studentId,
+    @ResponseBody
+    public NoticeResponse getNotice(@LoginMember User user,
+                                    @PathVariable Long studentId,
                                   @RequestParam("year") String year,
                                   @RequestParam("month") int month,
                                   @RequestParam("date") String date) {
@@ -50,27 +56,26 @@ public class NoticeController {
     }
 
     @GetMapping(value = "/{studentId}/dates")
-    public List<NoticesDatesResponse> getNoticeDates(@PathVariable Long studentId) {
+    @ResponseBody
+    public List<NoticesDatesResponse> getNoticeDates(@LoginMember User user,
+                                                     @PathVariable Long studentId) {
         List<NoticesDatesResponse> response = noticeService.getNoticeDates(studentId);
         return response;
     }
 
-    // converter html to pdf
-    @PostMapping(value = "/{studentId}")
-    public String createSharePdf(@PathVariable Long studentId,
-                               @RequestParam("year") String year,
-                               @RequestParam("month") int month,
-                               @RequestParam("date") String date,
-                               @RequestBody ConvertPdfRequest convertPdfRequest) throws DocumentException, IOException {
-        String pdfUrl = noticeService.createSharePdf(studentId, year, month, date, convertPdfRequest);
-        return pdfUrl;
+    @GetMapping(value = "/{studentId}/reports")
+    public String showWebView(@LoginMember User user,
+                              @PathVariable Long studentId,
+                              @RequestParam("year") String year,
+                              @RequestParam("month") int month,
+                              @RequestParam("date") String date,
+                              Model model) {
+        ConvertPdfRequest response = noticeService.showWebView(studentId, year, month, date);
+        model.addAttribute("date", response.getDate());
+        model.addAttribute("content", response.getContent());
+        model.addAttribute("lto", response.getLto());
+
+        return "report/webView";
     }
 
-    @GetMapping(value = "/test")
-    public ITextRenderer pdfTest() throws DocumentException, IOException {
-        parseThymeleafTemplate parseThymeleafTemplate = new parseThymeleafTemplate();
-        String html = parseThymeleafTemplate.createHtml();
-        ITextRenderer renderer = parseThymeleafTemplate.generatePdfFromHtml(html);
-        return renderer;
-    }
 }

@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Transactional
     @Override
-    public Student addStudent(Long classId, AddStudentRequest addStudentRequest) {
+    public Student addStudent(String userId, Long classId, AddStudentRequest addStudentRequest) {
         Class findClass = classRepository.findById(classId)
                 .orElseThrow(() -> new IllegalStateException("해당 반은 존재하지 않습니다."));
 
@@ -67,16 +67,21 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentList() {
-        List<Student> studentList = studentRepository.findAll();
+    public List<Student> getStudentList(Long classId) {
+        Class findClass = classRepository.findById(classId)
+                .orElseThrow(() -> new IllegalStateException("해당 반은 존재하지 않습니다."));
+
+        List<Student> studentList = studentRepository.findAllByToryClassId(findClass.getId());
         return studentList;
     }
 
+    @Transactional
     @Override
-    public void deleteStudent(Long studentId) {
-        if(!studentRepository.findById(studentId).isPresent()) {
-            throw new IllegalStateException("해당 아이의 대한 정보가 존재하지 않습니다.");
+    public boolean deleteStudent(Long studentId) {
+        if(studentRepository.findById(studentId).isPresent()) {
+            studentRepository.deleteById(studentId);
+            return true;
         }
-        studentRepository.deleteById(studentId);
+        throw new IllegalStateException("해당 아이의 대한 정보가 존재하지 않습니다.");
     }
 }

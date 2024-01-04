@@ -6,13 +6,13 @@ import inu.thebite.toryaba.model.childClass.ClassRequest;
 import java.util.List;
 
 public interface ClassService {
-    Class addClass(Long centerId, ClassRequest classRequest);
+    Class addClass(String userId, Long centerId, ClassRequest classRequest);
 
-    void deleteClass(Long classId);
+    boolean deleteClass(String userId, Long classId);
 
-    List<Class> getClassListByCenter(Long centerId);
+    List<Class> getClassListByCenter(String userId, Long centerId);
 
-    List<Class> getClassList();
+    List<Class> getClassList(String userId);
 
-    Class updateClass(Long classId, ClassRequest classRequest);
+    Class updateClass(String userId, Long classId, ClassRequest classRequest);
 }

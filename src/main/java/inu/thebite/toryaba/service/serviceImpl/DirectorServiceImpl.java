@@ -1,10 +1,11 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.Director;
-import inu.thebite.toryaba.model.user.AddUserRequest;
+import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.DirectorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,17 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class DirectorServiceImpl implements DirectorService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     @Override
-    public void joinPrincipalUser(AddUserRequest addUserRequest) {
-        // Id duplicate check
-        if(memberRepository.findById(addUserRequest.getId()).isPresent()) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디를 사용하세요.");
+    public String joinDirector(AddDirectorRequest addDirectorRequest) {
+        if(memberRepository.existsById(addDirectorRequest.getId())) {
+            throw new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디로 변경해주세요.");
         }
 
-        Director director = new Director(addUserRequest.getId(), addUserRequest.getPassword(), addUserRequest.getName(), addUserRequest.getEmail(), addUserRequest.getPhone());
-        memberRepository.save(director);
+        Director director = new Director(addDirectorRequest.getId(), bCryptPasswordEncoder.encode(addDirectorRequest.getPassword()), addDirectorRequest.getName(), addDirectorRequest.getEmail(), addDirectorRequest.getPhone());
+        Director savedDirector = memberRepository.save(director);
+        return savedDirector.getId();
     }
+
 
 }

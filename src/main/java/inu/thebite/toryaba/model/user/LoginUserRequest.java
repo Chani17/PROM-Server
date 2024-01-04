@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.model.user;
 
+
 import lombok.Data;
 
 @Data

@@ -8,15 +8,15 @@ import inu.thebite.toryaba.model.student.UpdateStudentRequest;
 import java.util.List;
 
 public interface StudentService {
-    Student addStudent(Long classId, AddStudentRequest addStudentRequest);
+    Student addStudent(String userId, Long classId, AddStudentRequest addStudentRequest);
 
     Student updateStudentStartDate(Long studentId, UpdateStudentDateRequest updateStudentDateRequest);
 
     Student updateStudentEndDate(Long studentId, UpdateStudentDateRequest updateStudentDateRequest);
 
-    void deleteStudent(Long studentId);
+    boolean deleteStudent(Long studentId);
 
-    List<Student> getStudentList();
+    List<Student> getStudentList(Long classId);
 
     Student updateStudent(Long studentId, UpdateStudentRequest updateStudentRequest);
 }

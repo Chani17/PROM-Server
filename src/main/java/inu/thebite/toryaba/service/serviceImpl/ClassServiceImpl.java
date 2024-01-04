@@ -5,6 +5,7 @@ import inu.thebite.toryaba.entity.Class;
 import inu.thebite.toryaba.model.childClass.ClassRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.ClassRepository;
+import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,13 @@ public class ClassServiceImpl implements ClassService {
 
     @Transactional
     @Override
-    public Class addClass(Long centerId, ClassRequest classRequest) {
+    public Class addClass(String userId, Long centerId, ClassRequest classRequest) {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 센터가 존재하지 않습니다."));
+
+        if(!center.getDirector().getId().equals(userId)) {
+            throw new IllegalStateException("해당 센터의 소유자가 아닙니다.");
+        }
 
         Class newClass = Class.createClass(classRequest.getName(), center);
         classRepository.save(newClass);
@@ -33,7 +38,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Transactional
     @Override
-    public Class updateClass(Long classId, ClassRequest classRequest) {
+    public Class updateClass(String userId, Long classId, ClassRequest classRequest) {
         Class newClass = classRepository.findById(classId)
                 .orElseThrow(() -> new IllegalStateException("해당 반이 존재하지 않습니다."));
 
@@ -42,26 +47,32 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public List<Class> getClassListByCenter(Long centerId) {
+    public List<Class> getClassListByCenter(String userId, Long centerId) {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 센터가 존재하지 않습니다."));
+
+        if(!center.getDirector().getId().equals(userId)) {
+            throw new IllegalStateException("해당 센터의 소유자가 아닙니다.");
+        }
 
         List<Class> classList = classRepository.findAllByCenterId(center.getId());
         return classList;
     }
 
     @Override
-    public List<Class> getClassList() {
+    public List<Class> getClassList(String userId) {
         List<Class> classList = classRepository.findAll();
         return classList;
     }
 
     @Transactional
     @Override
-    public void deleteClass(Long classId) {
-        classRepository.findById(classId)
-                        .orElseThrow(() -> new IllegalStateException("해당 반이 존재하지 않습니다."));
+    public boolean deleteClass(String userId, Long classId) {
 
-        classRepository.deleteById(classId);
+        if(classRepository.findById(classId).isPresent()) {
+            classRepository.deleteById(classId);
+            return true;
+        }
+        throw new IllegalStateException("해당하는 반이 존재하지 않습니다.");
     }
 }
