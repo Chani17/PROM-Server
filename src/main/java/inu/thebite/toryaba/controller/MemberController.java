@@ -3,10 +3,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.config.jwt.TokenProvider;
 import inu.thebite.toryaba.entity.Member;
-import inu.thebite.toryaba.model.user.AddDirectorRequest;
-import inu.thebite.toryaba.model.user.CreateAccessTokenRequest;
-import inu.thebite.toryaba.model.user.CreateAccessTokenResponse;
-import inu.thebite.toryaba.model.user.LoginUserRequest;
+import inu.thebite.toryaba.model.user.*;
 import inu.thebite.toryaba.service.MemberService;
 import inu.thebite.toryaba.service.DirectorService;
 import inu.thebite.toryaba.service.TherapistService;
@@ -15,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,10 +39,21 @@ public class MemberController {
 
     // login user
     @PostMapping("/members/login")
-    public String loginUser(@RequestBody LoginUserRequest loginUserRequest) {
+    public LoginResponse loginUser(@RequestBody LoginUserRequest loginUserRequest) {
         Member member = memberService.login(loginUserRequest);
         String token = tokenProvider.createToken(member);
-        return token;
+        LoginResponse loginResponse = new LoginResponse(member.getName(), token);
+        return loginResponse;
+    }
+
+    // validate token
+    @PostMapping(path = "/valid/token", headers = "HEADER")
+    public ValidationTokenResponse validationToken(@RequestHeader Map<String, String> data) {
+        boolean result = tokenProvider.validToken(data.get("Authorization"));
+        String memberId = tokenProvider.getMemberId(data.get("Authorization"));
+        Member member = memberService.findById(memberId);
+        ValidationTokenResponse response = new ValidationTokenResponse(member.getName(), result);
+        return response;
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function

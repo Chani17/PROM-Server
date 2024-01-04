@@ -79,7 +79,6 @@ public class TokenProvider {
                     .setSigningKey(secretKey)           // 비밀값으로 복호화
                     .parseClaimsJws(token);
             log.info("validToken claims = {}", claims);
-            log.trace("validToken claims = {}", claims);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {         // 복호화 과정에서 에러가 나면 유효하지 않은 Token
             return false;

@@ -67,6 +67,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(new MvcRequestMatcher(introspector, "/members/**")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(introspector, "/error")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/categories")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/images")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(introspector, "/centers/**")).hasRole("DIRECTOR")
                         .anyRequest().authenticated()
                 )
