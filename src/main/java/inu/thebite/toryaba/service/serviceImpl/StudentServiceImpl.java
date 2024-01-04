@@ -67,8 +67,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentList() {
-        List<Student> studentList = studentRepository.findAll();
+    public List<Student> getStudentList(Long classId) {
+        Class findClass = classRepository.findById(classId)
+                .orElseThrow(() -> new IllegalStateException("해당 반은 존재하지 않습니다."));
+
+        List<Student> studentList = studentRepository.findAllByToryClassId(findClass.getId());
         return studentList;
     }
 

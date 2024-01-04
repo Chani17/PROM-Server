@@ -22,34 +22,39 @@ public class ClassController {
     // add class
     @PostMapping("/{centerId}/classes")
     public Class addClass(@LoginMember User user, @PathVariable Long centerId, @RequestBody ClassRequest classRequest) {
-        Class newClass = classService.addClass(centerId, classRequest);
+        String userId = user.getUsername();
+        Class newClass = classService.addClass(userId, centerId, classRequest);
         return newClass;
     }
 
     // update class
     @PatchMapping("/classes/{classId}")
     public Class updateClass(@LoginMember User user, @PathVariable Long classId, @RequestBody ClassRequest classRequest) {
-        Class newClass = classService.updateClass(classId, classRequest);
+        String userId = user.getUsername();
+        Class newClass = classService.updateClass(userId, classId, classRequest);
         return newClass;
     }
 
     // get class list
     @GetMapping("/{centerId}/classes")
     public List<Class> getClassListByCenter(@LoginMember User user, @PathVariable Long centerId) {
-        List<Class> classList = classService.getClassListByCenter(centerId);
+        String userId = user.getUsername();
+        List<Class> classList = classService.getClassListByCenter(userId, centerId);
         return classList;
     }
 
     @GetMapping("/classes")
     public List<Class> getClassList(@LoginMember User user) {
-        List<Class> classList = classService.getClassList();
+        String userId = user.getUsername();
+        List<Class> classList = classService.getClassList(userId);
         return classList;
     }
 
     // delete class
     @DeleteMapping("/classes/{classId}")
     public ResponseEntity deleteClass(@LoginMember User user, @PathVariable Long classId) {
-        classService.deleteClass(classId);
+        String userId = user.getUsername();
+        classService.deleteClass(userId, classId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

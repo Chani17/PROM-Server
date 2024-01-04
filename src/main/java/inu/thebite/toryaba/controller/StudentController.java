@@ -52,9 +52,9 @@ public class StudentController {
     }
 
     // get student list
-    @GetMapping("/students")
-    public List<Student> getStudentList(@LoginMember User user) {
-        List<Student> studentList = studentService.getStudentList();
+    @GetMapping("/{classId}/students")
+    public List<Student> getStudentList(@LoginMember User user, @PathVariable Long classId) {
+        List<Student> studentList = studentService.getStudentList(classId);
         return studentList;
     }
 

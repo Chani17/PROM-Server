@@ -25,7 +25,7 @@ public class CenterController {
 
 
     // add center
-    @PostMapping("/centers")
+    @PostMapping("/center")
     public Center addCenter(@LoginMember User user, @RequestBody CenterRequest centerRequest) {
         String userId = user.getUsername();
         Center center = centerService.addCenter(userId, centerRequest);
@@ -33,7 +33,7 @@ public class CenterController {
     }
 
     // update center
-    @PatchMapping("/centers/{centerId}")
+    @PatchMapping("/center/{centerId}")
     public Center updateCenter(@LoginMember User user, @PathVariable Long centerId, @RequestBody CenterRequest centerRequest) {
         String userId = user.getUsername();
         Center center = centerService.updateCenter(userId, centerId, centerRequest);
@@ -42,7 +42,7 @@ public class CenterController {
 
 
     // delete center
-    @DeleteMapping("/centers/{centerId}")
+    @DeleteMapping("/center/{centerId}")
     public ResponseEntity deleteCenter(@LoginMember User user, @PathVariable Long centerId) {
         String userId = user.getUsername();
         centerService.deleteCenter(userId, centerId);
@@ -50,7 +50,7 @@ public class CenterController {
     }
 
     // get center list
-    @GetMapping("/center")
+    @GetMapping("/centers")
     public List<Center> getCenterList(@LoginMember User user) {
         String userId = user.getUsername();
         List<Center> centerList = centerService.getCenterList(userId);
