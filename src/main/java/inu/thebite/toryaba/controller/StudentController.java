@@ -61,8 +61,8 @@ public class StudentController {
 
     // delete student
     @DeleteMapping("/students/{studentId}")
-    public ResponseEntity deleteStudent(@LoginMember User user, @PathVariable Long studentId) {
-        studentService.deleteStudent(studentId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public boolean deleteStudent(@LoginMember User user, @PathVariable Long studentId) {
+        boolean result = studentService.deleteStudent(studentId);
+        return result;
     }
 }

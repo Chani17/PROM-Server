@@ -9,6 +9,7 @@ import inu.thebite.toryaba.service.DirectorService;
 import inu.thebite.toryaba.service.TherapistService;
 import inu.thebite.toryaba.service.TokenService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final DirectorService directorService;
@@ -47,10 +49,15 @@ public class MemberController {
     }
 
     // validate token
-    @PostMapping(path = "/valid/token", headers = "HEADER")
-    public ValidationTokenResponse validationToken(@RequestHeader Map<String, String> data) {
-        boolean result = tokenProvider.validToken(data.get("Authorization"));
-        String memberId = tokenProvider.getMemberId(data.get("Authorization"));
+    @PostMapping("/valid/token")
+    public ValidationTokenResponse validationToken(@RequestHeader Map<String, String> headers) {
+        log.info("headers = {}", headers);
+        String authorization = headers.get("authorization");
+        log.info("authorization = {}", authorization);
+        String token = authorization.substring(7);
+        log.info("token = {}", token);
+        boolean result = tokenProvider.validToken(token);
+        String memberId = tokenProvider.getMemberId(token);
         Member member = memberService.findById(memberId);
         ValidationTokenResponse response = new ValidationTokenResponse(member.getName(), result);
         return response;

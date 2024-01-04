@@ -43,10 +43,10 @@ public class CenterController {
 
     // delete center
     @DeleteMapping("/center/{centerId}")
-    public ResponseEntity deleteCenter(@LoginMember User user, @PathVariable Long centerId) {
+    public boolean deleteCenter(@LoginMember User user, @PathVariable Long centerId) {
         String userId = user.getUsername();
-        centerService.deleteCenter(userId, centerId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        boolean result = centerService.deleteCenter(userId, centerId);
+        return result;
     }
 
     // get center list

@@ -33,7 +33,7 @@ public class TokenProvider {
     @Value("${jwt.secret_key}")
     private String secretKey;
 
-    private Long tokenValidMilliseconds = 1000L * 60 * 5;      // 5분 유효
+    private Long tokenValidMilliseconds = 1000L * 60;      // 1분 유효
     private final MemberDetailService memberDetailService;
 
 
@@ -139,6 +139,7 @@ public class TokenProvider {
      */
     public String getMemberId(String token) {
         log.info("getMemberID 들어옴");
+        log.info("getMemberID Token = {}", token);
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().getSubject();
     }

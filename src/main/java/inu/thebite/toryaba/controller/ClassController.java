@@ -52,9 +52,9 @@ public class ClassController {
 
     // delete class
     @DeleteMapping("/classes/{classId}")
-    public ResponseEntity deleteClass(@LoginMember User user, @PathVariable Long classId) {
+    public boolean deleteClass(@LoginMember User user, @PathVariable Long classId) {
         String userId = user.getUsername();
-        classService.deleteClass(userId, classId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        boolean result = classService.deleteClass(userId, classId);
+        return result;
     }
 }
