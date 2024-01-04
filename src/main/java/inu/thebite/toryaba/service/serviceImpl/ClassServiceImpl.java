@@ -27,7 +27,7 @@ public class ClassServiceImpl implements ClassService {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 센터가 존재하지 않습니다."));
 
-        if(!center.getDirector().equals(userId)) {
+        if(!center.getDirector().getId().equals(userId)) {
             throw new IllegalStateException("해당 센터의 소유자가 아닙니다.");
         }
 
@@ -51,7 +51,7 @@ public class ClassServiceImpl implements ClassService {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 센터가 존재하지 않습니다."));
 
-        if(!center.getDirector().equals(userId)) {
+        if(!center.getDirector().getId().equals(userId)) {
             throw new IllegalStateException("해당 센터의 소유자가 아닙니다.");
         }
 

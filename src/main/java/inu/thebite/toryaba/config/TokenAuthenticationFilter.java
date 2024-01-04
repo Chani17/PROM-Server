@@ -51,8 +51,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(authorizationHeader);
         log.info("dofilter의 token = {}" + token);
 
-        checkTokenPermissions(token);
-        verifyTokenAndGetAuthorities(token);
+//        checkTokenPermissions(token);
+//        verifyTokenAndGetAuthorities(token);
 
         boolean result = tokenProvider.validToken(token);
         log.info("validToken result = {}", result);

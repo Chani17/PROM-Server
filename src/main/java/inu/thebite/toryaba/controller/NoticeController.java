@@ -18,7 +18,9 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
+
     @PatchMapping("/{studentId}")
+    @ResponseBody
     public NoticeResponse updateComment(@LoginMember User user,
                                         @PathVariable Long studentId,
                                         @RequestParam("year") String year,
@@ -32,6 +34,7 @@ public class NoticeController {
 
     // 년, 월에 대한 Notice List 반환
     @GetMapping(value = "/{studentId}/dateList")
+    @ResponseBody
     public List<DateResponse> getNoticeDateList(@LoginMember User user,
                                                 @PathVariable Long studentId,
                                                 @RequestParam("year") String year,
@@ -42,6 +45,7 @@ public class NoticeController {
 
     // 해당 날짜에 대한 Notice 가져오기
     @GetMapping(value = "/{studentId}")
+    @ResponseBody
     public NoticeResponse getNotice(@LoginMember User user,
                                     @PathVariable Long studentId,
                                   @RequestParam("year") String year,
@@ -52,6 +56,7 @@ public class NoticeController {
     }
 
     @GetMapping(value = "/{studentId}/dates")
+    @ResponseBody
     public List<NoticesDatesResponse> getNoticeDates(@LoginMember User user,
                                                      @PathVariable Long studentId) {
         List<NoticesDatesResponse> response = noticeService.getNoticeDates(studentId);

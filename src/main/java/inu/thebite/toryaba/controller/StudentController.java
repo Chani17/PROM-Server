@@ -23,8 +23,9 @@ public class StudentController {
 
     // add student
     @PostMapping("/{classId}/students")
-    public Student addStudent(@LoginMember User user,  @PathVariable Long classId, @RequestBody AddStudentRequest addStudentRequest) {
-        Student student = studentService.addStudent(classId, addStudentRequest);
+    public Student addStudent(@LoginMember User user, @PathVariable Long classId, @RequestBody AddStudentRequest addStudentRequest) {
+        String userId = user.getUsername();
+        Student student = studentService.addStudent(userId, classId, addStudentRequest);
         return student;
     }
 

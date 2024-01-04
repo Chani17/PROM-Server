@@ -8,7 +8,7 @@ import inu.thebite.toryaba.model.student.UpdateStudentRequest;
 import java.util.List;
 
 public interface StudentService {
-    Student addStudent(Long classId, AddStudentRequest addStudentRequest);
+    Student addStudent(String userId, Long classId, AddStudentRequest addStudentRequest);
 
     Student updateStudentStartDate(Long studentId, UpdateStudentDateRequest updateStudentDateRequest);
 
