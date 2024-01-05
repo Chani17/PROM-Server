@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.controller;
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Image;
 import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.entity.Sto;
@@ -8,6 +9,7 @@ import inu.thebite.toryaba.service.StoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,7 +51,6 @@ public class StoController {
     }
 
     // update image list(image url)
-    // when UpdateImageList request, I have to decide whether to use imageName or imageUrl, but these are same type.
     @PatchMapping("/stos/{stoId}/images")
     public StoResponse updateImageList(@PathVariable Long stoId, @RequestBody UpdateImageList updateImageList) {
         StoResponse imageList = stoService.updateImageList(stoId, updateImageList);
@@ -85,7 +86,7 @@ public class StoController {
 
     // delete STO
     @DeleteMapping("/stos/{stoId}")
-    public boolean deleteSto(@PathVariable Long stoId) {
+    public boolean deleteSto(@LoginMember User user, @PathVariable Long stoId) {
         boolean result = stoService.deleteSto(stoId);
         return result;
     }

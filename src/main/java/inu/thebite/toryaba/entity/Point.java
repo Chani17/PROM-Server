@@ -51,7 +51,7 @@ public class Point extends BaseEntity {
     private String registerDate;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sto_seq")
     private Sto sto;
 

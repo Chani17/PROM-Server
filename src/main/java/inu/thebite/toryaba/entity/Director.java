@@ -22,7 +22,7 @@ public class Director extends Member {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.auth = MemberStatus.LEVEL4;
+        this.auth = MemberStatus.ROLE_DIRECTOR;
         this.approvalYN = "Y";
         this.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }

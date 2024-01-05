@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.controller;
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Detail;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
 import inu.thebite.toryaba.model.notice.DetailGraphResponse;
@@ -8,6 +9,7 @@ import inu.thebite.toryaba.service.DetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +32,8 @@ public class DetailController {
     }
 
     @PatchMapping(value = "/{studentId}")
-    public DetailResponse updateComment(@PathVariable Long studentId,
+    public DetailResponse updateComment(@LoginMember User user,
+                                        @PathVariable Long studentId,
                                         @RequestParam("year") String year,
                                         @RequestParam("month") int month,
                                         @RequestParam("date") String date,
@@ -42,10 +45,11 @@ public class DetailController {
 
     // 해당 날짜에 대한 Detail 반환
     @GetMapping(value = "/{studentId}")
-    public List<DetailGraphResponse> getDetailList(@PathVariable Long studentId,
-                                      @RequestParam("year") String year,
-                                      @RequestParam("month") int month,
-                                      @RequestParam("date") String date) {
+    public List<DetailGraphResponse> getDetailList(@LoginMember User user,
+                                                   @PathVariable Long studentId,
+                                                   @RequestParam("year") String year,
+                                                   @RequestParam("month") int month,
+                                                   @RequestParam("date") String date) {
         List<DetailGraphResponse> detailList = detailService.getDetailList(studentId, year, month, date);
         return detailList;
     }

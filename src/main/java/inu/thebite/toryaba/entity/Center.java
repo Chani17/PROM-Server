@@ -22,7 +22,7 @@ public class Center extends BaseEntity {
     @Column(name = "center_name", length = 45, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Director director;
 

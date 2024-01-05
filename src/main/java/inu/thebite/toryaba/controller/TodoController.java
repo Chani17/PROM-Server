@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.controller;
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Todo;
 import inu.thebite.toryaba.model.sto.StoSummaryResponse;
@@ -9,6 +10,7 @@ import inu.thebite.toryaba.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

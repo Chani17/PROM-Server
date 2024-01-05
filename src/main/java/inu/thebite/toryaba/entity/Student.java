@@ -44,7 +44,7 @@ public class Student extends BaseEntity {
     private String registerDate;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_seq")
     private Class toryClass;
 

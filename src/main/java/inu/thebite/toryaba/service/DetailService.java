@@ -1,6 +1,5 @@
 package inu.thebite.toryaba.service;
 
-import inu.thebite.toryaba.entity.Detail;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
 import inu.thebite.toryaba.model.notice.DetailGraphResponse;
 import inu.thebite.toryaba.model.notice.DetailResponse;

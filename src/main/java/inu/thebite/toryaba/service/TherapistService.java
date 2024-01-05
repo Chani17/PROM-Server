@@ -1,11 +1,9 @@
 package inu.thebite.toryaba.service;
 
-import inu.thebite.toryaba.entity.Therapist;
-import inu.thebite.toryaba.model.user.AddUserRequest;
-import inu.thebite.toryaba.model.user.LoginUserRequest;
+import inu.thebite.toryaba.model.user.AddDirectorRequest;
 
 public interface TherapistService {
 
-    void joinTherapistUser(Long centerId, AddUserRequest addUserRequest);
+    String joinTherapist(Long centerId, AddDirectorRequest addDirectorRequest);
 
 }

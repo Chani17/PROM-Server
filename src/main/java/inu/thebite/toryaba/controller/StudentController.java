@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.controller;
 
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Student;
 import inu.thebite.toryaba.model.student.AddStudentRequest;
 import inu.thebite.toryaba.model.student.UpdateStudentDateRequest;
@@ -9,6 +10,7 @@ import inu.thebite.toryaba.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,16 +52,16 @@ public class StudentController {
     }
 
     // get student list
-    @GetMapping("/students")
-    public List<Student> getStudentList() {
-        List<Student> studentList = studentService.getStudentList();
+    @GetMapping("/{classId}/students")
+    public List<Student> getStudentList(@PathVariable Long classId) {
+        List<Student> studentList = studentService.getStudentList(classId);
         return studentList;
     }
 
     // delete student
     @DeleteMapping("/students/{studentId}")
-    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
-        studentService.deleteStudent(studentId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public boolean deleteStudent(@PathVariable Long studentId) {
+        boolean result = studentService.deleteStudent(studentId);
+        return result;
     }
 }

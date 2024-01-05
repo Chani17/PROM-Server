@@ -6,7 +6,6 @@ import inu.thebite.toryaba.model.image.AddImageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ImageService {
     Image addImage(Long categoryId, AddImageRequest addImageRequest);

@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.controller;
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Lto;
 import inu.thebite.toryaba.model.lto.LtoGraphResponse;
 import inu.thebite.toryaba.model.lto.LtoRequest;
@@ -9,6 +10,7 @@ import inu.thebite.toryaba.service.LtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class LtoController {
 
     // add LTO
     @PostMapping("/{domainId}/ltos/{studentId}")
-    public LtoResponse addLto(@PathVariable Long domainId, @PathVariable Long studentId, @RequestBody LtoRequest ltoRequest) {
+    public LtoResponse addLto(@LoginMember User user, @PathVariable Long domainId, @PathVariable Long studentId, @RequestBody LtoRequest ltoRequest) {
         LtoResponse lto = ltoService.addLto(domainId, studentId, ltoRequest);
         return lto;
     }

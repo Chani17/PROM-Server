@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.controller;
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.model.point.AddPointRequest;
 import inu.thebite.toryaba.model.point.DeletePointRequest;
@@ -8,6 +9,7 @@ import inu.thebite.toryaba.service.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -6,11 +6,11 @@ import inu.thebite.toryaba.model.center.CenterRequest;
 import java.util.List;
 
 public interface CenterService {
-    Center addCenter(String principalId, CenterRequest centerRequest);
+    Center addCenter(String userId, CenterRequest centerRequest);
 
-    void deleteCenter(Long centerId);
+    boolean deleteCenter(String userId, Long centerId);
 
     List<Center> getCenterList(String id);
 
-    Center updateCenter(Long centerId, CenterRequest centerRequest);
+    Center updateCenter(String userId, Long centerId, CenterRequest centerRequest);
 }
