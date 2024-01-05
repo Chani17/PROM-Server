@@ -34,7 +34,7 @@ public class TokenProvider {
     private String secretKey;
 
     // 5일 -> 7200분
-    private Long tokenValidMilliseconds = 1000L * 60 * 10;      // 10초 유효
+    private Long tokenValidMilliseconds = 1000L * 60 * 7200;      // 5일 유효
     private final MemberDetailService memberDetailService;
 
 

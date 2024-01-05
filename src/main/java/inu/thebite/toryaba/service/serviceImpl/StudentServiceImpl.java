@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Transactional
     @Override
-    public Student addStudent(String userId, Long classId, AddStudentRequest addStudentRequest) {
+    public Student addStudent(Long classId, AddStudentRequest addStudentRequest) {
         Class findClass = classRepository.findById(classId)
                 .orElseThrow(() -> new IllegalStateException("해당 반은 존재하지 않습니다."));
 
