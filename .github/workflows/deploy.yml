@@ -34,6 +34,8 @@ jobs:
         spring.cloud.gcp.storage.credentials.location: ${{ secrets.STORAGE_CREDENTIALS }}
         spring.cloud.gcp.storage.project-id: ${{ secrets.PROJECT_ID }}
         spring.cloud.gcp.storage.bucket: ${{ secrets.BUCKET }}
+        jwt.issuer: ${{ secrets.JWT_ISSUER }}
+        jwt.secret_key: ${{ secrets.JWT_SECRET_KEY }}
 
     - name: 3. Install Docker and Docker Compose
       run: |

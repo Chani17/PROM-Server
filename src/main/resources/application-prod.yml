@@ -38,3 +38,7 @@ spring:
           location: ${STORAGE_CREDENTIALS}
         project-id: ${PROJECT_ID}
         bucket: ${BUCKET}
+
+jwt:
+  issuer: ${JWT_ISSUER}
+  secret_key: ${JWT_SECRET_KEY}
