@@ -13,7 +13,7 @@ public class LooseCannon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "lc_id")
+    @Column(name = "lc_seq")
     private Long id;
 
     @Column(name = "lc_name")
