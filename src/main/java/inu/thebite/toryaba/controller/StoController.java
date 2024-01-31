@@ -77,6 +77,12 @@ public class StoController {
         stoService.updateStressStatus(stoId, looseCannonRequest);
     }
 
+    // update concentration in STO
+    @PatchMapping("/stos/{stoId}/concentration")
+    public void updateConcentration(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateConcentration(stoId, looseCannonRequest);
+    }
+
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")
     public List<StoResponse> getStoList(@PathVariable Long studentId) {

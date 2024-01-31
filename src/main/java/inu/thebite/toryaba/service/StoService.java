@@ -27,4 +27,6 @@ public interface StoService {
     StoResponse updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
     void updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    void updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest);
 }

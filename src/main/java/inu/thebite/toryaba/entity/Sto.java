@@ -175,4 +175,9 @@ public class Sto extends BaseEntity {
     public void updateStressStatus(String status) {
         this.stressStatus = status;
     }
+
+    // update concentration
+    public void updateConcentration(String status) {
+        this.concentration = status;
+    }
 }
