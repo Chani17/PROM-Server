@@ -98,6 +98,18 @@ public class Sto extends BaseEntity {
     @OneToMany(mappedBy = "sto", cascade = CascadeType.ALL)
     private List<Point> pointList = new ArrayList<>();
 
+    // 스트레스 상태
+    @Column(name = "sto_stress_status")
+    private String stressStatus;
+
+    // 집중도
+    @Column(name = "sto_concentration")
+    private String concentration;
+
+    // 돌발 행동 리스트
+    @Column(name = "sto_lc_list")
+    @ElementCollection
+    private List<String> looseCannonList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lto_seq")
