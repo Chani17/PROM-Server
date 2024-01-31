@@ -19,14 +19,9 @@ public class LooseCannon extends BaseEntity {
     @Column(name = "lc_name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sto_seq")
-    private Sto sto;
-
-    public static LooseCannon createLooseCannon(String name, Sto sto) {
+    public static LooseCannon createLooseCannon(String name) {
         LooseCannon looseCannon = new LooseCannon();
         looseCannon.name = name;
-        looseCannon.sto = sto;
         return looseCannon;
     }
 }
