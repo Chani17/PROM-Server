@@ -106,6 +106,10 @@ public class Sto extends BaseEntity {
     @Column(name = "sto_concentration")
     private String concentration;
 
+    // 특이 사항
+    @Column(name = "sto_significant")
+    private String significant;
+
     // 돌발 행동 리스트
     @Column(name = "sto_lc_list")
     @ElementCollection
@@ -179,6 +183,11 @@ public class Sto extends BaseEntity {
     // update concentration
     public void updateConcentration(String status) {
         this.concentration = status;
+    }
+
+    // update significant
+    public void updateSignificant(String content) {
+        this.significant = content;
     }
 
     // update loose cannon

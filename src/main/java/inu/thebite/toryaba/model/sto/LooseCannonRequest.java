@@ -1,4 +1,4 @@
-package inu.thebite.toryaba.model.looseCannon;
+package inu.thebite.toryaba.model.sto;
 
 import lombok.Data;
 

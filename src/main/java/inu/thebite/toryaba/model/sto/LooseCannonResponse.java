@@ -1,8 +1,7 @@
-package inu.thebite.toryaba.model.looseCannon;
+package inu.thebite.toryaba.model.sto;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

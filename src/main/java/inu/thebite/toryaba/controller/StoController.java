@@ -1,15 +1,10 @@
 package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.config.LoginMember;
-import inu.thebite.toryaba.entity.Image;
-import inu.thebite.toryaba.entity.Point;
-import inu.thebite.toryaba.entity.Sto;
-import inu.thebite.toryaba.model.looseCannon.LooseCannonRequest;
+import inu.thebite.toryaba.model.sto.LooseCannonRequest;
 import inu.thebite.toryaba.model.sto.*;
 import inu.thebite.toryaba.service.StoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,6 +76,12 @@ public class StoController {
     @PatchMapping("/stos/{stoId}/concentration")
     public void updateConcentration(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
         stoService.updateConcentration(stoId, looseCannonRequest);
+    }
+
+    // update significant content
+    @PatchMapping("/stos/{stoId}/significant")
+    public void updateSignificant(@PathVariable Long stoId, @RequestBody UpdateSignificantRequest updateSignificantRequest) {
+        stoService.updateSignificant(stoId, updateSignificantRequest);
     }
 
     // update loose cannon status

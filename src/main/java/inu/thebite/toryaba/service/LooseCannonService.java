@@ -1,7 +1,7 @@
 package inu.thebite.toryaba.service;
 
-import inu.thebite.toryaba.model.looseCannon.LooseCannonRequest;
-import inu.thebite.toryaba.model.looseCannon.LooseCannonResponse;
+import inu.thebite.toryaba.model.sto.LooseCannonRequest;
+import inu.thebite.toryaba.model.sto.LooseCannonResponse;
 
 public interface LooseCannonService {
 

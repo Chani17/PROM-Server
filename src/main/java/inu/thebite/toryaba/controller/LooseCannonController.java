@@ -1,7 +1,7 @@
 package inu.thebite.toryaba.controller;
 
-import inu.thebite.toryaba.model.looseCannon.LooseCannonRequest;
-import inu.thebite.toryaba.model.looseCannon.LooseCannonResponse;
+import inu.thebite.toryaba.model.sto.LooseCannonRequest;
+import inu.thebite.toryaba.model.sto.LooseCannonResponse;
 import inu.thebite.toryaba.service.LooseCannonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
