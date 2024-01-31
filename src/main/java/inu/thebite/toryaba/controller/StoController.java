@@ -83,6 +83,12 @@ public class StoController {
         stoService.updateConcentration(stoId, looseCannonRequest);
     }
 
+    // update loose cannon status
+    @PatchMapping("/stos/{stoId}/lc")
+    public void updateLooseCannons(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateLooseCannons(stoId, looseCannonRequest);
+    }
+
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")
     public List<StoResponse> getStoList(@PathVariable Long studentId) {

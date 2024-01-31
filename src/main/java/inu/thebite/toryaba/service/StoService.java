@@ -29,4 +29,6 @@ public interface StoService {
     void updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest);
 
     void updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    void updateLooseCannons(Long stoId, LooseCannonRequest looseCannonRequest);
 }

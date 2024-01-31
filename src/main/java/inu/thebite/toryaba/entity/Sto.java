@@ -180,4 +180,9 @@ public class Sto extends BaseEntity {
     public void updateConcentration(String status) {
         this.concentration = status;
     }
+
+    // update loose cannon
+    public void updateLooseCannon(String action) {
+        this.looseCannonList.add(action);
+    }
 }

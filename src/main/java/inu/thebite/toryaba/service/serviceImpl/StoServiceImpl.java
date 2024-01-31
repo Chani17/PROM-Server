@@ -167,6 +167,15 @@ public class StoServiceImpl implements StoService {
         sto.updateConcentration(looseCannonRequest.getName());
     }
 
+    @Transactional
+    @Override
+    public void updateLooseCannons(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        sto.updateLooseCannon(looseCannonRequest.getName());
+    }
+
     @Override
     public List<StoResponse> getStoList(Long studentId) {
 
