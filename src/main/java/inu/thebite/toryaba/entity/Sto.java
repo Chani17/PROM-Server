@@ -171,4 +171,8 @@ public class Sto extends BaseEntity {
         this.round = round + 1;
     }
 
+    // update stress status
+    public void updateStressStatus(String status) {
+        this.stressStatus = status;
+    }
 }

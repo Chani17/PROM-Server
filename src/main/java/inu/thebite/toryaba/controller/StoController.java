@@ -4,6 +4,7 @@ import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Image;
 import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.entity.Sto;
+import inu.thebite.toryaba.model.looseCannon.LooseCannonRequest;
 import inu.thebite.toryaba.model.sto.*;
 import inu.thebite.toryaba.service.StoService;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +71,12 @@ public class StoController {
         return sto;
     }
 
+    // update stress status in STO
+    @PatchMapping("/stos/{stoId}/stress")
+    public void updateStressStatus(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateStressStatus(stoId, looseCannonRequest);
+    }
+
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")
     public List<StoResponse> getStoList(@PathVariable Long studentId) {
@@ -82,7 +89,6 @@ public class StoController {
         List<StoResponse> stoList = stoService.getStoListByLtoId(ltoId);
         return stoList;
     }
-
 
     // delete STO
     @DeleteMapping("/stos/{stoId}")

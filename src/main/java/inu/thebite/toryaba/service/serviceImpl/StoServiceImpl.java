@@ -3,6 +3,7 @@ package inu.thebite.toryaba.service.serviceImpl;
 import inu.thebite.toryaba.entity.Lto;
 import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.entity.Sto;
+import inu.thebite.toryaba.model.looseCannon.LooseCannonRequest;
 import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.sto.*;
 import inu.thebite.toryaba.repository.*;
@@ -148,6 +149,15 @@ public class StoServiceImpl implements StoService {
         return stoResponse;
     }
 
+    @Override
+    public void updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        sto.updateStressStatus(looseCannonRequest.getName());
+    }
+
+    @Transactional
     @Override
     public List<StoResponse> getStoList(Long studentId) {
 
