@@ -196,9 +196,16 @@ public class StoServiceImpl implements StoService {
                 sto.getLooseCannonList().remove(action);
             }
         }
-
-        System.out.println("sto.getLooseCannonList() = " + sto.getLooseCannonList());
         sto.updateLooseCannon(sto.getLooseCannonList());
+    }
+
+    @Override
+    public List<String> getLooseCannonListBySto(Long stoId) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        List<String> response = stoRepository.findLooseCannonById(sto.getId());
+        return response;
     }
 
     @Override

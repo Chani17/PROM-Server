@@ -35,4 +35,6 @@ public interface StoService {
     void updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest);
 
     void removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    List<String> getLooseCannonListBySto(Long stoId);
 }

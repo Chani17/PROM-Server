@@ -96,6 +96,13 @@ public class StoController {
         stoService.removeLooseCannon(stoId, looseCannonRequest);
     }
 
+    // get loose cannon status list
+    @GetMapping("/stos/{stoId}/lc")
+    public List<String> getLooseCannonListBySto(@PathVariable Long stoId) {
+        List<String> response = stoService.getLooseCannonListBySto(stoId);
+        return response;
+    }
+
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")
     public List<StoResponse> getStoList(@PathVariable Long studentId) {
