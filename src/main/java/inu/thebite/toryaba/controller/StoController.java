@@ -84,10 +84,16 @@ public class StoController {
         stoService.updateSignificant(stoId, updateSignificantRequest);
     }
 
-    // update loose cannon status
-    @PatchMapping("/stos/{stoId}/lc")
+    // select loose cannon status
+    @PatchMapping("/stos/{stoId}/selection/lc")
     public void updateLooseCannons(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
-        stoService.updateLooseCannons(stoId, looseCannonRequest);
+        stoService.selectLooseCannon(stoId, looseCannonRequest);
+    }
+
+    // remove loose cannon status
+    @PatchMapping("/stos/{stoId}/removal/lc")
+    public void removeLooseCannon(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.removeLooseCannon(stoId, looseCannonRequest);
     }
 
     // get STO list by studentId

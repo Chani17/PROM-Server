@@ -30,7 +30,9 @@ public interface StoService {
 
     void updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    void updateLooseCannons(Long stoId, LooseCannonRequest looseCannonRequest);
+    void selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
 
     void updateSignificant(Long stoId, UpdateSignificantRequest updateSignificantRequest);
+
+    void removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
 }

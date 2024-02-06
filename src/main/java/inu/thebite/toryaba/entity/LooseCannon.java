@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "tb_lc")
 @Getter
 public class LooseCannon extends BaseEntity {
 

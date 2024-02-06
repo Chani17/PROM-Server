@@ -1,6 +1,5 @@
 package inu.thebite.toryaba.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -190,8 +189,13 @@ public class Sto extends BaseEntity {
         this.significant = content;
     }
 
-    // update loose cannon
-    public void updateLooseCannon(String action) {
+    // select loose cannon
+    public void selectLooseCannon(String action) {
         this.looseCannonList.add(action);
+    }
+
+    // update loose cannon list
+    public void updateLooseCannon(List<String> looseCannonList) {
+        this.looseCannonList = looseCannonList;
     }
 }

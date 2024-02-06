@@ -178,11 +178,27 @@ public class StoServiceImpl implements StoService {
 
     @Transactional
     @Override
-    public void updateLooseCannons(Long stoId, LooseCannonRequest looseCannonRequest) {
+    public void selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest) {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        sto.updateLooseCannon(looseCannonRequest.getName());
+        sto.selectLooseCannon(looseCannonRequest.getName());
+    }
+
+    @Transactional
+    @Override
+    public void removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        for (String action : sto.getLooseCannonList()) {
+            if (action.equals(looseCannonRequest.getName())) {
+                sto.getLooseCannonList().remove(action);
+            }
+        }
+
+        System.out.println("sto.getLooseCannonList() = " + sto.getLooseCannonList());
+        sto.updateLooseCannon(sto.getLooseCannonList());
     }
 
     @Override

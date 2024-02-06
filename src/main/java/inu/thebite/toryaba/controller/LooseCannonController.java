@@ -14,7 +14,7 @@ public class LooseCannonController {
 
     private final LooseCannonService looseCannonService;
 
-    // 돌발 행동 추가
+    // 돌발 행동 DB에 추가
     @PostMapping()
     public void addLooseCannon(@RequestBody LooseCannonRequest looseCannonRequest) {
         looseCannonService.addLooseCannon(looseCannonRequest);
