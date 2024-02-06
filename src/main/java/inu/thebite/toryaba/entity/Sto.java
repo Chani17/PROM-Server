@@ -136,6 +136,9 @@ public class Sto extends BaseEntity {
         sto.hitGoalDate = "NOT YET";
         sto.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         sto.delYN = "N";
+        sto.stressStatus = "";
+        sto.concentration = "";
+        sto.significant = "";
         sto.lto = lto;
         return sto;
     }

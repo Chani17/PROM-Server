@@ -21,7 +21,7 @@ public class LooseCannonServiceImpl implements LooseCannonService {
     @Transactional
     @Override
     public void addLooseCannon(LooseCannonRequest looseCannonRequest) {
-        LooseCannon looseCannon = LooseCannon.createLooseCannon(looseCannonRequest.getName());
+        LooseCannon looseCannon = LooseCannon.createLooseCannon(looseCannonRequest.getContent());
         looseCannonRepository.save(looseCannon);
     }
 

@@ -155,7 +155,7 @@ public class StoServiceImpl implements StoService {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        sto.updateStressStatus(looseCannonRequest.getName());
+        sto.updateStressStatus(looseCannonRequest.getContent());
     }
 
     @Transactional
@@ -164,16 +164,16 @@ public class StoServiceImpl implements StoService {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        sto.updateConcentration(looseCannonRequest.getName());
+        sto.updateConcentration(looseCannonRequest.getContent());
     }
 
     @Transactional
     @Override
-    public void updateSignificant(Long stoId, UpdateSignificantRequest updateSignificantRequest) {
+    public void updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest) {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        sto.updateSignificant(updateSignificantRequest.getContent());
+        sto.updateSignificant(looseCannonRequest.getContent());
     }
 
     @Transactional
@@ -182,7 +182,7 @@ public class StoServiceImpl implements StoService {
         Sto sto = stoRepository.findById(stoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
-        sto.selectLooseCannon(looseCannonRequest.getName());
+        sto.selectLooseCannon(looseCannonRequest.getContent());
     }
 
     @Transactional
@@ -192,7 +192,7 @@ public class StoServiceImpl implements StoService {
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
         for (String action : sto.getLooseCannonList()) {
-            if (action.equals(looseCannonRequest.getName())) {
+            if (action.equals(looseCannonRequest.getContent())) {
                 sto.getLooseCannonList().remove(action);
             }
         }

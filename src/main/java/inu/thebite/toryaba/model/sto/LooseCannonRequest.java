@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class LooseCannonRequest {
 
-    private String name;
+    private String content;
 }

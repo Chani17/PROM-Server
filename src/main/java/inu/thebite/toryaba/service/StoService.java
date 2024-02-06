@@ -32,7 +32,7 @@ public interface StoService {
 
     void selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    void updateSignificant(Long stoId, UpdateSignificantRequest updateSignificantRequest);
+    void updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest);
 
     void removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
 }

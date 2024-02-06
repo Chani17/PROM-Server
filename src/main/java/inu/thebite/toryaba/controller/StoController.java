@@ -80,8 +80,8 @@ public class StoController {
 
     // update significant content
     @PatchMapping("/stos/{stoId}/significant")
-    public void updateSignificant(@PathVariable Long stoId, @RequestBody UpdateSignificantRequest updateSignificantRequest) {
-        stoService.updateSignificant(stoId, updateSignificantRequest);
+    public void updateSignificant(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateSignificant(stoId, looseCannonRequest);
     }
 
     // select loose cannon status
@@ -111,7 +111,7 @@ public class StoController {
 
     // delete STO
     @DeleteMapping("/stos/{stoId}")
-    public boolean deleteSto(@LoginMember User user, @PathVariable Long stoId) {
+    public boolean deleteSto(@PathVariable Long stoId) {
         boolean result = stoService.deleteSto(stoId);
         return result;
     }
