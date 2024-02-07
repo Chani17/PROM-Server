@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "teachingboard")
+@RequestMapping(value = "/teachingboard")
 public class TeachingBoardController {
 
     private final TeachingBoardService teachingBoardService;
