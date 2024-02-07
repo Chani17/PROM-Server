@@ -32,8 +32,8 @@ public class DomainServiceImpl implements DomainService {
     }
 
     @Override
-    public List<Domain> getDomainList() {
-        List<Domain> domainList = domainRepository.findAll();
+    public List<Domain> getDomainList(Long centerId) {
+        List<Domain> domainList = domainRepository.findAllByCenterId(centerId);
         return domainList;
     }
 

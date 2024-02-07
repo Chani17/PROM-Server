@@ -25,9 +25,9 @@ public class DomainController {
     }
 
     // get domain list
-    @GetMapping("/domains")
-    public List<Domain> getDomainList() {
-        List<Domain> domainList = domainService.getDomainList();
+    @GetMapping("/{centerId}/domains")
+    public List<Domain> getDomainList(@PathVariable Long centerId) {
+        List<Domain> domainList = domainService.getDomainList(centerId);
         return domainList;
     }
 

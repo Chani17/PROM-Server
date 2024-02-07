@@ -8,7 +8,7 @@ import java.util.List;
 public interface DomainService {
     Domain addDomain(Long centerId, AddDomainRequest addDomainRequest);
 
-    List<Domain> getDomainList();
+    List<Domain> getDomainList(Long centerId);
 
     void deleteDomain(Long templateNum);
 }
