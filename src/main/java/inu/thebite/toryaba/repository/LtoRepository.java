@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,10 @@ public interface LtoRepository extends JpaRepository<Lto, Long> {
 
     @Query(value = "SELECT * FROM tb_lto WHERE lto_seq = :stoId", nativeQuery = true)
     Optional<Lto> findByStoId(@Param("stoId") Long stoId);
+
+    @Query(value = "SELECT COUNT(*) FROM tb_lto WHERE student_seq = :studentId AND domain_seq = :domainId AND FORMATDATE(lto_arr_dt, 'yyyy/MM') = :now", nativeQuery = true)
+    Integer getNowCountByStudentIdAndDomainId(@Param("studentId") Long studentId, @Param("domainId") Long domainId, @Param("now") String now);
+
+    @Query(value = "SELECT COUNT(*) FROM tb_lto WHERE student_seq = :studentId AND domain_seq = :domainId AND SUBSTRING(lto_arr_dt, 1, 7) = :minusMonths", nativeQuery = true)
+    Integer getBefore3CountByStudentIdAndDomainId(@Param("studentId") Long studentId, @Param("domainId") Long domainId, @Param("minusMonths") LocalDate minusMonths);
 }

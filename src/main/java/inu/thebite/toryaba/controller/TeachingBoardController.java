@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "teachingboard")
@@ -17,7 +19,7 @@ public class TeachingBoardController {
 
     // graph by area
     @GetMapping("/{studentId}")
-    public GraphByAreaResponse getGraphByArea(@PathVariable Long studentId) {
-        teachingBoardService.getGraphByArea(studentId)
+    public List<GraphByAreaResponse> getGraphByArea(@PathVariable Long studentId) {
+        return teachingBoardService.getGraphByArea(studentId);
     }
 }
