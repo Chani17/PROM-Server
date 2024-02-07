@@ -53,7 +53,11 @@ public class Domain extends BaseEntity {
     @Column(name = "domain_reg_dt", nullable = false)
     private String registerDate;
 
-    public static Domain createDomain(int templateNumber, String type, String name, String content) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "center_seq")
+    private Center center;
+
+    public static Domain createDomain(int templateNumber, String type, String name, String content, Center center) {
         Domain domain = new Domain();
         domain.templateNumber = templateNumber;
         domain.type = type;
@@ -63,6 +67,7 @@ public class Domain extends BaseEntity {
         domain.useYN = "Y";
         domain.deleteYN = "N";
         domain.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+        domain.center = center;
         return domain;
     }
 }

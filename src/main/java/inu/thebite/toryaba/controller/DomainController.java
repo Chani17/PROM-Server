@@ -13,20 +13,19 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/domains")
 public class DomainController {
 
     private final DomainService domainService;
 
     // add domain
-    @PostMapping()
-    public Domain addDomain(@RequestBody AddDomainRequest addDomainRequest) {
-        Domain domain = domainService.addDomain(addDomainRequest);
+    @PostMapping("/{centerId}/domains")
+    public Domain addDomain(@PathVariable Long centerId, @RequestBody AddDomainRequest addDomainRequest) {
+        Domain domain = domainService.addDomain(centerId, addDomainRequest);
         return domain;
     }
 
     // get domain list
-    @GetMapping()
+    @GetMapping("/domains")
     public List<Domain> getDomainList() {
         List<Domain> domainList = domainService.getDomainList();
         return domainList;
