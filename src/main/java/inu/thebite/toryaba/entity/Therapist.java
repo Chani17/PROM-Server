@@ -36,17 +36,4 @@ public class Therapist extends Member {
         this.approvalYN = "N";
     }
 
-//    public static Therapist createTherapist(String therapistId, String password, String name, String email, String phone, Center center) {
-//        Therapist therapist = new Therapist();
-//        therapist.id = therapistId;
-//        therapist.password = password;
-//        therapist.name = name;
-//        therapist.email = email;
-//        therapist.phone = phone;
-//        therapist.auth = MemberStatus.LEVEL2;
-//        therapist.approvalYN = "Y";
-//        therapist.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-//        therapist.center = center;
-//        return therapist;
-//    }
 }
