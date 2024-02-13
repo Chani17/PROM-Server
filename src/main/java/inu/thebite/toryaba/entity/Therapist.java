@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,19 +17,11 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class Therapist extends Member {
 
-    // 전문 분야
-    @Column(name = "therapist_forte")
-    private String forte;
-
-    // 자격
-    @Column(name = "therapist_qualification")
-    private String qualification;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "center_seq")
     private Center center;
 
-    public Therapist(String id, String password, String name, String email, String phone, String forte, String qualification, Center center) {
+    public Therapist(String id, String password, String name, String email, String phone, String forte, List<String> qualification, Center center) {
         this.id = id;
         this.password = password;
         this.name = name;

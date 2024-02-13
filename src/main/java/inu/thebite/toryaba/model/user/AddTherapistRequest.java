@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AddTherapistRequest {
 
@@ -27,7 +29,7 @@ public class AddTherapistRequest {
 
     private String forte;
 
-    private String qualification;
+    private List<String> qualification;
 
     @NotEmpty(message = "센터 아이디 입력은 필수항목입니다.")
     private Long centerId;
