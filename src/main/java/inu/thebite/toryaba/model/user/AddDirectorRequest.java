@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AddDirectorRequest {
 
@@ -24,5 +26,9 @@ public class AddDirectorRequest {
 
     @NotEmpty(message = "전화번호는 필수항목입니다.")
     private String phone;
+
+    private String forte;
+
+    private List<String> qualification;
 
 }
