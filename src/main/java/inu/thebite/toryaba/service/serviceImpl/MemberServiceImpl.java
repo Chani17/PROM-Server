@@ -8,6 +8,8 @@ import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +51,39 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findByIdAndPhoneAndEmail(findMemberPasswordRequest.getId(), findMemberPasswordRequest.getPhone(), findMemberPasswordRequest.getName())
                 .orElseThrow(() -> new IllegalArgumentException("입력한 정보를 다시 한번 확인해주세요."));
 
-        
+        String newPassword = "";
+
+        // create temporary password
+        for(int i = 0; i < 10; i++) {
+            int randomValue = (int) (Math.random() * 3);
+
+            switch(randomValue) {
+                case 0:
+                    // uppercase
+                    newPassword += (char) ((Math.random() * 26) + 65);
+                    break;
+                case 1:
+                    // lowercase
+                    newPassword += (char) ((Math.random() * 26) + 97);
+                    break;
+                case 2:
+                    // number
+                    newPassword += (char) ((Math.random() * 26) + 48);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // update password in DB
+        updatePassword(findMember, newPassword);
+
+        // send temporary password mail
+        JavaMailSenderImpl sender = new JavaMailSenderImpl();
+
+    }
+
+    public void updatePassword(Member member, String password) {
+        member.updatePassword(password);
     }
 }

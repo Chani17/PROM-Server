@@ -49,4 +49,8 @@ public abstract class Member {
 
     @Column(name = "member_register_dt")
     protected String registerDate;
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }
