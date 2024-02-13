@@ -38,8 +38,8 @@ public class Lto extends BaseEntity {
     private String contents;
 
     // 선택한 게임
-    @Column(name = "game")
-    private String game;
+//    @Column(name = "game")
+//    private String game;
 
     // 장기 목표 도달 일자
     @Column(name = "lto_arr_dt")
@@ -62,13 +62,12 @@ public class Lto extends BaseEntity {
     private Student student;
 
 
-    public static Lto createLto(int templateNum, String name, String content, String game, Domain domain, Student student) {
+    public static Lto createLto(int templateNum, String name, String content, Domain domain, Student student) {
         Lto lto = new Lto();
         lto.templateNum = templateNum;
         lto.status = "READY";
         lto.name = name;
         lto.contents = content;
-        lto.game = game;
         lto.achieveDate = "Not yet";
         lto.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         lto.delYN = "N";
@@ -89,9 +88,8 @@ public class Lto extends BaseEntity {
     }
 
     // update LTO contents
-    public void updateLTO(String name, String contents, String game) {
+    public void updateLTO(String name, String contents) {
         this.name = name;
         this.contents = contents;
-        this.game = game;
     }
 }
