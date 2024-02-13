@@ -67,7 +67,12 @@ public class MemberController {
         return memberService.findMemberId(findMemberIdRequest);
     }
 
-    
+    // find user password
+    @GetMapping("/members/find/password")
+    public void findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
+        memberService.findMemberPassword(findMemberPasswordRequest)
+    }
+
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
 //    @PostMapping("/members/token")
 //    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {
