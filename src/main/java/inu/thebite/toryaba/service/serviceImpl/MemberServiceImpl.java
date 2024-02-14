@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.Member;
+import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.*;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
@@ -33,6 +34,8 @@ public class MemberServiceImpl implements MemberService {
         if(!bCryptPasswordEncoder.matches(loginUserRequest.getPassword(), member.getPassword())) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
+
+        if(!member.getAuth().equals("Y")) throw new IllegalStateException("해당 센터 원장님의 인증이 필요합니다.");
 
         return member;
     }
@@ -119,5 +122,13 @@ public class MemberServiceImpl implements MemberService {
         message.setSubject(member.getName() + "님, FROM 임시 비밀번호를 발송해 드립니다.");
         message.setText("안녕하세요. " + member.getName() + "님.\n\n 임시 비밀번호는 " + password + "입니다.\n 로그인 후 임시 비밀번호를 새로운 비밀번호로 재설정해주세요.");
         javaMailSender.send(message);
+    }
+
+    @Override
+    public void approveAuth(String id) {
+        Therapist findTherapist = (Therapist) memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
+
+        findTherapist.approveTherapist();
     }
 }

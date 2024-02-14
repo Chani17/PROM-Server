@@ -14,4 +14,6 @@ public interface MemberService {
     String findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest);
 
     boolean updatePassword(User user, UpdatePasswordRequest updatePasswordRequest);
+
+    void approveAuth(String id);
 }

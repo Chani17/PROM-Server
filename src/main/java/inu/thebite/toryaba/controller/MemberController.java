@@ -81,6 +81,12 @@ public class MemberController {
         return memberService.findMemberPassword(findMemberPasswordRequest);
     }
 
+    // grant authority
+    @PatchMapping("/therapists/{id}/auth")
+    public void approveAuth(@PathVariable String id) {
+        memberService.approveAuth(id);
+    }
+
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
 //    @PostMapping("/members/token")
 //    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {

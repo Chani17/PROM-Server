@@ -35,8 +35,8 @@ public class Therapist extends Member {
         this.center = center;
     }
 
-    void approveTherapist() {
-        this.approvalYN = "N";
+    public void approveTherapist() {
+        this.approvalYN = "Y";
     }
 
 }
