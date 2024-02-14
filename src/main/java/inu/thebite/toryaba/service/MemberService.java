@@ -13,5 +13,5 @@ public interface MemberService {
 
     FindMemberIdResponse findMemberId(FindMemberIdRequest findMemberIdRequest);
 
-    void findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest);
+    String findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest);
 }

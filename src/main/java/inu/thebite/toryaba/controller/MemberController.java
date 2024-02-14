@@ -69,8 +69,8 @@ public class MemberController {
 
     // find user password
     @GetMapping("/members/find/password")
-    public void findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
-        memberService.findMemberPassword(findMemberPasswordRequest)
+    public String findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
+        return memberService.findMemberPassword(findMemberPasswordRequest);
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function

@@ -8,6 +8,8 @@ import inu.thebite.toryaba.model.user.LoginUserRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +21,10 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String admin;
 
     @Override
     public Member login(LoginUserRequest loginUserRequest) {
@@ -47,10 +53,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest) {
+    public String findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest) {
         Member findMember = memberRepository.findByIdAndPhoneAndEmail(findMemberPasswordRequest.getId(), findMemberPasswordRequest.getPhone(), findMemberPasswordRequest.getName())
                 .orElseThrow(() -> new IllegalArgumentException("입력한 정보를 다시 한번 확인해주세요."));
 
+        // create temporary password
+        String newPassword = createRandomPassword();
+
+        // update password in DB
+        updatePassword(findMember, newPassword);
+
+        // send temporary password mail
+        sendEmail(findMember, newPassword);
+
+        return "가입했던 메일로 임시 비밀번호를 발송해드렸습니다. 확인해주세요.";
+    }
+
+    public String createRandomPassword() {
         String newPassword = "";
 
         // create temporary password
@@ -74,16 +93,19 @@ public class MemberServiceImpl implements MemberService {
                     break;
             }
         }
-
-        // update password in DB
-        updatePassword(findMember, newPassword);
-
-        // send temporary password mail
-        JavaMailSenderImpl sender = new JavaMailSenderImpl();
-
+        return newPassword;
     }
 
     public void updatePassword(Member member, String password) {
         member.updatePassword(password);
+    }
+
+    public void sendEmail(Member member, String password) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(admin);
+        message.setTo(member.getEmail());
+        message.setSubject(member.getName() + "님, FROM 임시 비밀번호를 발송해 드립니다.");
+        message.setText("안녕하세요. " + member.getName() + "님.\n\n 임시 비밀번호는 " + password + "입니다.\n 로그인 후 임시 비밀번호를 새로운 비밀번호로 재설정해주세요.");
+        javaMailSender.send(message);
     }
 }
