@@ -1,10 +1,7 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.Member;
-import inu.thebite.toryaba.model.user.FindMemberIdRequest;
-import inu.thebite.toryaba.model.user.FindMemberIdResponse;
-import inu.thebite.toryaba.model.user.FindMemberPasswordRequest;
-import inu.thebite.toryaba.model.user.LoginUserRequest;
+import inu.thebite.toryaba.model.user.*;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +68,18 @@ public class MemberServiceImpl implements MemberService {
         return "가입했던 메일로 임시 비밀번호를 발송해드렸습니다. 확인해주세요.";
     }
 
+    @Override
+    public boolean updatePassword(User user, UpdatePasswordRequest updatePasswordRequest) {
+        Member findMember = memberRepository.findById(user.getUsername())
+                .orElseThrow(() -> new IllegalStateException("회원정보가 일치하지 않습니다."));
+
+        if(!bCryptPasswordEncoder.matches(findMember.getPassword(), updatePasswordRequest.getBeforePassword())) throw new IllegalStateException("기존의 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+
+        updatePassword(findMember, bCryptPasswordEncoder.encode(updatePasswordRequest.getAfterPassword()));
+
+        return true;
+    }
+
     public String createRandomPassword() {
         String newPassword = "";
 
@@ -96,6 +107,7 @@ public class MemberServiceImpl implements MemberService {
         return newPassword;
     }
 
+    @Transactional
     public void updatePassword(Member member, String password) {
         member.updatePassword(password);
     }

@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.controller;
 
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.config.jwt.TokenProvider;
 import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.model.user.*;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -59,6 +61,12 @@ public class MemberController {
         Member member = memberService.findById(memberId);
         ValidationTokenResponse response = new ValidationTokenResponse(member.getName(), result);
         return response;
+    }
+
+    // update password
+    @PatchMapping("/members/password")
+    public boolean updatePassword(@LoginMember User user, @RequestBody UpdatePasswordRequest updatePasswordRequest) {
+         return memberService.updatePassword(user, updatePasswordRequest);
     }
 
     // find user id
