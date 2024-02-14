@@ -1,8 +1,10 @@
 package inu.thebite.toryaba.service.serviceImpl;
 
+import inu.thebite.toryaba.entity.Center;
 import inu.thebite.toryaba.entity.Member;
 import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.*;
+import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final CenterRepository centerRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JavaMailSender javaMailSender;
 
@@ -124,11 +129,20 @@ public class MemberServiceImpl implements MemberService {
         javaMailSender.send(message);
     }
 
+    @Transactional
     @Override
     public void approveAuth(String id) {
         Therapist findTherapist = (Therapist) memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
 
         findTherapist.approveTherapist();
+    }
+
+    @Override
+    public List<Therapist> getOutstandingAuthorization(Long centerId) {
+        Center center = centerRepository.findById(centerId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
+
+        return memberRepository.findByCenterIdAndAuth(centerId);
     }
 }

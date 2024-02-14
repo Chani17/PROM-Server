@@ -4,6 +4,7 @@ package inu.thebite.toryaba.controller;
 import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.config.jwt.TokenProvider;
 import inu.thebite.toryaba.entity.Member;
+import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.*;
 import inu.thebite.toryaba.service.MemberService;
 import inu.thebite.toryaba.service.DirectorService;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -85,6 +87,12 @@ public class MemberController {
     @PatchMapping("/therapists/{id}/auth")
     public void approveAuth(@PathVariable String id) {
         memberService.approveAuth(id);
+    }
+
+    // get outstanding authorization list
+    @GetMapping("/{centerId}/outstanding/authorization")
+    public List<Therapist> getOutstandingAuthorization(@PathVariable Long centerId) {
+        return memberService.getOutstandingAuthorization(centerId);
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
