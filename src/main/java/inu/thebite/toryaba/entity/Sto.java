@@ -1,6 +1,5 @@
 package inu.thebite.toryaba.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -98,6 +97,22 @@ public class Sto extends BaseEntity {
     @OneToMany(mappedBy = "sto", cascade = CascadeType.ALL)
     private List<Point> pointList = new ArrayList<>();
 
+    // 스트레스 상태
+    @Column(name = "sto_stress_status")
+    private String stressStatus;
+
+    // 집중도
+    @Column(name = "sto_concentration")
+    private String concentration;
+
+    // 특이 사항
+    @Column(name = "sto_significant")
+    private String significant;
+
+    // 돌발 행동 리스트
+    @Column(name = "sto_lc_list")
+    @ElementCollection
+    private List<String> looseCannonList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lto_seq")
@@ -121,6 +136,9 @@ public class Sto extends BaseEntity {
         sto.hitGoalDate = "NOT YET";
         sto.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         sto.delYN = "N";
+        sto.stressStatus = "";
+        sto.concentration = "";
+        sto.significant = "";
         sto.lto = lto;
         return sto;
     }
@@ -159,4 +177,28 @@ public class Sto extends BaseEntity {
         this.round = round + 1;
     }
 
+    // update stress status
+    public void updateStressStatus(String status) {
+        this.stressStatus = status;
+    }
+
+    // update concentration
+    public void updateConcentration(String status) {
+        this.concentration = status;
+    }
+
+    // update significant
+    public void updateSignificant(String content) {
+        this.significant = content;
+    }
+
+    // select loose cannon
+    public void selectLooseCannon(String action) {
+        this.looseCannonList.add(action);
+    }
+
+    // update loose cannon list
+    public void updateLooseCannon(List<String> looseCannonList) {
+        this.looseCannonList = looseCannonList;
+    }
 }

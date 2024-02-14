@@ -1,14 +1,10 @@
 package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.config.LoginMember;
-import inu.thebite.toryaba.entity.Image;
-import inu.thebite.toryaba.entity.Point;
-import inu.thebite.toryaba.entity.Sto;
+import inu.thebite.toryaba.model.sto.LooseCannonRequest;
 import inu.thebite.toryaba.model.sto.*;
 import inu.thebite.toryaba.service.StoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,6 +66,43 @@ public class StoController {
         return sto;
     }
 
+    // update stress status in STO
+    @PatchMapping("/stos/{stoId}/stress")
+    public void updateStressStatus(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateStressStatus(stoId, looseCannonRequest);
+    }
+
+    // update concentration in STO
+    @PatchMapping("/stos/{stoId}/concentration")
+    public void updateConcentration(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateConcentration(stoId, looseCannonRequest);
+    }
+
+    // update significant content
+    @PatchMapping("/stos/{stoId}/significant")
+    public void updateSignificant(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.updateSignificant(stoId, looseCannonRequest);
+    }
+
+    // select loose cannon status
+    @PatchMapping("/stos/{stoId}/selection/lc")
+    public void updateLooseCannons(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.selectLooseCannon(stoId, looseCannonRequest);
+    }
+
+    // remove loose cannon status
+    @PatchMapping("/stos/{stoId}/removal/lc")
+    public void removeLooseCannon(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        stoService.removeLooseCannon(stoId, looseCannonRequest);
+    }
+
+    // get loose cannon status list
+    @GetMapping("/stos/{stoId}/lc")
+    public List<String> getLooseCannonListBySto(@PathVariable Long stoId) {
+        List<String> response = stoService.getLooseCannonListBySto(stoId);
+        return response;
+    }
+
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")
     public List<StoResponse> getStoList(@PathVariable Long studentId) {
@@ -83,10 +116,9 @@ public class StoController {
         return stoList;
     }
 
-
     // delete STO
     @DeleteMapping("/stos/{stoId}")
-    public boolean deleteSto(@LoginMember User user, @PathVariable Long stoId) {
+    public boolean deleteSto(@PathVariable Long stoId) {
         boolean result = stoService.deleteSto(stoId);
         return result;
     }
