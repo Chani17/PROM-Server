@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
 
-        if(!member.getAuth().equals("Y")) throw new IllegalStateException("해당 센터 원장님의 인증이 필요합니다.");
+        if(!member.getApprovalYN().equals("Y")) throw new IllegalStateException("해당 센터 원장님의 인증이 필요합니다.");
 
         return member;
     }
@@ -53,15 +52,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public FindMemberIdResponse findMemberId(FindMemberIdRequest findMemberIdRequest) {
-        String findUserId = memberRepository.findByNameAndPhoneAndEmail(findMemberIdRequest.getName(), findMemberIdRequest.getPhone(), findMemberIdRequest.getEmail())
+        Member findMember = memberRepository.findByNameAndPhoneAndEmail(findMemberIdRequest.getName(), findMemberIdRequest.getPhone(), findMemberIdRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되어 있지 않은 회원입니다."));
 
-        return FindMemberIdResponse.response(findUserId);
+        return FindMemberIdResponse.response(findMember.getId());
     }
 
     @Override
     public String findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest) {
-        Member findMember = memberRepository.findByIdAndPhoneAndEmail(findMemberPasswordRequest.getId(), findMemberPasswordRequest.getPhone(), findMemberPasswordRequest.getName())
+        Member findMember = memberRepository.findByIdAndPhoneAndName(findMemberPasswordRequest.getId(), findMemberPasswordRequest.getPhone(), findMemberPasswordRequest.getName())
                 .orElseThrow(() -> new IllegalArgumentException("입력한 정보를 다시 한번 확인해주세요."));
 
         // create temporary password
