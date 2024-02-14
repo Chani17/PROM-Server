@@ -64,7 +64,7 @@ public class MemberController {
     }
 
     // update password
-    @PatchMapping("/members/password")
+    @PostMapping("/members/password")
     public boolean updatePassword(@LoginMember User user, @RequestBody UpdatePasswordRequest updatePasswordRequest) {
          return memberService.updatePassword(user, updatePasswordRequest);
     }
