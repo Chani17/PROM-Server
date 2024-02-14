@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
         String newPassword = createRandomPassword();
 
         // update password in DB
-        updatePassword(findMember, newPassword);
+        changePassword(findMember, newPassword);
 
         // send temporary password mail
         sendEmail(findMember, newPassword);
@@ -82,7 +82,7 @@ public class MemberServiceImpl implements MemberService {
 
         if(!bCryptPasswordEncoder.matches(findMember.getPassword(), updatePasswordRequest.getBeforePassword())) throw new IllegalStateException("기존의 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 
-        updatePassword(findMember, bCryptPasswordEncoder.encode(updatePasswordRequest.getAfterPassword()));
+        changePassword(findMember, bCryptPasswordEncoder.encode(updatePasswordRequest.getAfterPassword()));
 
         return true;
     }
@@ -115,7 +115,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Transactional
-    public void updatePassword(Member member, String password) {
+    public void changePassword(Member member, String password) {
         member.updatePassword(password);
     }
 
