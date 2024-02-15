@@ -8,6 +8,7 @@ import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -66,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
         // create temporary password
         String newPassword = createRandomPassword();
 
-        // update password in DB
+        // change password in DB
         changePassword(findMember, newPassword);
 
         // send temporary password mail
@@ -75,17 +77,19 @@ public class MemberServiceImpl implements MemberService {
         return "가입했던 메일로 임시 비밀번호를 발송해드렸습니다. 확인해주세요.";
     }
 
+    @Transactional
     @Override
     public boolean updatePassword(User user, UpdatePasswordRequest updatePasswordRequest) {
         Member findMember = memberRepository.findById(user.getUsername())
                 .orElseThrow(() -> new IllegalStateException("회원정보가 일치하지 않습니다."));
 
-        if(!bCryptPasswordEncoder.matches(findMember.getPassword(), updatePasswordRequest.getBeforePassword())) throw new IllegalStateException("기존의 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+        if(!bCryptPasswordEncoder.matches(updatePasswordRequest.getBeforePassword(), findMember.getPassword())) throw new IllegalStateException("기존의 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 
         changePassword(findMember, bCryptPasswordEncoder.encode(updatePasswordRequest.getAfterPassword()));
 
         return true;
     }
+
 
     public String createRandomPassword() {
         String newPassword = "";
@@ -114,7 +118,6 @@ public class MemberServiceImpl implements MemberService {
         return newPassword;
     }
 
-    @Transactional
     public void changePassword(Member member, String password) {
         member.updatePassword(password);
     }
