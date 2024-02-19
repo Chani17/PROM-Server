@@ -4,6 +4,7 @@ import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Detail;
 import inu.thebite.toryaba.model.notice.AddCommentRequest;
 import inu.thebite.toryaba.model.notice.DetailGraphResponse;
+import inu.thebite.toryaba.model.notice.DetailObjectResponse;
 import inu.thebite.toryaba.model.notice.DetailResponse;
 import inu.thebite.toryaba.service.DetailService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,7 @@ public class DetailController {
     }
 
     @PatchMapping(value = "/{studentId}")
-    public DetailResponse updateComment(@LoginMember User user,
-                                        @PathVariable Long studentId,
+    public DetailResponse updateComment(@PathVariable Long studentId,
                                         @RequestParam("year") String year,
                                         @RequestParam("month") int month,
                                         @RequestParam("date") String date,
@@ -45,12 +45,11 @@ public class DetailController {
 
     // 해당 날짜에 대한 Detail 반환
     @GetMapping(value = "/{studentId}")
-    public List<DetailGraphResponse> getDetailList(@LoginMember User user,
-                                                   @PathVariable Long studentId,
+    public List<DetailObjectResponse> getDetailList(@PathVariable Long studentId,
                                                    @RequestParam("year") String year,
                                                    @RequestParam("month") int month,
                                                    @RequestParam("date") String date) {
-        List<DetailGraphResponse> detailList = detailService.getDetailList(studentId, year, month, date);
+        List<DetailObjectResponse> detailList = detailService.getDetailList(studentId, year, month, date);
         return detailList;
     }
 
