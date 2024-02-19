@@ -15,4 +15,5 @@ public interface NoticeService {
 
     List<NoticesDatesResponse> getNoticeDates(Long studentId);
 
+    List<NoticeResponse> getMonthlyNotice(Long studentId, String year, int month);
 }

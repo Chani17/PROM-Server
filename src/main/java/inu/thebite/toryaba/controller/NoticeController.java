@@ -21,8 +21,7 @@ public class NoticeController {
 
     @PatchMapping("/{studentId}")
     @ResponseBody
-    public NoticeResponse updateComment(@LoginMember User user,
-                                        @PathVariable Long studentId,
+    public NoticeResponse updateComment(@PathVariable Long studentId,
                                         @RequestParam("year") String year,
                                         @RequestParam("month") int month,
                                         @RequestParam("date") String date,
@@ -35,8 +34,7 @@ public class NoticeController {
     // 년, 월에 대한 Notice List 반환
     @GetMapping(value = "/{studentId}/dateList")
     @ResponseBody
-    public List<DateResponse> getNoticeDateList(@LoginMember User user,
-                                                @PathVariable Long studentId,
+    public List<DateResponse> getNoticeDateList(@PathVariable Long studentId,
                                                 @RequestParam("year") String year,
                                                 @RequestParam("month") int month) {
         List<DateResponse> response = noticeService.getNoticeDateList(studentId, year, month);
@@ -46,8 +44,7 @@ public class NoticeController {
     // 해당 날짜에 대한 Notice 가져오기
     @GetMapping(value = "/{studentId}")
     @ResponseBody
-    public NoticeResponse getNotice(@LoginMember User user,
-                                    @PathVariable Long studentId,
+    public NoticeResponse getNotice(@PathVariable Long studentId,
                                   @RequestParam("year") String year,
                                   @RequestParam("month") int month,
                                   @RequestParam("date") String date) {
@@ -57,10 +54,18 @@ public class NoticeController {
 
     @GetMapping(value = "/{studentId}/dates")
     @ResponseBody
-    public List<NoticesDatesResponse> getNoticeDates(@LoginMember User user,
-                                                     @PathVariable Long studentId) {
+    public List<NoticesDatesResponse> getNoticeDates(@PathVariable Long studentId) {
         List<NoticesDatesResponse> response = noticeService.getNoticeDates(studentId);
         return response;
+    }
+
+    // 월간 보고서 조회
+    @GetMapping("/{studentId}/monthly")
+    @ResponseBody
+    public List<NoticeResponse> getMonthlyNotice(@PathVariable Long studentId,
+                                 @RequestParam("year") String year,
+                                 @RequestParam("month") int month) {
+        return noticeService.getMonthlyNotice(studentId, year, month);
     }
 
 //    @GetMapping(value = "/{studentId}/reports")

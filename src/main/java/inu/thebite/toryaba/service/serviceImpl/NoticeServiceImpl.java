@@ -72,7 +72,15 @@ public class NoticeServiceImpl implements NoticeService {
         return response;
     }
 
-//    @Override
+    @Override
+    public List<NoticeResponse> getMonthlyNotice(Long studentId, String year, int month) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
+
+        return noticeRepository.findByStudentIdAndYearAndMonth(student.getId(), year, month);
+    }
+
+    //    @Override
 //    public ConvertPdfRequest showWebView(Long studentId, String year, int month, String date) {
 //        Student student = studentRepository.findById(studentId)
 //                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
