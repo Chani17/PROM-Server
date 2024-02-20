@@ -106,38 +106,40 @@ public class NoticeServiceImpl implements NoticeService {
         return comment;
     }
 
-    //    @Override
-//    public ConvertPdfRequest showWebView(Long studentId, String year, int month, String date) {
-//        Student student = studentRepository.findById(studentId)
-//                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
-//
-//        Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
-//                .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
-//
-//        List<Detail> detailList = detailRepository.findByNoticeId(notice.getId());
-//
-//        List<String> dates = new ArrayList<>();
-//        List<Float> plus = new ArrayList<>();
-//        List<Float> minus = new ArrayList<>();
-//        List<PdfStoResponse> pdfStoResponses = new ArrayList<>();
-//        List<PdfLtoResponse> pdfLtoResponses = new ArrayList<>();
-//
-//        for(Detail detail : detailList) {
-//            Sto sto = stoRepository.findById(detail.getStoId())
-//                    .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
-//            List<Point> points = pointRepository.findAllByStoId(sto.getId());
-//            for(Point point : points) {
-//                dates.add(point.getRegisterDate().substring(2, 10));
-//                plus.add(point.getPlusRate());
-//                minus.add(point.getMinusRate());
-//            }
-//            pdfStoResponses.add(PdfStoResponse.pdfStoResponse(sto.getName(), dates, plus, minus));
-//            Lto lto = ltoRepository.findByStoId(sto.getLto().getId())
-//                    .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
-//            pdfLtoResponses.add(PdfLtoResponse.pdfLtoResponse(lto.getName(), detail.getComment(), pdfStoResponses));
-//        }
-//
-//        ConvertPdfRequest response = ConvertPdfRequest.convertPdfRequest(month + "/" + date, notice.getComment(), pdfLtoResponses);
-//        return response;
-//    }
+    @Override
+    public ConvertPdfRequest showWebView(Long studentId, String year, int month, String date) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
+
+        Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
+                .orElseThrow(() -> new IllegalStateException("해당하는 알림장이 존재하지 않습니다."));
+
+        List<Detail> detailList = detailRepository.findByNoticeId(notice.getId());
+        List<PdfLtoResponse> pdfLtoResponses = new ArrayList<>();
+
+        for(Detail detail : detailList) {
+            List<PdfStoResponse> pdfStoResponses = new ArrayList<>();
+            for(Long sto : detail.getStoId()) {
+                Sto findSto = stoRepository.findById(sto)
+                        .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+                List<Point> points = pointRepository.findAllByStoId(findSto.getId());
+                List<String> dates = new ArrayList<>();
+                List<Float> plus = new ArrayList<>();
+                List<Float> minus = new ArrayList<>();
+                for(Point point : points) {
+                    dates.add(point.getRegisterDate().substring(2, 10));
+                    plus.add(point.getPlusRate());
+                    minus.add(point.getMinusRate());
+                }
+                pdfStoResponses.add(PdfStoResponse.pdfStoResponse(findSto.getName(), dates, plus, minus));
+            }
+            Lto lto = ltoRepository.findByStoId(detail.getLtoId())
+                    .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+            pdfLtoResponses.add(PdfLtoResponse.pdfLtoResponse(lto.getName(), detail.getComment(), pdfStoResponses));
+        }
+        ConvertPdfRequest response = ConvertPdfRequest.convertPdfRequest(month + "/" + date, notice.getComment(), pdfLtoResponses);
+        return response;
+    }
 }

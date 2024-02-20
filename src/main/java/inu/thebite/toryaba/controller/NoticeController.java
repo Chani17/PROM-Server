@@ -78,19 +78,18 @@ public class NoticeController {
         return noticeService.getAutoComment(studentId, year, month, date);
     }
 
-//    @GetMapping(value = "/{studentId}/reports")
-//    public String showWebView(@LoginMember User user,
-//                              @PathVariable Long studentId,
-//                              @RequestParam("year") String year,
-//                              @RequestParam("month") int month,
-//                              @RequestParam("date") String date,
-//                              Model model) {
-//        ConvertPdfRequest response = noticeService.showWebView(studentId, year, month, date);
-//        model.addAttribute("date", response.getDate());
-//        model.addAttribute("content", response.getContent());
-//        model.addAttribute("lto", response.getLto());
-//
-//        return "report/webView";
-//    }
+    @GetMapping(value = "/{studentId}/reports")
+    public String showWebView(@PathVariable Long studentId,
+                              @RequestParam("year") String year,
+                              @RequestParam("month") int month,
+                              @RequestParam("date") String date,
+                              Model model) {
+        ConvertPdfRequest response = noticeService.showWebView(studentId, year, month, date);
+        model.addAttribute("date", response.getDate());
+        model.addAttribute("content", response.getContent());
+        model.addAttribute("lto", response.getLto());
+
+        return "report/webView";
+    }
 
 }
