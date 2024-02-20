@@ -98,14 +98,14 @@ public class DetailServiceImpl implements DetailService {
     }
 
     @Override
-    public String getDetailAutoComment(Long studentId, String year, int month, String date) {
+    public String getDetailAutoComment(Long studentId, Long ltoId, String year, int month, String date) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
         Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
                 .orElseThrow(() -> new IllegalStateException("해당 날짜에 알림장이 존재하지 않습니다."));
 
-        List<Set<Long>> result = detailRepository.findStoIdByNoticeId(notice.getId());
+        List<Set<Long>> result = detailRepository.findStoIdByLtoIdAndNoticeId(ltoId, notice.getId());
 
         List<String> stoNameList = new ArrayList<>();
         List<String> stoStatusList = new ArrayList<>();

@@ -14,5 +14,5 @@ public interface DetailService {
 
     List<DetailObjectResponse> getDetailList(Long studentId, String year, int month, String date);
 
-    String getDetailAutoComment(Long studentId, String year, int month, String date);
+    String getDetailAutoComment(Long studentId, Long ltoId, String year, int month, String date);
 }

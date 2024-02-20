@@ -54,12 +54,13 @@ public class DetailController {
     }
 
     // 자동 멘트 생성
-    @GetMapping("/{studentId}/auto/comment")
+    @GetMapping("/{studentId}/{ltoId}/auto/comment")
     public String getDetailAutoComment(@PathVariable Long studentId,
+                                       @PathVariable Long ltoId,
                                        @RequestParam("year") String year,
                                        @RequestParam("month") int month,
                                        @RequestParam("date") String date) {
-        return detailService.getDetailAutoComment(studentId, year, month, date);
+        return detailService.getDetailAutoComment(studentId, ltoId, year, month, date);
     }
 
 }
