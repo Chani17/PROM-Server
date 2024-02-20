@@ -9,10 +9,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DetailGraphResponse {
 
-    private Long id;
-
-    private String comment;
-
     private List<Float> results;
 
     private List<String> dates;
@@ -23,17 +19,13 @@ public class DetailGraphResponse {
 
     private Long noticeId;
 
-    public DetailGraphResponse(Long id, String comment, Long stoId, Long noticeId) {
-        this.id = id;
-        this.comment = comment;
+    public DetailGraphResponse(Long stoId, Long noticeId) {
         this.stoId = stoId;
         this.noticeId = noticeId;
     }
 
-    public static DetailGraphResponse response(Long id, String comment, List<Float> results, List<String> dates, Long ltoId, Long stoId, Long noticeId) {
+    public static DetailGraphResponse response(List<Float> results, List<String> dates, Long ltoId, Long stoId, Long noticeId) {
         DetailGraphResponse response = new DetailGraphResponse();
-        response.id = id;
-        response.comment = comment;
         response.results = results;
         response.dates = dates;
         response.ltoId = ltoId;
