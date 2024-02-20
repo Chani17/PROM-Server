@@ -80,8 +80,33 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeRepository.findByStudentIdAndYearAndMonth(student.getId(), year, month);
     }
 
-    //    @Override
-//    public ConvertPdfRequest showWebView(Long studentId, String year, int month, String date) {
+    @Override
+    public String getAutoComment(Long studentId, String year, int month, String date) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
+
+        Notice notice = noticeRepository.findByStudentIdAndYearAndMonthAndDate(student.getId(), year, month, date)
+                .orElseThrow(() -> new IllegalStateException("해당 날짜에 알림장이 존재하지 않습니다."));
+
+        List<Long> doneLtoList = detailRepository.findByNoticeIdAndYearAndMonthAndDate(notice.getId(), year, month, date);
+
+        List<String> ltoNameList = new ArrayList<>();
+        List<String> ltoStatusList = new ArrayList<>();
+        for(Long lto : doneLtoList) {
+            Lto findLto = ltoRepository.findById(lto)
+                    .orElseThrow(() -> new IllegalStateException("존재하지 않는 LTO입니다."));
+            ltoNameList.add(findLto.getName());
+
+            if(findLto.getStatus().equals("완료")) ltoStatusList.add(findLto.getName());
+        }
+
+        String comment = "오늘은 " + String.join(", ", ltoNameList) + "를(을) 실시했습니다.\n";
+        if(!ltoStatusList.isEmpty()) comment += "그 중에서 " + String.join(", ", ltoStatusList) + "은(는) 준거 도달 했습니다.\n";
+        comment += "가정에서도 관련한 교육 부탁드립니다.";
+        return comment;
+    }
+
+    //    @Override료iew(Long studentId, String year, int month, String date) {
 //        Student student = studentRepository.findById(studentId)
 //                .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 //

@@ -68,6 +68,16 @@ public class NoticeController {
         return noticeService.getMonthlyNotice(studentId, year, month);
     }
 
+    // 자동 멘트 생성
+    @GetMapping("/{studentId}/auto/comment")
+    @ResponseBody
+    public String getAutoComment(@PathVariable Long studentId,
+                                 @RequestParam("year") String year,
+                                 @RequestParam("month") int month,
+                                 @RequestParam("date") String date) {
+        return noticeService.getAutoComment(studentId, year, month, date);
+    }
+
 //    @GetMapping(value = "/{studentId}/reports")
 //    public String showWebView(@LoginMember User user,
 //                              @PathVariable Long studentId,

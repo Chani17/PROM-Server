@@ -26,4 +26,7 @@ public interface DetailRepository extends JpaRepository<Detail, Long> {
     Detail findByLtoIdAndYearAndMonthAndDate(Long id, String year, int month, String date);
 
     List<Detail> findByNoticeId(Long noticeId);
+
+    @Query("SELECT d.ltoId FROM Detail d WHERE d.notice.id = :noticeId AND d.year = :year AND d.month = :month AND d.date = :date")
+    List<Long> findByNoticeIdAndYearAndMonthAndDate(@Param("noticeId") Long noticeId, @Param("year") String year, @Param("month") int month, @Param("date") String date);
 }
