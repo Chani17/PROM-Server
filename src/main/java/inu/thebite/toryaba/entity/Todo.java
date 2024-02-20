@@ -28,14 +28,18 @@ public class Todo extends BaseEntity {
     @Column(name = "sto_list", nullable = false)
     private List<Long> stoList = new ArrayList<>();
 
+    @Column(name = "teacher", nullable = false)
+    private String teacher;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_seq")
     private Student student;
 
 
-    public static Todo createTodo(Student student) {
+    public static Todo createTodo(Student student, String teacher) {
         Todo todo = new Todo();
         todo.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        todo.teacher = teacher;
         todo.student = student;
         return todo;
     }
@@ -44,8 +48,9 @@ public class Todo extends BaseEntity {
         this.stoList.add(stoId);
     }
 
-    public void updateTodoList(List<Long> stoList) {
+    public void updateTodoList(List<Long> stoList, String teacher) {
         this.stoList = stoList;
+        this.teacher = teacher;
     }
 
 }

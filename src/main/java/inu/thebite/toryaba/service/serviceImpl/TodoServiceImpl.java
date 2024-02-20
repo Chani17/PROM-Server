@@ -13,6 +13,7 @@ import inu.thebite.toryaba.repository.StudentRepository;
 import inu.thebite.toryaba.repository.TodoRepository;
 import inu.thebite.toryaba.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Transactional
     @Override
-    public Todo addTodoList(Long studentId, TodoListRequest todoListRequest) {
+    public Todo addTodoList(User user, Long studentId, TodoListRequest todoListRequest) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
@@ -46,7 +47,7 @@ public class TodoServiceImpl implements TodoService {
 
         // 기존에 생성한 TodoList가 존재하지 않다면 새롭게 생성
         if(findTodo == null) {
-            Todo todoList = createTodoList(student);
+            Todo todoList = createTodoList(user.getUsername(), student);
             todoList.addTodoList(sto.getId());
 
             // TodoList에 항목이 추가될 때 Notice도 함께 생성
@@ -63,34 +64,34 @@ public class TodoServiceImpl implements TodoService {
 
     @Transactional
     @Override
-    public Todo createTodoList(Student student) {
-        Todo todo = Todo.createTodo(student);
+    public Todo createTodoList(String teacher, Student student) {
+        Todo todo = Todo.createTodo(student, teacher);
         todoRepository.save(todo);
         return todo;
     }
 
     @Transactional
     @Override
-    public Todo updateTodoList(Long studentId, UpdateTodoList updateTodoList) {
+    public Todo updateTodoList(User user, Long studentId, UpdateTodoList updateTodoList) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
         Todo todo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
                 orElseThrow(() -> new IllegalStateException("해당 Todo List가 존재하지 않습니다."));
 
-        todo.updateTodoList(updateTodoList.getStoList());
+        todo.updateTodoList(updateTodoList.getStoList(), user.getUsername());
         return todo;
     }
 
     @Override
-    public void deleteTodoList(Long studentId, UpdateTodoList updateTodoList) {
+    public void deleteTodoList(User user, Long studentId, UpdateTodoList updateTodoList) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
         Todo todo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
                 orElseThrow(() -> new IllegalStateException("해당 Todo List가 존재하지 않습니다."));
 
-        todo.updateTodoList(updateTodoList.getStoList());
+        todo.updateTodoList(updateTodoList.getStoList(), user.getUsername());
 
     }
 

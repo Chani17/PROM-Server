@@ -23,21 +23,27 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping(value = "/{studentId}")
-    public Todo addTodoList(@PathVariable Long studentId, @RequestBody TodoListRequest todoListRequest) {
-        Todo todo = todoService.addTodoList(studentId, todoListRequest);
+    public Todo addTodoList(@LoginMember User user,
+                            @PathVariable Long studentId,
+                            @RequestBody TodoListRequest todoListRequest) {
+        Todo todo = todoService.addTodoList(user, studentId, todoListRequest);
         return todo;
     }
 
     @PatchMapping(value = "/{studentId}")
-    public Todo updateTodoList(@PathVariable Long studentId, @RequestBody UpdateTodoList updateTodoList) {
-        Todo todo = todoService.updateTodoList(studentId, updateTodoList);
+    public Todo updateTodoList(@LoginMember User user,
+                               @PathVariable Long studentId,
+                               @RequestBody UpdateTodoList updateTodoList) {
+        Todo todo = todoService.updateTodoList(user, studentId, updateTodoList);
         return todo;
     }
 
     // 해당 로직이 TodoList 수정하는 로직과 동일하여 없어도 될 듯함.
     @DeleteMapping(value = "/{studentId}")
-    public ResponseEntity deleteTodoList(@PathVariable Long studentId, @RequestBody UpdateTodoList updateTodoList) {
-        todoService.deleteTodoList(studentId, updateTodoList);
+    public ResponseEntity deleteTodoList(@LoginMember User user,
+                                         @PathVariable Long studentId,
+                                         @RequestBody UpdateTodoList updateTodoList) {
+        todoService.deleteTodoList(user, studentId, updateTodoList);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
