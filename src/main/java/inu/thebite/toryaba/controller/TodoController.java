@@ -4,6 +4,7 @@ import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Todo;
 import inu.thebite.toryaba.model.sto.StoSummaryResponse;
+import inu.thebite.toryaba.model.todo.RecentTodoWithDateResponse;
 import inu.thebite.toryaba.model.todo.TodoListRequest;
 import inu.thebite.toryaba.model.todo.UpdateTodoList;
 import inu.thebite.toryaba.service.TodoService;
@@ -51,5 +52,13 @@ public class TodoController {
     public StoSummaryResponse getTodoList(@PathVariable Long studentId) {
         StoSummaryResponse todoList = todoService.getTodoList(studentId);
         return todoList;
+    }
+
+    // recent todo list between startDate and endDate
+    @GetMapping("/{studentId}/recent")
+    public List<RecentTodoWithDateResponse> getRecentTodoListWithDate(@PathVariable Long studentId,
+                                                                      @RequestParam String startDate,
+                                                                      @RequestParam String endDate) {
+        return todoService.getRecentTodoListWithDate(studentId, startDate, endDate);
     }
 }

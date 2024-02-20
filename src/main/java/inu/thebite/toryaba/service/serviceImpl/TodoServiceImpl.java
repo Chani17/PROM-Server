@@ -5,6 +5,7 @@ import inu.thebite.toryaba.entity.Sto;
 import inu.thebite.toryaba.entity.Student;
 import inu.thebite.toryaba.entity.Todo;
 import inu.thebite.toryaba.model.sto.StoSummaryResponse;
+import inu.thebite.toryaba.model.todo.RecentTodoWithDateResponse;
 import inu.thebite.toryaba.model.todo.TodoListRequest;
 import inu.thebite.toryaba.model.todo.UpdateTodoList;
 import inu.thebite.toryaba.repository.NoticeRepository;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -113,5 +116,25 @@ public class TodoServiceImpl implements TodoService {
 //
 //            StoSummaryResponse response = StoSummaryResponse.response(sto.getId(), sto.getName(), sto.getStatus(), sto.getLto());
 //            stoList.add(response);
+    }
+
+    @Override
+    public List<RecentTodoWithDateResponse> getRecentTodoListWithDate(Long studentId, String startDate, String endDate) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
+
+        List<Todo> result = todoRepository.findByStudentIdBetweenDate(student.getId(), LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        List<RecentTodoWithDateResponse> recentTodo = new ArrayList<>();
+
+        for(Todo todo : result) {
+            List<String> stoName = new ArrayList<>();
+            for(Long sto : todo.getStoList()) {
+                Sto findSto = stoRepository.findById(sto)
+                        .orElseThrow(() -> new IllegalStateException("존재하지 않는 STO 입니다."));
+                stoName.add(findSto.getName());
+            }
+            recentTodo.add(RecentTodoWithDateResponse.response(todo.getDate(), stoName, todo.getTeacher()));
+        }
+        return recentTodo;
     }
 }
