@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Todo extends BaseEntity {
     private Long id;
     
     @Column(name = "todo_date")
-    private String date;
+    private LocalDate date;
 
     @ElementCollection
     @Column(name = "sto_list", nullable = false)
@@ -38,7 +39,7 @@ public class Todo extends BaseEntity {
 
     public static Todo createTodo(Student student, String teacher) {
         Todo todo = new Todo();
-        todo.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        todo.date = LocalDate.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         todo.teacher = teacher;
         todo.student = student;
         return todo;

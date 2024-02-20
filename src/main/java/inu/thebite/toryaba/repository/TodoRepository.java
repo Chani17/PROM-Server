@@ -13,11 +13,13 @@ import java.util.Optional;
 
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
-    Optional<Todo> findByDateAndStudentId(String date, Long id);
+    Optional<Todo> findByDateAndStudentId(LocalDate date, Long id);
 
     @Modifying
     @Query(value = "DELETE FROM todo_sto_list WHERE sto_list = :stoId", nativeQuery = true)
     void deleteByStoId(@Param("stoId") Long stoId);
 
-    List<Todo> findByStudentIdBetweenDate(Long studentId, LocalDate startDate, LocalDate endDate);
+    @Query("SELECT t FROM Todo t WHERE t.student.id = :studentId AND t.date BETWEEN :startDate AND :endDate")
+    List<Todo> findByStudentIdBetween(@Param("studentId") Long studentId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
 }

@@ -41,7 +41,7 @@ public class TodoServiceImpl implements TodoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
-        Todo findTodo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId())
+        Todo findTodo = todoRepository.findByDateAndStudentId(LocalDate.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId())
                 .orElse(null);
 
         // 기존에 생성한 TodoList가 존재한다면 sto 추가
@@ -79,7 +79,7 @@ public class TodoServiceImpl implements TodoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
-        Todo todo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
+        Todo todo = todoRepository.findByDateAndStudentId(LocalDate.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
                 orElseThrow(() -> new IllegalStateException("해당 Todo List가 존재하지 않습니다."));
 
         todo.updateTodoList(updateTodoList.getStoList(), user.getUsername());
@@ -91,7 +91,7 @@ public class TodoServiceImpl implements TodoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
-        Todo todo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
+        Todo todo = todoRepository.findByDateAndStudentId(LocalDate.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
                 orElseThrow(() -> new IllegalStateException("해당 Todo List가 존재하지 않습니다."));
 
         todo.updateTodoList(updateTodoList.getStoList(), user.getUsername());
@@ -104,7 +104,7 @@ public class TodoServiceImpl implements TodoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
-        Todo todo = todoRepository.findByDateAndStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
+        Todo todo = todoRepository.findByDateAndStudentId(LocalDate.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), DateTimeFormatter.ofPattern("yyyy/MM/dd")), student.getId()).
                 orElseThrow(() -> new IllegalStateException("해당 Todo List가 존재하지 않습니다."));
 
         StoSummaryResponse response = StoSummaryResponse.response(todo.getId(), LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), todo.getStoList(), student);
@@ -123,7 +123,7 @@ public class TodoServiceImpl implements TodoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
 
-        List<Todo> result = todoRepository.findByStudentIdBetweenDate(student.getId(), LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        List<Todo> result = todoRepository.findByStudentIdBetween(student.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
         List<RecentTodoWithDateResponse> recentTodo = new ArrayList<>();
 
         for(Todo todo : result) {
