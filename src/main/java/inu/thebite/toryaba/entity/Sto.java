@@ -46,17 +46,17 @@ public class Sto extends BaseEntity {
     @Column(name = "sto_arr_std_cnt", nullable = false, length = 11)
     private int goal;
 
-    // 단기 목표 준거도달기준 -> 90%로 고정
-    @Column(name = "sto_arr_std_pst", nullable = false, length = 11)
-    private int goalPercent;
+    // 단기 목표 준거 도달 기준 체크 방법
+    @Column(name = "sto_arr_std_type", nullable = false)
+    private String goalType;
+
+    // 단기 목표 준거 도달 기준
+    @Column(name = "sto_arr_std_amount", nullable = false, length = 11)
+    private int goalAmount;
 
     // 단기 목표 도달 여부
     @Column(name = "sto_arr_yn", nullable = false, length = 1)
     private String achievementOrNot;
-
-    // 촉구 타입
-    @Column(name = "sto_urge_tp_cd", length = 3)
-    private String urgeType;
 
     // 촉구 내용
     @Column(name = "sto_urge_contents", length = 500)
@@ -118,7 +118,7 @@ public class Sto extends BaseEntity {
     @JoinColumn(name = "lto_seq")
     private Lto lto;
 
-    public static Sto createSto(int templateNum, String name, String content, int count, int goal, String urgeType, String urgeContent, String enforceContent, String memo, Lto lto) {
+    public static Sto createSto(int templateNum, String name, String content, int count, int goal, String goalType, int goalAmount, String urgeContent, String enforceContent, String memo, Lto lto) {
         Sto sto  = new Sto();
         sto.templateNum = templateNum;
         sto.status = "READY";
@@ -126,9 +126,9 @@ public class Sto extends BaseEntity {
         sto.contents = content;
         sto.count = count;
         sto.goal = goal;
-        sto.goalPercent = 90;
+        sto.goalType = goalType;
+        sto.goalAmount = goalAmount;
         sto.achievementOrNot = "N";
-        sto.urgeType = urgeType;
         sto.urgeContent = urgeContent;
         sto.enforceContent = enforceContent;
         sto.memo = memo;
@@ -156,12 +156,11 @@ public class Sto extends BaseEntity {
     }
 
     // update STO contents
-    public void updateSto(String name, String contents, int count,int goal, String urgeType, String urgeContent, String enforceContent, String memo) {
+    public void updateSto(String name, String contents, int count, int goal, int goalAmount, String urgeContent, String enforceContent, String memo) {
         this.name = name;
         this.contents = contents;
         this.count = count;
         this.goal = goal;
-        this.urgeType = urgeType;
         this.urgeContent = urgeContent;
         this.enforceContent = enforceContent;
         this.memo = memo;
