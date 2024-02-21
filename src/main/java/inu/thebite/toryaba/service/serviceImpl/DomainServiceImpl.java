@@ -20,13 +20,12 @@ public class DomainServiceImpl implements DomainService {
     private final CenterRepository centerRepository;
 
     @Override
-    public Domain addDomain(Long centerId, AddDomainRequest addDomainRequest) {
+    public void addDomain(Long centerId, AddDomainRequest addDomainRequest) {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
         List<Domain> result = domainRepository.findByCenterId(center.getId());
         Domain domain = Domain.createDomain(result.size() + 1, addDomainRequest.getName(), center);
         domainRepository.save(domain);
-        return domain;
     }
 
     @Override

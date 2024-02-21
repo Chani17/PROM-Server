@@ -20,9 +20,8 @@ public class DomainController {
 
     // add domain
     @PostMapping("/{centerId}")
-    public Domain addDomain(@PathVariable Long centerId, @RequestBody AddDomainRequest addDomainRequest) {
-        Domain domain = domainService.addDomain(centerId, addDomainRequest);
-        return domain;
+    public void addDomain(@PathVariable Long centerId, @RequestBody AddDomainRequest addDomainRequest) {
+        domainService.addDomain(centerId, addDomainRequest);
     }
 
     // get domain list
