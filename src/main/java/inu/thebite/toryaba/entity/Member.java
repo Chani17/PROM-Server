@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,6 +33,13 @@ public abstract class Member {
     @Column(name = "member_phone", length = 13, unique = true)
     protected String phone;
 
+    @Column(name = "member_forte")
+    protected String forte;
+
+    @ElementCollection
+    @Column(name = "member_qualification")
+    protected List<String> qualification = new ArrayList<>();
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "member_auth", length = 20)
     protected MemberStatus auth;
@@ -39,4 +49,8 @@ public abstract class Member {
 
     @Column(name = "member_register_dt")
     protected String registerDate;
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

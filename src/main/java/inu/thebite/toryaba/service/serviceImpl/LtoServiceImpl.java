@@ -47,7 +47,7 @@ public class LtoServiceImpl implements LtoService {
         Lto saveLto = ltoRepository.save(lto);
 
         LtoResponse response = LtoResponse.createLtoResponse(saveLto.getId(), saveLto.getTemplateNum(), saveLto.getStatus(), saveLto.getName(),
-                saveLto.getContents(), saveLto.getGame(), saveLto.getAchieveDate(), saveLto.getRegisterDate(),
+                saveLto.getContents(), saveLto.getAchieveDate(), saveLto.getRegisterDate(),
                 saveLto.getDelYN(), saveLto.getDomain().getId(), saveLto.getStudent().getId());
 
         return response;
@@ -62,7 +62,7 @@ public class LtoServiceImpl implements LtoService {
         lto.updateLtoStatus(updateLtoStatusRequest.getStatus());
 
         LtoResponse response = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(),
-                lto.getContents(), lto.getGame(), lto.getAchieveDate(), lto.getRegisterDate(),
+                lto.getContents(), lto.getAchieveDate(), lto.getRegisterDate(),
                 lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
         return response;
     }
@@ -74,7 +74,7 @@ public class LtoServiceImpl implements LtoService {
                 .orElseThrow(() -> new IllegalStateException("해당 LTO가 존재하지 않습니다."));
         lto.updateLtoHitStatus(updateLtoStatusRequest.getStatus());
         LtoResponse response = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(),
-                lto.getContents(), lto.getGame(), lto.getAchieveDate(), lto.getRegisterDate(),
+                lto.getContents(), lto.getAchieveDate(), lto.getRegisterDate(),
                 lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
         return response;
     }
@@ -86,7 +86,7 @@ public class LtoServiceImpl implements LtoService {
                 .orElseThrow(() -> new IllegalStateException("해당 LTO가 존재하지 않습니다."));
         lto.updateLTO(ltoRequest.getName(), ltoRequest.getContents());
 
-        LtoResponse ltoResponse = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(), lto.getContents(), lto.getGame(), lto.getAchieveDate(), lto.getRegisterDate(), lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
+        LtoResponse ltoResponse = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(), lto.getContents(), lto.getAchieveDate(), lto.getRegisterDate(), lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
         return ltoResponse;
     }
 

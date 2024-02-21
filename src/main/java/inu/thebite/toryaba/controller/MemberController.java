@@ -1,8 +1,10 @@
 package inu.thebite.toryaba.controller;
 
 
+import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.config.jwt.TokenProvider;
 import inu.thebite.toryaba.entity.Member;
+import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.*;
 import inu.thebite.toryaba.service.MemberService;
 import inu.thebite.toryaba.service.DirectorService;
@@ -12,8 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,6 +38,7 @@ public class MemberController {
     }
 
     // join therapist member
+
     @PostMapping("/members/therapist/join")
     public void joinTherapistUser(@RequestBody AddTherapistRequest addTherapistRequest) {
         therapistService.joinTherapist(addTherapistRequest);
@@ -59,6 +64,36 @@ public class MemberController {
         Member member = memberService.findById(memberId);
         ValidationTokenResponse response = new ValidationTokenResponse(member.getName(), result);
         return response;
+    }
+
+    // update password
+    @PostMapping("/members/password")
+    public boolean updatePassword(@LoginMember User user, @RequestBody UpdatePasswordRequest updatePasswordRequest) {
+         return memberService.updatePassword(user, updatePasswordRequest);
+    }
+
+    // find user id
+    @GetMapping("/members/find/id")
+    public FindMemberIdResponse findMemberId(@RequestBody FindMemberIdRequest findMemberIdRequest) {
+        return memberService.findMemberId(findMemberIdRequest);
+    }
+
+    // find user password
+    @GetMapping("/members/find/password")
+    public String findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
+        return memberService.findMemberPassword(findMemberPasswordRequest);
+    }
+
+    // grant authority
+    @PatchMapping("/therapists/{id}/auth")
+    public void approveAuth(@PathVariable String id) {
+        memberService.approveAuth(id);
+    }
+
+    // get outstanding authorization list
+    @GetMapping("/{centerId}/outstanding/authorization")
+    public List<Therapist> getOutstandingAuthorization(@PathVariable Long centerId) {
+        return memberService.getOutstandingAuthorization(centerId);
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function

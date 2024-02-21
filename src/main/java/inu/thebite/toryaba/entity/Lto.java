@@ -38,8 +38,8 @@ public class Lto extends BaseEntity {
     private String contents;
 
     // 선택한 게임
-    @Column(name = "game")
-    private String game;
+//    @Column(name = "game")
+//    private String game;
 
     // 장기 목표 도달 일자
     @Column(name = "lto_arr_dt")

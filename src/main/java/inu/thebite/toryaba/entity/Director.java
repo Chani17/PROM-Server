@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("Director")
@@ -16,12 +17,14 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "tb_director")
 public class Director extends Member {
 
-    public Director(String id, String password, String name, String email, String phone) {
+    public Director(String id, String password, String name, String email, String phone, String forte, List<String> qualification) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.forte = forte;
+        this.qualification = qualification;
         this.auth = MemberStatus.ROLE_DIRECTOR;
         this.approvalYN = "Y";
         this.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));

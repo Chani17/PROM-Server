@@ -23,7 +23,7 @@ public class DirectorServiceImpl implements DirectorService {
             throw new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디로 변경해주세요.");
         }
 
-        Director director = new Director(addDirectorRequest.getId(), bCryptPasswordEncoder.encode(addDirectorRequest.getPassword()), addDirectorRequest.getName(), addDirectorRequest.getEmail(), addDirectorRequest.getPhone());
+        Director director = new Director(addDirectorRequest.getId(), bCryptPasswordEncoder.encode(addDirectorRequest.getPassword()), addDirectorRequest.getName(), addDirectorRequest.getEmail(), addDirectorRequest.getPhone(), addDirectorRequest.getForte(), addDirectorRequest.getQualification());
         Director savedDirector = memberRepository.save(director);
         return savedDirector.getId();
     }

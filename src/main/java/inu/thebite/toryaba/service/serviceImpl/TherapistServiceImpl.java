@@ -32,7 +32,7 @@ public class TherapistServiceImpl implements TherapistService {
         }
 
         Therapist therapist = new Therapist(addTherapistRequest.getId(), bCryptPasswordEncoder.encode(addTherapistRequest.getPassword()), addTherapistRequest.getName(), addTherapistRequest.getEmail(), addTherapistRequest.getPhone(), center);
-        Therapist savedTherapist = memberRepository.save(therapist);
+        memberRepository.save(therapist);
     }
 
 }
