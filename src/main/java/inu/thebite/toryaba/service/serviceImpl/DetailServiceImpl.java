@@ -115,7 +115,7 @@ public class DetailServiceImpl implements DetailService {
                         .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
                 stoNameList.add(findSto.getName());
 
-                if(findSto.getStatus().equals("준거 도달")) stoStatusList.add(findSto.getName());
+                if(findSto.getStatus().equals("완료")) stoStatusList.add(findSto.getName());
             }
         }
 
