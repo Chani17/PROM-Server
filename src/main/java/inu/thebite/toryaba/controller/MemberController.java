@@ -34,9 +34,9 @@ public class MemberController {
     }
 
     // join therapist member
-    @PostMapping("/members/{centerId}/join")
-    public void joinTherapistUser(@PathVariable Long centerId, @RequestBody AddDirectorRequest addDirectorRequest) {
-        therapistService.joinTherapist(centerId, addDirectorRequest);
+    @PostMapping("/members/therapist/join")
+    public void joinTherapistUser(@RequestBody AddTherapistRequest addTherapistRequest) {
+        therapistService.joinTherapist(addTherapistRequest);
     }
 
     // login user

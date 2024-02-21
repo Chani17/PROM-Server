@@ -3,6 +3,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.entity.Domain;
 import inu.thebite.toryaba.model.domain.AddDomainRequest;
+import inu.thebite.toryaba.model.domain.UpdateDomainRequest;
 import inu.thebite.toryaba.service.DomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,11 @@ public class DomainController {
     public ResponseEntity deleteDomain(@PathVariable Long domainId) {
         domainService.deleteDomain(domainId);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // update domain
+    @PatchMapping("/{domainId}")
+    public void updateDomain(@PathVariable Long domainId, @RequestBody UpdateDomainRequest updateDomainRequest) {
+        domainService.updateDomain(domainId, updateDomainRequest);
     }
 }

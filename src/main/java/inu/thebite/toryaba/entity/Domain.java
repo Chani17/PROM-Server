@@ -45,4 +45,8 @@ public class Domain extends BaseEntity {
         domain.center = center;
         return domain;
     }
+
+    public void updateDomain(String name) {
+        this.name = name;
+    }
 }
