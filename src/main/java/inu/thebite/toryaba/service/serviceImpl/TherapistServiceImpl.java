@@ -22,18 +22,17 @@ public class TherapistServiceImpl implements TherapistService {
 
     @Transactional
     @Override
-    public String joinTherapist(Long centerId, AddTherapistRequest addTherapistRequest) {
+    public void joinTherapist(AddTherapistRequest addTherapistRequest) {
 
-        Center center = centerRepository.findById(centerId)
+        Center center = centerRepository.findById(addTherapistRequest.getCenterId())
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
 
         if(memberRepository.findById(addTherapistRequest.getId()).isPresent()) {
             throw new IllegalStateException("이미 가입된 아이디입니다. 다른 아이디로 시도해주세요.");
         }
 
-        Therapist therapist = new Therapist(addTherapistRequest.getId(), bCryptPasswordEncoder.encode(addTherapistRequest.getPassword()), addTherapistRequest.getName(), addTherapistRequest.getEmail(), addTherapistRequest.getPhone(), addTherapistRequest.getForte(), addTherapistRequest.getQualification(), center);
-        Therapist savedTherapist = memberRepository.save(therapist);
-        return savedTherapist.getId();
+        Therapist therapist = new Therapist(addTherapistRequest.getId(), bCryptPasswordEncoder.encode(addTherapistRequest.getPassword()), addTherapistRequest.getName(), addTherapistRequest.getEmail(), addTherapistRequest.getPhone(), center);
+        memberRepository.save(therapist);
     }
 
 }

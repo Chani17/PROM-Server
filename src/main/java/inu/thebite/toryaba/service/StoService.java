@@ -1,5 +1,6 @@
 package inu.thebite.toryaba.service;
 
+import inu.thebite.toryaba.model.sto.LooseCannonRequest;
 import inu.thebite.toryaba.model.sto.*;
 
 import java.util.List;
@@ -25,4 +26,15 @@ public interface StoService {
 
     StoResponse updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
+    void updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    void updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    void selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    void updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    void removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
+
+    List<String> getLooseCannonListBySto(Long stoId);
 }

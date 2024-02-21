@@ -11,8 +11,11 @@ public interface NoticeService {
 
     NoticeResponse getNotice(Long studentId, String year, int month, String date);
 
-    ConvertPdfRequest showWebView(Long studentId, String year, int month, String date);
+     ConvertPdfRequest showWebView(Long studentId, String year, int month, String date);
 
     List<NoticesDatesResponse> getNoticeDates(Long studentId);
 
+    List<NoticeResponse> getMonthlyNotice(Long studentId, String year, int month);
+
+    String getAutoComment(Long studentId, String year, int month, String date);
 }
