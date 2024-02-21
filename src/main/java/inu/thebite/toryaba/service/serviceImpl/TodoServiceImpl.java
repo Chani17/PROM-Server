@@ -137,4 +137,17 @@ public class TodoServiceImpl implements TodoService {
         }
         return recentTodo;
     }
+
+    @Override
+    public List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(Long studentId, String filter, String startDate, String endDate) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
+
+        List<Todo> result = todoRepository.findByStudentIdBetween(student.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
+        List<RecentTodoWithDateResponse> response = new ArrayList<>();
+
+        for(Todo todo : result) {
+            for()
+        }
+    }
 }

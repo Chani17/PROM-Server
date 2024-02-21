@@ -21,5 +21,4 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     @Query("SELECT t FROM Todo t WHERE t.student.id = :studentId AND t.date BETWEEN :startDate AND :endDate")
     List<Todo> findByStudentIdBetween(@Param("studentId") Long studentId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
 }
