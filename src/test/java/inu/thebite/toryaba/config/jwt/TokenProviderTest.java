@@ -44,7 +44,7 @@ public class TokenProviderTest {
     void generateToken() {
         // given
         List<String> qualification = List.of("BCBA", "QBA", "KABA");
-        Director testUser = new Director("test1", "test1", "테스트1", "test1@gmail.com", "010-1234-5678", "미술 치료", qualification);
+        Director testUser = new Director("test1", "test1", "테스트1", "test1@gmail.com", "010-1234-5678");
         memberRepository.save(testUser);
 
         // when

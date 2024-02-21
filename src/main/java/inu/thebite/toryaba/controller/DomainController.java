@@ -3,6 +3,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.entity.Domain;
 import inu.thebite.toryaba.model.domain.AddDomainRequest;
+import inu.thebite.toryaba.model.domain.DomainResponse;
 import inu.thebite.toryaba.model.domain.UpdateDomainRequest;
 import inu.thebite.toryaba.service.DomainService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class DomainController {
 
     // update domain
     @PatchMapping("/{domainId}")
-    public void updateDomain(@PathVariable Long domainId, @RequestBody UpdateDomainRequest updateDomainRequest) {
-        domainService.updateDomain(domainId, updateDomainRequest);
+    public DomainResponse updateDomain(@PathVariable Long domainId, @RequestBody UpdateDomainRequest updateDomainRequest) {
+        return domainService.updateDomain(domainId, updateDomainRequest);
     }
 }

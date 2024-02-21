@@ -68,7 +68,7 @@ class MemberControllerTest {
         final String url = "/token";
 
         List<String> qualification = List.of("BCBA", "QBA", "KABA");
-        Director director = new Director("test2", "test2", "테스트2", "test2@gmail.com", "010-1234-5678", "미술 치료", qualification);
+        Director director = new Director("test2", "test2", "테스트2", "test2@gmail.com", "010-1234-5678");
         Director savedMember = memberRepository.save(director);
 
         String refreshToken = JwtFactory.builder()

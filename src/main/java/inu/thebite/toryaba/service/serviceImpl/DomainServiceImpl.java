@@ -3,6 +3,7 @@ package inu.thebite.toryaba.service.serviceImpl;
 import inu.thebite.toryaba.entity.Center;
 import inu.thebite.toryaba.entity.Domain;
 import inu.thebite.toryaba.model.domain.AddDomainRequest;
+import inu.thebite.toryaba.model.domain.DomainResponse;
 import inu.thebite.toryaba.model.domain.UpdateDomainRequest;
 import inu.thebite.toryaba.repository.CenterRepository;
 import inu.thebite.toryaba.repository.DomainRepository;
@@ -48,10 +49,11 @@ public class DomainServiceImpl implements DomainService {
 
     @Transactional
     @Override
-    public void updateDomain(Long domainId, UpdateDomainRequest updateDomainRequest) {
+    public DomainResponse updateDomain(Long domainId, UpdateDomainRequest updateDomainRequest) {
         Domain domain = domainRepository.findById(domainId).
                 orElseThrow(() -> new IllegalStateException("해당하는 domain이 존재하지 않습니다."));
 
         domain.updateDomain(updateDomainRequest.getName());
+        return DomainResponse.response(domain.getId(), domain.getTemplateNumber(), domain.getName(), domain.getRegisterDate(), domain.getCenter().getId());
     }
 }

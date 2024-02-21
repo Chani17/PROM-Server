@@ -5,12 +5,14 @@ import inu.thebite.toryaba.model.user.AddDirectorRequest;
 import inu.thebite.toryaba.repository.MemberRepository;
 import inu.thebite.toryaba.service.DirectorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DirectorServiceImpl implements DirectorService {
 
     private final MemberRepository memberRepository;
@@ -18,14 +20,15 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Transactional
     @Override
-    public String joinDirector(AddDirectorRequest addDirectorRequest) {
+    public void joinDirector(AddDirectorRequest addDirectorRequest) {
+        log.trace("joinDirector 들어옴");
         if(memberRepository.existsById(addDirectorRequest.getId())) {
             throw new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디로 변경해주세요.");
         }
 
-        Director director = new Director(addDirectorRequest.getId(), bCryptPasswordEncoder.encode(addDirectorRequest.getPassword()), addDirectorRequest.getName(), addDirectorRequest.getEmail(), addDirectorRequest.getPhone(), addDirectorRequest.getForte(), addDirectorRequest.getQualification());
-        Director savedDirector = memberRepository.save(director);
-        return savedDirector.getId();
+        Director director = new Director(addDirectorRequest.getId(), bCryptPasswordEncoder.encode(addDirectorRequest.getPassword()), addDirectorRequest.getName(), addDirectorRequest.getEmail(), addDirectorRequest.getPhone());
+        memberRepository.save(director);
+        log.trace("저장 완료");
     }
 
 

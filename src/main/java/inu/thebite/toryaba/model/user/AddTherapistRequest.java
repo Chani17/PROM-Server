@@ -27,10 +27,6 @@ public class AddTherapistRequest {
     @NotEmpty(message = "전화번호는 필수항목입니다.")
     private String phone;
 
-    private String forte;
-
-    private List<String> qualification;
-
     @NotEmpty(message = "센터 아이디 입력은 필수항목입니다.")
     private Long centerId;
 }

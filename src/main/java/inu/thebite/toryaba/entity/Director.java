@@ -17,14 +17,13 @@ import java.util.List;
 @Table(name = "tb_director")
 public class Director extends Member {
 
-    public Director(String id, String password, String name, String email, String phone, String forte, List<String> qualification) {
+    public Director(String id, String password, String name, String email, String phone) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.forte = forte;
-        this.qualification = qualification;
+        this.forte = "";
         this.auth = MemberStatus.ROLE_DIRECTOR;
         this.approvalYN = "Y";
         this.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));

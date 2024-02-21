@@ -38,7 +38,6 @@ public class MemberController {
     }
 
     // join therapist member
-
     @PostMapping("/members/therapist/join")
     public void joinTherapistUser(@RequestBody AddTherapistRequest addTherapistRequest) {
         therapistService.joinTherapist(addTherapistRequest);
