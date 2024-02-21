@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +39,10 @@ public class Domain extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "center_seq")
     private Center center;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "domain", cascade = CascadeType.REMOVE)
+    private List<Lto> ltos = new ArrayList<>();
 
     public static Domain createDomain(int templateNumber, String name, Center center) {
         Domain domain = new Domain();

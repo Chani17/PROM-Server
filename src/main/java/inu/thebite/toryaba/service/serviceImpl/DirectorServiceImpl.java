@@ -20,15 +20,16 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Transactional
     @Override
-    public void joinDirector(AddDirectorRequest addDirectorRequest) {
-        log.trace("joinDirector 들어옴");
+    public boolean joinDirector(AddDirectorRequest addDirectorRequest) {
         if(memberRepository.existsById(addDirectorRequest.getId())) {
             throw new IllegalStateException("이미 존재하는 아이디입니다. 다른 아이디로 변경해주세요.");
         }
 
         Director director = new Director(addDirectorRequest.getId(), bCryptPasswordEncoder.encode(addDirectorRequest.getPassword()), addDirectorRequest.getName(), addDirectorRequest.getEmail(), addDirectorRequest.getPhone());
         memberRepository.save(director);
-        log.trace("저장 완료");
+
+        if(memberRepository.existsById(director.getId())) return true;
+        return false;
     }
 
 

@@ -68,40 +68,40 @@ public class StoController {
 
     // update stress status in STO
     @PatchMapping("/stos/{stoId}/stress")
-    public void updateStressStatus(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
-        stoService.updateStressStatus(stoId, looseCannonRequest);
+    public StoResponse updateStressStatus(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        return stoService.updateStressStatus(stoId, looseCannonRequest);
     }
 
     // update concentration in STO
     @PatchMapping("/stos/{stoId}/concentration")
-    public void updateConcentration(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
-        stoService.updateConcentration(stoId, looseCannonRequest);
+    public StoResponse updateConcentration(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        return stoService.updateConcentration(stoId, looseCannonRequest);
     }
 
     // update significant content
     @PatchMapping("/stos/{stoId}/significant")
-    public void updateSignificant(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
-        stoService.updateSignificant(stoId, looseCannonRequest);
+    public StoResponse updateSignificant(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        return stoService.updateSignificant(stoId, looseCannonRequest);
     }
 
     // select loose cannon status
     @PatchMapping("/stos/{stoId}/selection/lc")
-    public void updateLooseCannons(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
-        stoService.selectLooseCannon(stoId, looseCannonRequest);
+    public StoResponse updateLooseCannons(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        return stoService.selectLooseCannon(stoId, looseCannonRequest);
     }
 
     // remove loose cannon status
     @PatchMapping("/stos/{stoId}/removal/lc")
-    public void removeLooseCannon(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
-        stoService.removeLooseCannon(stoId, looseCannonRequest);
+    public StoResponse removeLooseCannon(@PathVariable Long stoId, @RequestBody LooseCannonRequest looseCannonRequest) {
+        return stoService.removeLooseCannon(stoId, looseCannonRequest);
     }
 
     // get loose cannon status list
-    @GetMapping("/stos/{stoId}/lc")
-    public List<String> getLooseCannonListBySto(@PathVariable Long stoId) {
-        List<String> response = stoService.getLooseCannonListBySto(stoId);
-        return response;
-    }
+//    @GetMapping("/stos/{stoId}/lc")
+//    public List<String> getLooseCannonListBySto(@PathVariable Long stoId) {
+//        List<String> response = stoService.getLooseCannonListBySto(stoId);
+//        return response;
+//    }
 
     // get STO list by studentId
     @GetMapping("/{studentId}/stos")

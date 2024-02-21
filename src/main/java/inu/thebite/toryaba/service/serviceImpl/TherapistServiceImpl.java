@@ -22,7 +22,7 @@ public class TherapistServiceImpl implements TherapistService {
 
     @Transactional
     @Override
-    public void joinTherapist(AddTherapistRequest addTherapistRequest) {
+    public boolean joinTherapist(AddTherapistRequest addTherapistRequest) {
 
         Center center = centerRepository.findById(addTherapistRequest.getCenterId())
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
@@ -33,6 +33,9 @@ public class TherapistServiceImpl implements TherapistService {
 
         Therapist therapist = new Therapist(addTherapistRequest.getId(), bCryptPasswordEncoder.encode(addTherapistRequest.getPassword()), addTherapistRequest.getName(), addTherapistRequest.getEmail(), addTherapistRequest.getPhone(), center);
         memberRepository.save(therapist);
+
+        if(memberRepository.existsById(therapist.getId())) return true;
+        return false;
     }
 
 }

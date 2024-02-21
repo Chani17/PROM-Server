@@ -4,6 +4,6 @@ import inu.thebite.toryaba.model.user.AddDirectorRequest;
 
 public interface DirectorService {
 
-    void joinDirector(AddDirectorRequest addDirectorRequest);
+    boolean joinDirector(AddDirectorRequest addDirectorRequest);
 
 }

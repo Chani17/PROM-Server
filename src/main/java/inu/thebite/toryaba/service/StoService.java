@@ -26,15 +26,15 @@ public interface StoService {
 
     StoResponse updateStoHitRound(Long stoId, UpdateStoRoundRequest updateStoRoundRequest);
 
-    void updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest);
+    StoResponse updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    void updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest);
+    StoResponse updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    void selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
+    StoResponse selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    void updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest);
+    StoResponse updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    void removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
+    StoResponse removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest);
 
-    List<String> getLooseCannonListBySto(Long stoId);
+//    List<String> getLooseCannonListBySto(Long stoId);
 }

@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -60,6 +63,10 @@ public class Lto extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_seq")
     private Student student;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "lto", cascade = CascadeType.REMOVE)
+    private List<Sto> stos = new ArrayList<>();
 
 
     public static Lto createLto(int templateNum, String name, String content, Domain domain, Student student) {

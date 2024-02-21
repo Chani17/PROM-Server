@@ -12,7 +12,7 @@ public interface DomainService {
 
     List<Domain> getDomainList(Long centerId);
 
-    void deleteDomain(Long templateNum);
+    boolean deleteDomain(Long templateNum);
 
     DomainResponse updateDomain(Long domainId, UpdateDomainRequest updateDomainRequest);
 }

@@ -35,9 +35,8 @@ public class DomainController {
 
     // delete domain
     @DeleteMapping("/{domainId}")
-    public ResponseEntity deleteDomain(@PathVariable Long domainId) {
-        domainService.deleteDomain(domainId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public boolean deleteDomain(@PathVariable Long domainId) {
+        return domainService.deleteDomain(domainId);
     }
 
     // update domain

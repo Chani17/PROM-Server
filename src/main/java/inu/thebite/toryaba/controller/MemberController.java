@@ -33,14 +33,14 @@ public class MemberController {
 
     // join principal user
     @PostMapping("/members/join")
-    public void joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
-        directorService.joinDirector(addDirectorRequest);
+    public boolean joinPrincipalUser(@RequestBody AddDirectorRequest addDirectorRequest) {
+        return directorService.joinDirector(addDirectorRequest);
     }
 
     // join therapist member
     @PostMapping("/members/therapist/join")
-    public void joinTherapistUser(@RequestBody AddTherapistRequest addTherapistRequest) {
-        therapistService.joinTherapist(addTherapistRequest);
+    public boolean joinTherapistUser(@RequestBody AddTherapistRequest addTherapistRequest) {
+        return therapistService.joinTherapist(addTherapistRequest);
     }
 
     // login user

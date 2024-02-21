@@ -40,11 +40,14 @@ public class DomainServiceImpl implements DomainService {
 
     @Transactional
     @Override
-    public void deleteDomain(Long domainId) {
+    public boolean deleteDomain(Long domainId) {
         Domain domain = domainRepository.findById(domainId).
                 orElseThrow(() -> new IllegalStateException("해당하는 domain이 존재하지 않습니다."));
 
         domainRepository.deleteById(domain.getId());
+
+        if(domainRepository.existsById(domain.getId())) return false;
+        return true;
     }
 
     @Transactional

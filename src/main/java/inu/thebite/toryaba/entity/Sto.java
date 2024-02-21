@@ -156,11 +156,13 @@ public class Sto extends BaseEntity {
     }
 
     // update STO contents
-    public void updateSto(String name, String contents, int count, int goal, int goalAmount, String urgeContent, String enforceContent, String memo) {
+    public void updateSto(String name, String contents, int count, int goal, String goalType, int goalAmount, String urgeContent, String enforceContent, String memo) {
         this.name = name;
         this.contents = contents;
         this.count = count;
         this.goal = goal;
+        this.goalType = goalType;
+        this.goalAmount = goalAmount;
         this.urgeContent = urgeContent;
         this.enforceContent = enforceContent;
         this.memo = memo;
@@ -197,7 +199,7 @@ public class Sto extends BaseEntity {
     }
 
     // update loose cannon list
-    public void updateLooseCannon(List<String> looseCannonList) {
-        this.looseCannonList = looseCannonList;
+    public void updateLooseCannon(String action) {
+        this.looseCannonList.remove(action);
     }
 }
