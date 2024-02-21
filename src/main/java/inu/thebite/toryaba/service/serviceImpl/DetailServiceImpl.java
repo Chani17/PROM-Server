@@ -67,7 +67,7 @@ public class DetailServiceImpl implements DetailService {
 
         detail.addComment(addCommentRequest.getComment());
 
-        DetailResponse response = DetailResponse.response(detail.getId(), detail.getComment(), sto.getLto().getId(), sto.getId(), notice.getId());
+        DetailResponse response = DetailResponse.response(detail.getId(), detail.getComment(), sto.getLto().getId(), detail.getStoId(), notice.getId());
         return response;
     }
 
@@ -98,7 +98,7 @@ public class DetailServiceImpl implements DetailService {
     }
 
     @Override
-    public String getDetailAutoComment(Long studentId, Long ltoId, String year, int month, String date) {
+    public AutoCommentResponse getDetailAutoComment(Long studentId, Long ltoId, String year, int month, String date) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -122,7 +122,7 @@ public class DetailServiceImpl implements DetailService {
         String comment = "오늘은 " + String.join(", ", stoNameList) + "를(을) 실시했습니다.\n";
         if(!stoStatusList.isEmpty()) comment += "그 중에서 " + String.join(", ", stoStatusList) + "은(는) 준거 도달 했습니다.\n";
         comment += "관련된 교육을 가정에서도 반복해주시면 아이의 행동 숙달에 더욱 효과적입니다.";
-        return comment;
 
+        return AutoCommentResponse.response(comment);
     }
 }

@@ -17,5 +17,5 @@ public interface NoticeService {
 
     List<NoticeResponse> getMonthlyNotice(Long studentId, String year, int month);
 
-    String getAutoComment(Long studentId, String year, int month, String date);
+    AutoCommentResponse getAutoComment(Long studentId, String year, int month, String date);
 }

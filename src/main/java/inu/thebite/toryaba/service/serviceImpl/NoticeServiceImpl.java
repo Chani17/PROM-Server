@@ -81,7 +81,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public String getAutoComment(Long studentId, String year, int month, String date) {
+    public AutoCommentResponse getAutoComment(Long studentId, String year, int month, String date) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 학생이 존재하지 않습니다."));
 
@@ -103,7 +103,8 @@ public class NoticeServiceImpl implements NoticeService {
         String comment = "오늘은 " + String.join(", ", ltoNameList) + "를(을) 실시했습니다.\n";
         if(!ltoStatusList.isEmpty()) comment += "그 중에서 " + String.join(", ", ltoStatusList) + "은(는) 준거 도달 했습니다.\n";
         comment += "가정에서도 관련한 교육 부탁드립니다.";
-        return comment;
+
+        return AutoCommentResponse.response(comment);
     }
 
     @Override

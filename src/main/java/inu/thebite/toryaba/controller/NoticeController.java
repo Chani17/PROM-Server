@@ -71,7 +71,7 @@ public class NoticeController {
     // 자동 멘트 생성
     @GetMapping("/{studentId}/auto/comment")
     @ResponseBody
-    public String getAutoComment(@PathVariable Long studentId,
+    public AutoCommentResponse getAutoComment(@PathVariable Long studentId,
                                  @RequestParam("year") String year,
                                  @RequestParam("month") int month,
                                  @RequestParam("date") String date) {
