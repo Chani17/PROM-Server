@@ -6,9 +6,9 @@ import inu.thebite.toryaba.model.domain.AddDomainRequest;
 import java.util.List;
 
 public interface DomainService {
-    Domain addDomain(AddDomainRequest addDomainRequest);
+    Domain addDomain(Long centerId, AddDomainRequest addDomainRequest);
 
-    List<Domain> getDomainList();
+    List<Domain> getDomainList(Long centerId);
 
     void deleteDomain(Long templateNum);
 }

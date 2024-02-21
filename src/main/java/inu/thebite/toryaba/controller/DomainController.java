@@ -19,16 +19,16 @@ public class DomainController {
     private final DomainService domainService;
 
     // add domain
-    @PostMapping()
-    public Domain addDomain(@RequestBody AddDomainRequest addDomainRequest) {
-        Domain domain = domainService.addDomain(addDomainRequest);
+    @PostMapping("/{centerId}")
+    public Domain addDomain(@PathVariable Long centerId, @RequestBody AddDomainRequest addDomainRequest) {
+        Domain domain = domainService.addDomain(centerId, addDomainRequest);
         return domain;
     }
 
     // get domain list
-    @GetMapping()
-    public List<Domain> getDomainList() {
-        List<Domain> domainList = domainService.getDomainList();
+    @GetMapping("/{centerId}")
+    public List<Domain> getDomainList(@PathVariable Long centerId) {
+        List<Domain> domainList = domainService.getDomainList(centerId);
         return domainList;
     }
 
