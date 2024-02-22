@@ -24,5 +24,5 @@ public interface TodoService {
 
     List<RecentTodoWithDateResponse> getRecentTodoListWithDate(Long studentId, String startDate, String endDate);
 
-    List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(Long studentId, String filter, String startDate, String endDate);
+//    List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(Long studentId, String filter, String startDate, String endDate);
 }

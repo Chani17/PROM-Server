@@ -128,26 +128,31 @@ public class TodoServiceImpl implements TodoService {
 
         for(Todo todo : result) {
             List<String> stoName = new ArrayList<>();
+            List<String> ltoName = new ArrayList<>();
+            List<String> stoStatus = new ArrayList<>();
             for(Long sto : todo.getStoList()) {
                 Sto findSto = stoRepository.findById(sto)
                         .orElseThrow(() -> new IllegalStateException("존재하지 않는 STO 입니다."));
                 stoName.add(findSto.getName());
+                stoStatus.add(findSto.getStatus());
+                ltoName.add(findSto.getLto().getName());
             }
-            recentTodo.add(RecentTodoWithDateResponse.response(todo.getDate(), stoName, todo.getTeacher()));
+
+            recentTodo.add(RecentTodoWithDateResponse.response(todo.getDate().toString(), stoName, stoStatus, ltoName, todo.getTeacher()));
         }
         return recentTodo;
     }
 
-    @Override
-    public List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(Long studentId, String filter, String startDate, String endDate) {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
-
-        List<Todo> result = todoRepository.findByStudentIdBetween(student.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
-        List<RecentTodoWithDateResponse> response = new ArrayList<>();
-
-        for(Todo todo : result) {
-            for()
-        }
-    }
+//    @Override
+//    public List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(Long studentId, String filter, String startDate, String endDate) {
+//        Student student = studentRepository.findById(studentId)
+//                .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
+//
+//        List<Todo> result = todoRepository.findByStudentIdBetween(student.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
+//        List<RecentTodoWithDateResponse> response = new ArrayList<>();
+//
+//        for(Todo todo : result) {
+//            for()
+//        }
+//    }
 }

@@ -64,11 +64,11 @@ public class TodoController {
 
 
     // recent todo list with status filter between startDate and endDate
-    @GetMapping("/{studentId}/recent/filter")
-    public List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(@PathVariable Long studentId,
-                                                                                   @RequestParam String filter,
-                                                                                   @RequestParam String startDate,
-                                                                                   @RequestParam String endDate) {
-        todoService.getRecentTodoListWithFilterBetweenDate(studentId, filter, startDate, endDate)
-    }
+//    @GetMapping("/{studentId}/recent/filter")
+//    public List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(@PathVariable Long studentId,
+//                                                                                   @RequestParam String filter,
+//                                                                                   @RequestParam String startDate,
+//                                                                                   @RequestParam String endDate) {
+//        todoService.getRecentTodoListWithFilterBetweenDate(studentId, filter, startDate, endDate)
+//    }
 }

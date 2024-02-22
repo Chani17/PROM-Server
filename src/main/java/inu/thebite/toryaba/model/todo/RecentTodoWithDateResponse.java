@@ -8,17 +8,23 @@ import java.util.List;
 @Data
 public class RecentTodoWithDateResponse {
 
-    private LocalDate date;
+    private String date;
 
     private List<String> sto;
+
+    private List<String> stoStatus;
+
+    private List<String> lto;
 
     private String teacher;
 
 
-    public static RecentTodoWithDateResponse response(LocalDate date, List<String> sto, String teacher) {
+    public static RecentTodoWithDateResponse response(String date, List<String> sto, List<String> stoStatus, List<String> lto, String teacher) {
         RecentTodoWithDateResponse response = new RecentTodoWithDateResponse();
         response.date = date;
         response.sto = sto;
+        response.stoStatus = stoStatus;
+        response.lto = lto;
         response.teacher = teacher;
         return response;
     }
