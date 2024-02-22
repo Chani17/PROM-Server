@@ -55,7 +55,6 @@ public class MemberController {
     // validate token
     @PostMapping("/valid/token")
     public ValidationTokenResponse validationToken(@RequestHeader Map<String, String> headers) {
-        log.info("headers = {}", headers);
         String authorization = headers.get("authorization");
         String token = authorization.substring(7);
         boolean result = tokenProvider.validToken(token);
@@ -79,7 +78,7 @@ public class MemberController {
 
     // find user password
     @GetMapping("/members/find/password")
-    public String findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
+    public TemporaryPasswordResponse findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
         return memberService.findMemberPassword(findMemberPasswordRequest);
     }
 
@@ -93,6 +92,12 @@ public class MemberController {
     @GetMapping("/{centerId}/outstanding/authorization")
     public List<Therapist> getOutstandingAuthorization(@PathVariable Long centerId) {
         return memberService.getOutstandingAuthorization(centerId);
+    }
+
+    // edit profile
+    @PatchMapping("/edit/profile")
+    public MemberResponse editProfile(@LoginMember User user, @RequestBody EditProfileRequest editProfileRequest) {
+        return memberService.editProfile(user, editProfileRequest);
     }
 
     // refresh token을 기반으로 새로운 access token을 만들어주는 function

@@ -14,11 +14,13 @@ public interface MemberService {
 
     FindMemberIdResponse findMemberId(FindMemberIdRequest findMemberIdRequest);
 
-    String findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest);
+    TemporaryPasswordResponse findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest);
 
     boolean updatePassword(User user, UpdatePasswordRequest updatePasswordRequest);
 
     void approveAuth(String id);
 
     List<Therapist> getOutstandingAuthorization(Long centerId);
+
+    MemberResponse editProfile(User user, EditProfileRequest editProfileRequest);
 }

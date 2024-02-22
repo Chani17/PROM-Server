@@ -53,4 +53,9 @@ public abstract class Member {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public void updateProfile(String forte, List<String> qualification) {
+        this.forte = forte;
+        this.qualification = qualification;
+    }
 }

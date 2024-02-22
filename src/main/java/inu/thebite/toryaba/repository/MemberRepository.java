@@ -20,4 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query(value = "SELECT m.member_id, m.member_name FROM tb_therapist t join tb_member m ON t.member_id = m.member_id WHERE t.center_seq = :centerId AND m.member_approval_yn = 'N'", nativeQuery = true)
     List<Therapist> findByCenterIdAndAuth(@Param("centerId") Long centerId);
+
+    @Query("SELECT t.center.id FROM Therapist t WHERE t.id = :id")
+    Long findCenterIdById(@Param("id") String id);
 }

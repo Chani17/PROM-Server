@@ -2,6 +2,7 @@ package inu.thebite.toryaba.service.serviceImpl;
 
 import inu.thebite.toryaba.entity.Center;
 import inu.thebite.toryaba.entity.Member;
+import inu.thebite.toryaba.entity.MemberStatus;
 import inu.thebite.toryaba.entity.Therapist;
 import inu.thebite.toryaba.model.user.*;
 import inu.thebite.toryaba.repository.CenterRepository;
@@ -61,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest) {
+    public TemporaryPasswordResponse findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest) {
         Member findMember = memberRepository.findByIdAndPhoneAndName(findMemberPasswordRequest.getId(), findMemberPasswordRequest.getPhone(), findMemberPasswordRequest.getName())
                 .orElseThrow(() -> new IllegalArgumentException("입력한 정보를 다시 한번 확인해주세요."));
 
@@ -71,10 +72,12 @@ public class MemberServiceImpl implements MemberService {
         // change password in DB
         changePassword(findMember, newPassword);
 
-        // send temporary password mail
-        sendEmail(findMember, newPassword);
+        // show temporary password
+        return TemporaryPasswordResponse.response(newPassword);
+//        // send temporary password mail
+//        sendEmail(findMember, newPassword);
 
-        return "가입했던 메일로 임시 비밀번호를 발송해드렸습니다. 확인해주세요.";
+//        return "가입했던 메일로 임시 비밀번호를 발송해드렸습니다. 확인해주세요.";
     }
 
     @Transactional
@@ -146,5 +149,20 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 센터입니다."));
 
         return memberRepository.findByCenterIdAndAuth(centerId);
+    }
+
+    @Override
+    public MemberResponse editProfile(User user, EditProfileRequest editProfileRequest) {
+        Member findMember = memberRepository.findById(user.getUsername())
+                .orElseThrow(() -> new IllegalStateException("회원정보가 일치하지 않습니다."));
+
+        findMember.updateProfile(editProfileRequest.getForte(), editProfileRequest.getQualification());
+
+        if(findMember.getAuth().equals(MemberStatus.ROLE_THERAPIST)) {
+            Long centerId = memberRepository.findCenterIdById(user.getUsername());
+            Center center = centerRepository.findByCenterId(centerId);
+            return MemberResponse.response(findMember.getName(), findMember.getForte(), findMember.getQualification(), center.getName());
+        }
+        return MemberResponse.response(findMember.getName(), findMember.getForte(), findMember.getQualification(), "");
     }
 }
