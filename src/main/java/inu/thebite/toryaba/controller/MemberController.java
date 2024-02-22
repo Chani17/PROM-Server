@@ -100,6 +100,12 @@ public class MemberController {
         return memberService.editProfile(user, editProfileRequest);
     }
 
+    // get profile
+    @GetMapping("/profile")
+    public MemberResponse getProfile(@LoginMember User user) {
+        return memberService.getProfile(user);
+    }
+
     // refresh token을 기반으로 새로운 access token을 만들어주는 function
 //    @PostMapping("/members/token")
 //    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {

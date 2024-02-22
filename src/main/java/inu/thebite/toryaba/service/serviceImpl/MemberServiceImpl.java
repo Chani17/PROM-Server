@@ -156,7 +156,20 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findById(user.getUsername())
                 .orElseThrow(() -> new IllegalStateException("회원정보가 일치하지 않습니다."));
 
-        findMember.updateProfile(editProfileRequest.getForte(), editProfileRequest.getQualification());
+        findMember.updateProfile(editProfileRequest.getName(), editProfileRequest.getForte(), editProfileRequest.getQualification());
+
+        if(findMember.getAuth().equals(MemberStatus.ROLE_THERAPIST)) {
+            Long centerId = memberRepository.findCenterIdById(user.getUsername());
+            Center center = centerRepository.findByCenterId(centerId);
+            return MemberResponse.response(findMember.getName(), findMember.getForte(), findMember.getQualification(), center.getName());
+        }
+        return MemberResponse.response(findMember.getName(), findMember.getForte(), findMember.getQualification(), "");
+    }
+
+    @Override
+    public MemberResponse getProfile(User user) {
+        Member findMember = memberRepository.findById(user.getUsername())
+                .orElseThrow(() -> new IllegalStateException("회원정보가 일치하지 않습니다."));
 
         if(findMember.getAuth().equals(MemberStatus.ROLE_THERAPIST)) {
             Long centerId = memberRepository.findCenterIdById(user.getUsername());

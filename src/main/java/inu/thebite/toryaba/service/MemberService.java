@@ -23,4 +23,6 @@ public interface MemberService {
     List<Therapist> getOutstandingAuthorization(Long centerId);
 
     MemberResponse editProfile(User user, EditProfileRequest editProfileRequest);
+
+    MemberResponse getProfile(User user);
 }
