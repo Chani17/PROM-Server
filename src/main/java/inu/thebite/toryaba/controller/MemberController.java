@@ -71,13 +71,13 @@ public class MemberController {
     }
 
     // find user id
-    @GetMapping("/members/find/id")
+    @PostMapping("/members/find/id")
     public FindMemberIdResponse findMemberId(@RequestBody FindMemberIdRequest findMemberIdRequest) {
         return memberService.findMemberId(findMemberIdRequest);
     }
 
     // find user password
-    @GetMapping("/members/find/password")
+    @PostMapping("/members/find/password")
     public TemporaryPasswordResponse findMemberPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
         return memberService.findMemberPassword(findMemberPasswordRequest);
     }
