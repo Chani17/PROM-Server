@@ -61,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
         return FindMemberIdResponse.response(findMember.getId());
     }
 
+    @Transactional
     @Override
     public TemporaryPasswordResponse findMemberPassword(FindMemberPasswordRequest findMemberPasswordRequest) {
         Member findMember = memberRepository.findByIdAndPhoneAndName(findMemberPasswordRequest.getId(), findMemberPasswordRequest.getPhone(), findMemberPasswordRequest.getName())
@@ -88,8 +89,7 @@ public class MemberServiceImpl implements MemberService {
 
         if(!bCryptPasswordEncoder.matches(updatePasswordRequest.getBeforePassword(), findMember.getPassword())) throw new IllegalStateException("기존의 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 
-        changePassword(findMember, bCryptPasswordEncoder.encode(updatePasswordRequest.getAfterPassword()));
-
+        changePassword(findMember, updatePasswordRequest.getAfterPassword());
         return true;
     }
 
@@ -112,7 +112,7 @@ public class MemberServiceImpl implements MemberService {
                     break;
                 case 2:
                     // number
-                    newPassword += (char) ((Math.random() * 26) + 48);
+                    newPassword += (char) ((Math.random() * 10) + 48);
                     break;
                 default:
                     break;
@@ -122,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public void changePassword(Member member, String password) {
-        member.updatePassword(password);
+        member.updatePassword(bCryptPasswordEncoder.encode(password));
     }
 
     public void sendEmail(Member member, String password) {
