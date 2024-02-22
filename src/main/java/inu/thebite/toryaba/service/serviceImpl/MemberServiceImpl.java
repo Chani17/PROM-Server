@@ -151,6 +151,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findByCenterIdAndAuth(centerId);
     }
 
+    @Transactional
     @Override
     public MemberResponse editProfile(User user, EditProfileRequest editProfileRequest) {
         Member findMember = memberRepository.findById(user.getUsername())
