@@ -23,8 +23,8 @@ public class NoticeServiceImpl implements NoticeService {
     private final PointRepository pointRepository;
     private final LtoRepository ltoRepository;
 
-    @Value("${spring.cloud.gcp.storage.bucket}")
-    private String bucketName;
+//    @Value("${spring.cloud.gcp.storage.bucket}")
+//    private String bucketName;
 
     @Transactional
     @Override

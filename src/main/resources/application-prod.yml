@@ -24,20 +24,20 @@ spring:
     defer-datasource-initialization: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 
   #  sql:
   #    init:
   #      mode: always
 
-  cloud:
-    gcp:
-      storage:
-        credentials:
-          location: ${STORAGE_CREDENTIALS}
-        project-id: ${PROJECT_ID}
-        bucket: ${BUCKET}
+#  cloud:
+#    gcp:
+#      storage:
+#        credentials:
+#          location: ${STORAGE_CREDENTIALS}
+#        project-id: ${PROJECT_ID}
+#        bucket: ${BUCKET}
 
 jwt:
   issuer: ${JWT_ISSUER}

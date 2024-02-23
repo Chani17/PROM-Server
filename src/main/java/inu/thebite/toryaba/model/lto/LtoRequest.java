@@ -2,6 +2,8 @@ package inu.thebite.toryaba.model.lto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class LtoRequest {
 
@@ -10,5 +12,8 @@ public class LtoRequest {
 
     // Lto 내용
     private String contents;
+
+    // 발달 타입
+    private List<String> developType;
 
 }

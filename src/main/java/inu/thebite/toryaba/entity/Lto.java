@@ -40,9 +40,10 @@ public class Lto extends BaseEntity {
     @Column(name = "lto_contents", length = 200)
     private String contents;
 
-    // 선택한 게임
-//    @Column(name = "game")
-//    private String game;
+    // 발달 타입
+    @ElementCollection
+    @Column(name = "lto_develop_type")
+    private List<String> developType;
 
     // 장기 목표 도달 일자
     @Column(name = "lto_arr_dt")
@@ -69,12 +70,13 @@ public class Lto extends BaseEntity {
     private List<Sto> stos = new ArrayList<>();
 
 
-    public static Lto createLto(int templateNum, String name, String content, Domain domain, Student student) {
+    public static Lto createLto(int templateNum, String name, String content, List<String> developType, Domain domain, Student student) {
         Lto lto = new Lto();
         lto.templateNum = templateNum;
         lto.status = "READY";
         lto.name = name;
         lto.contents = content;
+        lto.developType = developType;
         lto.achieveDate = "Not yet";
         lto.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         lto.delYN = "N";
@@ -98,5 +100,15 @@ public class Lto extends BaseEntity {
     public void updateLTO(String name, String contents) {
         this.name = name;
         this.contents = contents;
+    }
+
+    // select develop type
+    public void selectDevelopType(String development) {
+        this.developType.add(development);
+    }
+
+    // remove develop type
+    public void removeDevelopType(String development) {
+        this.developType.remove(development);
     }
 }

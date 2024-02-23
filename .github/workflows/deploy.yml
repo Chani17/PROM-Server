@@ -31,9 +31,9 @@ jobs:
         spring.datasource.hikari.jdbc-url: ${{ secrets.DB_URL }} 
         spring.datasource.hikari.username: ${{ secrets.DB_USERNAME }} 
         spring.datasource.hikari.password: ${{ secrets.DB_PASSWORD }}
-        spring.cloud.gcp.storage.credentials.location: ${{ secrets.STORAGE_CREDENTIALS }}
-        spring.cloud.gcp.storage.project-id: ${{ secrets.PROJECT_ID }}
-        spring.cloud.gcp.storage.bucket: ${{ secrets.BUCKET }}
+#        spring.cloud.gcp.storage.credentials.location: ${{ secrets.STORAGE_CREDENTIALS }}
+#        spring.cloud.gcp.storage.project-id: ${{ secrets.PROJECT_ID }}
+#        spring.cloud.gcp.storage.bucket: ${{ secrets.BUCKET }}
         jwt.issuer: ${{ secrets.JWT_ISSUER }}
         jwt.secret_key: ${{ secrets.JWT_SECRET_KEY }}
 
@@ -68,7 +68,7 @@ jobs:
         docker build -t ${{ secrets.DOCKER_ID }}/tory .
 
     - name: 7. Docker Hub push
-      run: docker push ${{ secrets.DOCKER_ID }}/tory
+      run: docker push ${{ secrets.DOCKER_ID }}/tory:beta
         
     - name: 8. Deploy to Instance
       uses: appleboy/ssh-action@v1.0.0
