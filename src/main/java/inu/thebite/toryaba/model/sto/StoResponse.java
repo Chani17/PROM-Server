@@ -24,11 +24,11 @@ public class StoResponse {
 
     private int goal;
 
-    private int goalPercent;
+    private String goalType;
+
+    private int goalAmount;
 
     private String achievementOrNot;
-
-    private String urgeType;
 
     private String urgeContent;
 
@@ -48,11 +48,20 @@ public class StoResponse {
 
     private List<Point> pointList;
 
+    private String stressStatus;
+
+    private String concentration;
+
+    private String significant;
+
+    private List<String> looseCannonList;
+
     private Long ltoId;
 
 
-    public StoResponse(Long stoId, int templateNum, String status, String name, String contents, int count, int goal, String urgeType, String urgeContent,
-                       String enforceContent, String memo, int round, String hitGoalDate, String registerDate, String delYN, Long ltoId) {
+    public StoResponse(Long stoId, int templateNum, String status, String name, String contents, int count, int goal, String goalType, int goalAmount,
+                       String urgeContent, String enforceContent, String memo, int round, String hitGoalDate, String registerDate, String delYN,
+                       String stressStatus, String concentration, String significant, List<String> looseCannonList, Long ltoId) {
         this.stoId = stoId;
         this.templateNum = templateNum;
         this.status = status;
@@ -60,7 +69,8 @@ public class StoResponse {
         this.contents = contents;
         this.count = count;
         this.goal = goal;
-        this.urgeType = urgeType;
+        this.goalType = goalType;
+        this.goalAmount = goalAmount;
         this.urgeContent = urgeContent;
         this.enforceContent = enforceContent;
         this.memo = memo;
@@ -68,13 +78,19 @@ public class StoResponse {
         this.hitGoalDate = hitGoalDate;
         this.registerDate = registerDate;
         this.delYN = delYN;
+        this.stressStatus = stressStatus;
+        this.concentration = concentration;
+        this.significant = significant;
+        this.looseCannonList = looseCannonList;
         this.ltoId = ltoId;
     }
 
 
-    public static StoResponse stoResponse(Long id, int templateNum, String status, String name, String contents, int count, int goal, String urgeType,
+
+    public static StoResponse stoResponse(Long id, int templateNum, String status, String name, String contents, int count, int goal, String goalType, int goalAmount,
                                           String urgeContent, String enforceContent, String memo, int round, String hitGoalDate,
-                                          String registerDate, String delYN, List<String> imageList, List<Point> pointList, Long LtoId) {
+                                          String registerDate, String delYN, List<String> imageList, List<Point> pointList,
+                                          String stressStatus, String concentration, String significant, List<String> looseCannonList, Long LtoId) {
         StoResponse response = new StoResponse();
         response.stoId = id;
         response.templateNum = templateNum;
@@ -83,7 +99,8 @@ public class StoResponse {
         response.contents = contents;
         response.count = count;
         response.goal = goal;
-        response.urgeType = urgeType;
+        response.goalType = goalType;
+        response.goalAmount = goalAmount;
         response.urgeContent = urgeContent;
         response.enforceContent = enforceContent;
         response.memo = memo;
@@ -93,6 +110,10 @@ public class StoResponse {
         response.delYN = delYN;
         response.imageList = imageList;
         response.pointList = pointList;
+        response.stressStatus = stressStatus;
+        response.concentration = concentration;
+        response.significant = significant;
+        response.looseCannonList = looseCannonList;
         response.ltoId = LtoId;
         return response;
     }

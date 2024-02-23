@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,6 +67,7 @@ class MemberControllerTest {
         // given
         final String url = "/token";
 
+        List<String> qualification = List.of("BCBA", "QBA", "KABA");
         Director director = new Director("test2", "test2", "테스트2", "test2@gmail.com", "010-1234-5678");
         Director savedMember = memberRepository.save(director);
 

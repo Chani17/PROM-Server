@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
@@ -41,6 +43,7 @@ public class TokenProviderTest {
     @Test
     void generateToken() {
         // given
+        List<String> qualification = List.of("BCBA", "QBA", "KABA");
         Director testUser = new Director("test1", "test1", "테스트1", "test1@gmail.com", "010-1234-5678");
         memberRepository.save(testUser);
 

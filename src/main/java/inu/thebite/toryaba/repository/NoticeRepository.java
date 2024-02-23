@@ -2,6 +2,7 @@ package inu.thebite.toryaba.repository;
 
 import inu.thebite.toryaba.entity.Notice;
 import inu.thebite.toryaba.model.notice.DateResponse;
+import inu.thebite.toryaba.model.notice.NoticeResponse;
 import inu.thebite.toryaba.model.notice.NoticesDatesResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
     @Query("SELECT new inu.thebite.toryaba.model.notice.NoticesDatesResponse(n.year, n.month) FROM Notice n WHERE n.student.id = :studentId")
     List<NoticesDatesResponse> findYearAndMonthByStudentId(Long studentId);
+
+    @Query("SELECT new inu.thebite.toryaba.model.notice.NoticeResponse(n.id, n.year, n.month, n.date, n.day, n.comment, n.student.id) FROM Notice n WHERE n.student.id = :studentId AND n.year = :year AND n.month = :month")
+    List<NoticeResponse> findByStudentIdAndYearAndMonth(Long studentId, String year, int month);
 }

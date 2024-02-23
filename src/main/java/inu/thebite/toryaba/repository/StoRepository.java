@@ -12,8 +12,11 @@ import java.util.List;
 @Repository
 public interface StoRepository extends JpaRepository<Sto, Long> {
 
-    @Query("SELECT new inu.thebite.toryaba.model.sto.StoResponse(s.id, s.templateNum, s.status, s.name, s.contents, s.count, s.goal, s.urgeType, s.urgeContent, s.enforceContent, s.memo, s.round, s.hitGoalDate, s.registerDate, s.delYN, s.lto.id) FROM Sto s WHERE s.lto.id = :ltoId")
-    List<StoResponse> findAllByLtoIdWithStoResponse(@Param("ltoId") Long ltoId);
+    @Query("SELECT s FROM Sto s WHERE s.lto.id = :ltoId")
+    List<Sto> findByLtoIdWithStoResponse(@Param("ltoId") Long ltoId);
 
+
+    @Query("SELECT s.looseCannonList FROM Sto s WHERE s.id = :stoId")
+    List<String> findLooseCannonById(@Param("stoId") Long stoId);
 }
 

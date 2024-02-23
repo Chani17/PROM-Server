@@ -8,8 +8,4 @@ public class AddDomainRequest {
 
     private String name;
 
-    private String type;
-
-    private String contents;
-
 }

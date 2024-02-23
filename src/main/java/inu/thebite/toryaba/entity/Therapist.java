@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,27 +27,15 @@ public class Therapist extends Member {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.forte = "";
         this.auth = MemberStatus.ROLE_THERAPIST;
-        this.approvalYN = "N";
+        this.approvalYN = "Y";
         this.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         this.center = center;
     }
 
-    void approveTherapist() {
-        this.approvalYN = "N";
+    public void approveTherapist() {
+        this.approvalYN = "Y";
     }
 
-//    public static Therapist createTherapist(String therapistId, String password, String name, String email, String phone, Center center) {
-//        Therapist therapist = new Therapist();
-//        therapist.id = therapistId;
-//        therapist.password = password;
-//        therapist.name = name;
-//        therapist.email = email;
-//        therapist.phone = phone;
-//        therapist.auth = MemberStatus.LEVEL2;
-//        therapist.approvalYN = "Y";
-//        therapist.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-//        therapist.center = center;
-//        return therapist;
-//    }
 }

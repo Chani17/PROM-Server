@@ -1,6 +1,7 @@
 package inu.thebite.toryaba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,9 +40,10 @@ public class Lto extends BaseEntity {
     @Column(name = "lto_contents", length = 200)
     private String contents;
 
-    // 선택한 게임
-    @Column(name = "game")
-    private String game;
+    // 발달 타입
+    @ElementCollection
+    @Column(name = "lto_develop_type")
+    private List<String> developType;
 
     // 장기 목표 도달 일자
     @Column(name = "lto_arr_dt")
@@ -61,14 +65,18 @@ public class Lto extends BaseEntity {
     @JoinColumn(name = "student_seq")
     private Student student;
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "lto", cascade = CascadeType.REMOVE)
+    private List<Sto> stos = new ArrayList<>();
 
-    public static Lto createLto(int templateNum, String name, String content, String game, Domain domain, Student student) {
+
+    public static Lto createLto(int templateNum, String name, String content, List<String> developType, Domain domain, Student student) {
         Lto lto = new Lto();
         lto.templateNum = templateNum;
         lto.status = "READY";
         lto.name = name;
         lto.contents = content;
-        lto.game = game;
+        lto.developType = developType;
         lto.achieveDate = "Not yet";
         lto.registerDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
         lto.delYN = "N";
@@ -89,9 +97,18 @@ public class Lto extends BaseEntity {
     }
 
     // update LTO contents
-    public void updateLTO(String name, String contents, String game) {
+    public void updateLTO(String name, String contents) {
         this.name = name;
         this.contents = contents;
-        this.game = game;
+    }
+
+    // select develop type
+    public void selectDevelopType(String development) {
+        this.developType.add(development);
+    }
+
+    // remove develop type
+    public void removeDevelopType(String development) {
+        this.developType.remove(development);
     }
 }

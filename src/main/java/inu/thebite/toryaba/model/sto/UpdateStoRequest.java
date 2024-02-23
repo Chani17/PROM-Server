@@ -14,7 +14,9 @@ public class UpdateStoRequest {
 
     private int goal;
 
-    private String urgeType;
+    private String goalType;
+
+    private int goalAmount;
 
     private String urgeContent;
 

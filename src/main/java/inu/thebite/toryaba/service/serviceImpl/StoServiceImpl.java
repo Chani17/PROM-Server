@@ -3,6 +3,7 @@ package inu.thebite.toryaba.service.serviceImpl;
 import inu.thebite.toryaba.entity.Lto;
 import inu.thebite.toryaba.entity.Point;
 import inu.thebite.toryaba.entity.Sto;
+import inu.thebite.toryaba.model.sto.LooseCannonRequest;
 import inu.thebite.toryaba.model.lto.LtoResponse;
 import inu.thebite.toryaba.model.sto.*;
 import inu.thebite.toryaba.repository.*;
@@ -34,10 +35,10 @@ public class StoServiceImpl implements StoService {
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 LTO가 존재하지 않습니다."));
 
-        List<StoResponse> stoList = stoRepository.findAllByLtoIdWithStoResponse(lto.getId());
+        List<Sto> stoList = stoRepository.findByLtoIdWithStoResponse(lto.getId());
 
         Sto sto = Sto.createSto(stoList.size() + 1, addStoRequest.getName(), addStoRequest.getContents(),
-                addStoRequest.getCount(), addStoRequest.getGoal(), addStoRequest.getUrgeType(),
+                addStoRequest.getCount(), addStoRequest.getGoal(), addStoRequest.getGoalType(), addStoRequest.getGoalAmount(),
                 addStoRequest.getUrgeContent(), addStoRequest.getEnforceContent(), addStoRequest.getMemo(), lto);
 
 
@@ -47,8 +48,9 @@ public class StoServiceImpl implements StoService {
         stoRepository.save(sto);
 
         StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), stoList.size() + 1, sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
-                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+                sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getStressStatus(),
+                sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
 
         return stoResponse;
     }
@@ -62,8 +64,9 @@ public class StoServiceImpl implements StoService {
         sto.updateStoStatus(status);
 
         StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
-                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+                sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getStressStatus(),
+                sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
 
         return stoResponse;
     }
@@ -80,8 +83,9 @@ public class StoServiceImpl implements StoService {
 
     private StoResponse getStoResponse(Sto sto) {
         StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(), sto.getGoal(),
-                sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
-                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getLto().getId());
+                sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(), sto.getRound(), sto.getHitGoalDate(),
+                sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(), sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(),
+                sto.getLooseCannonList(), sto.getLto().getId());
 
         return stoResponse;
     }
@@ -93,7 +97,7 @@ public class StoServiceImpl implements StoService {
                 .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
 
         sto.updateSto(updateStoRequest.getName(), updateStoRequest.getContents(), updateStoRequest.getCount(),
-                updateStoRequest.getGoal(), updateStoRequest.getUrgeType(), updateStoRequest.getUrgeContent(),
+                updateStoRequest.getGoal(), updateStoRequest.getGoalType(), updateStoRequest.getGoalAmount(), updateStoRequest.getUrgeContent(),
                 updateStoRequest.getEnforceContent(), updateStoRequest.getMemo());
 
         return getStoResponse(sto);
@@ -108,9 +112,9 @@ public class StoServiceImpl implements StoService {
         sto.updateImageList(updateImageList.getImageList().stream().toList());
 
         StoResponse stoResponse = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
-                sto.getGoal(), sto.getUrgeType(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
                 sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
-                sto.getLto().getId());
+                sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
         return stoResponse;
     }
 
@@ -148,20 +152,110 @@ public class StoServiceImpl implements StoService {
         return stoResponse;
     }
 
+    @Transactional
+    @Override
+    public StoResponse updateStressStatus(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        sto.updateStressStatus(looseCannonRequest.getContent());
+
+        return StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+    }
+
+    @Transactional
+    @Override
+    public StoResponse updateConcentration(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        sto.updateConcentration(looseCannonRequest.getContent());
+
+        return StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+    }
+
+    @Transactional
+    @Override
+    public StoResponse updateSignificant(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        sto.updateSignificant(looseCannonRequest.getContent());
+
+        return StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+    }
+
+    @Transactional
+    @Override
+    public StoResponse selectLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        sto.selectLooseCannon(looseCannonRequest.getContent());
+
+        return StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+    }
+
+    @Transactional
+    @Override
+    public StoResponse removeLooseCannon(Long stoId, LooseCannonRequest looseCannonRequest) {
+        Sto sto = stoRepository.findById(stoId)
+                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+
+        String target = "";
+        for (String action : sto.getLooseCannonList()) {
+            if (action.equals(looseCannonRequest.getContent())) {
+                target = action;
+            }
+        }
+        sto.updateLooseCannon(target);
+
+        return StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+    }
+
+//    @Override
+//    public List<String> getLooseCannonListBySto(Long stoId) {
+//        Sto sto = stoRepository.findById(stoId)
+//                .orElseThrow(() -> new IllegalStateException("해당하는 STO가 존재하지 않습니다."));
+//
+//        List<String> response = stoRepository.findLooseCannonById(sto.getId());
+//        return response;
+//    }
+
     @Override
     public List<StoResponse> getStoList(Long studentId) {
 
         List<StoResponse> stoList = new ArrayList<>();
-        List<LtoResponse> ltoList = ltoRepository.findAllByStudentId(studentId);
+        List<Lto> ltoList = ltoRepository.findAllByStudentId(studentId);
 
-        for (LtoResponse response: ltoList) {
-            List<StoResponse> stoResponse = stoRepository.findAllByLtoIdWithStoResponse(response.getLtoId());
+        for (Lto lto: ltoList) {
+            List<Sto> stoResponse = stoRepository.findByLtoIdWithStoResponse(lto.getId());
 
-            for(StoResponse s : stoResponse) {
-                Sto sto = stoRepository.findById(s.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
-                s.setImageList(sto.getImageList());
-                s.setPointList(sto.getPointList());
-                stoList.add(s);
+            for(Sto s : stoResponse) {
+                Sto sto = stoRepository.findById(s.getId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
+                StoResponse result = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                        sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                        sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                        sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+
+                result.setImageList(sto.getImageList());
+                result.setPointList(sto.getPointList());
+                stoList.add(result);
             }
         }
         return stoList;
@@ -174,13 +268,21 @@ public class StoServiceImpl implements StoService {
         Lto lto = ltoRepository.findById(ltoId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 LTO가 존재하지 않습니다."));
 
-        List<StoResponse> stoList = stoRepository.findAllByLtoIdWithStoResponse(lto.getId());
-        for(StoResponse stoResponse : stoList) {
-            Sto sto = stoRepository.findById(stoResponse.getStoId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
-            stoResponse.setImageList(sto.getImageList());
-            stoResponse.setPointList(sto.getPointList());
+        List<Sto> stoList = stoRepository.findByLtoIdWithStoResponse(lto.getId());
+        List<StoResponse> result = new ArrayList<>();
+        for(Sto stoResponse : stoList) {
+            Sto sto = stoRepository.findById(stoResponse.getId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));
+
+            StoResponse response = StoResponse.stoResponse(sto.getId(), sto.getTemplateNum(), sto.getStatus(), sto.getName(), sto.getContents(), sto.getCount(),
+                    sto.getGoal(), sto.getGoalType(), sto.getGoalAmount(), sto.getUrgeContent(), sto.getEnforceContent(), sto.getMemo(),
+                    sto.getRound(), sto.getHitGoalDate(), sto.getRegisterDate(), sto.getDelYN(), sto.getImageList(), sto.getPointList(),
+                    sto.getStressStatus(), sto.getConcentration(), sto.getSignificant(), sto.getLooseCannonList(), sto.getLto().getId());
+
+            response.setImageList(sto.getImageList());
+            response.setPointList(sto.getPointList());
+            result.add(response);
         }
-        return stoList;
+        return result;
     }
 
     @Transactional

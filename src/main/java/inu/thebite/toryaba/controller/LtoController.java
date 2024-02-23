@@ -2,10 +2,7 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.config.LoginMember;
 import inu.thebite.toryaba.entity.Lto;
-import inu.thebite.toryaba.model.lto.LtoGraphResponse;
-import inu.thebite.toryaba.model.lto.LtoRequest;
-import inu.thebite.toryaba.model.lto.LtoResponse;
-import inu.thebite.toryaba.model.lto.UpdateLtoStatusRequest;
+import inu.thebite.toryaba.model.lto.*;
 import inu.thebite.toryaba.service.LtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,6 +46,18 @@ public class LtoController {
         return lto;
     }
 
+    // update develop type
+    @PatchMapping("/ltos/{ltoId}/develop/add")
+    public DevelopTypeResponse updateDevelopType(@PathVariable Long ltoId, @RequestBody DevelopTypeRequest developTypeRequest) {
+        return ltoService.updateDevelopType(ltoId, developTypeRequest);
+    }
+
+    // remove develop type
+    @PatchMapping("/ltos/{ltoId}/develop/remove")
+    public DevelopTypeResponse removeDevelopType(@PathVariable Long ltoId, @RequestBody DevelopTypeRequest developTypeRequest) {
+        return ltoService.removeDevelopType(ltoId, developTypeRequest);
+    }
+
     // get LTO List
     @GetMapping("/{studentId}/ltos")
     public List<LtoResponse> getLtoList(@PathVariable Long studentId) {
@@ -68,6 +77,7 @@ public class LtoController {
         List<LtoGraphResponse> response = ltoService.getLtoGraph(ltoId);
         return response;
     }
+
 
     // delete LTO
     @DeleteMapping("/ltos/{ltoId}")

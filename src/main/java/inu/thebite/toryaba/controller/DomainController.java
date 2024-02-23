@@ -3,6 +3,8 @@ package inu.thebite.toryaba.controller;
 
 import inu.thebite.toryaba.entity.Domain;
 import inu.thebite.toryaba.model.domain.AddDomainRequest;
+import inu.thebite.toryaba.model.domain.DomainResponse;
+import inu.thebite.toryaba.model.domain.UpdateDomainRequest;
 import inu.thebite.toryaba.service.DomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,23 +21,27 @@ public class DomainController {
     private final DomainService domainService;
 
     // add domain
-    @PostMapping()
-    public Domain addDomain(@RequestBody AddDomainRequest addDomainRequest) {
-        Domain domain = domainService.addDomain(addDomainRequest);
-        return domain;
+    @PostMapping("/{centerId}")
+    public void addDomain(@PathVariable Long centerId, @RequestBody AddDomainRequest addDomainRequest) {
+        domainService.addDomain(centerId, addDomainRequest);
     }
 
     // get domain list
-    @GetMapping()
-    public List<Domain> getDomainList() {
-        List<Domain> domainList = domainService.getDomainList();
+    @GetMapping("/{centerId}")
+    public List<Domain> getDomainList(@PathVariable Long centerId) {
+        List<Domain> domainList = domainService.getDomainList(centerId);
         return domainList;
     }
 
     // delete domain
     @DeleteMapping("/{domainId}")
-    public ResponseEntity deleteDomain(@PathVariable Long domainId) {
-        domainService.deleteDomain(domainId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public boolean deleteDomain(@PathVariable Long domainId) {
+        return domainService.deleteDomain(domainId);
+    }
+
+    // update domain
+    @PatchMapping("/{domainId}")
+    public DomainResponse updateDomain(@PathVariable Long domainId, @RequestBody UpdateDomainRequest updateDomainRequest) {
+        return domainService.updateDomain(domainId, updateDomainRequest);
     }
 }
