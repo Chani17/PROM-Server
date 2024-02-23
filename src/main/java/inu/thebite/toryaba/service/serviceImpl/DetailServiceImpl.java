@@ -87,6 +87,7 @@ public class DetailServiceImpl implements DetailService {
                 DetailObjectResponse detailObjectResponse = new DetailObjectResponse();
                 LtoGraphResponse graphValue = pointService.getGraphValue(sto);
                 DetailGraphResponse response = DetailGraphResponse.response(graphValue.getResult(), graphValue.getDate(), detail.getLtoId(), sto, notice.getId());
+                detailObjectResponse.setId(detail.getId());
                 detailObjectResponse.setComment(detail.getComment());
                 detailObjectResponse.setDetailGraphResponse(response);
 
