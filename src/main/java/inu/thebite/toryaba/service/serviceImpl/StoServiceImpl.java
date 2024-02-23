@@ -241,10 +241,10 @@ public class StoServiceImpl implements StoService {
     public List<StoResponse> getStoList(Long studentId) {
 
         List<StoResponse> stoList = new ArrayList<>();
-        List<LtoResponse> ltoList = ltoRepository.findAllByStudentId(studentId);
+        List<Lto> ltoList = ltoRepository.findAllByStudentId(studentId);
 
-        for (LtoResponse response: ltoList) {
-            List<Sto> stoResponse = stoRepository.findByLtoIdWithStoResponse(response.getLtoId());
+        for (Lto lto: ltoList) {
+            List<Sto> stoResponse = stoRepository.findByLtoIdWithStoResponse(lto.getId());
 
             for(Sto s : stoResponse) {
                 Sto sto = stoRepository.findById(s.getId()).orElseThrow(() -> new IllegalStateException("해당 STO를 찾을 수 없습니다."));

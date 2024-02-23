@@ -39,7 +39,7 @@ public class LtoServiceImpl implements LtoService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalStateException("해당 학생은 존재하지 않습니다."));
 
-        List<LtoResponse> ltoList = ltoRepository.findAllByStudentIdAndDomainId(student.getId(), domain.getId());
+        List<Lto> ltoList = ltoRepository.findAllByStudentIdAndDomainId(student.getId(), domain.getId());
         Lto lto = Lto.createLto(ltoList.size() + 1, ltoRequest.getName(), ltoRequest.getContents(), ltoRequest.getDevelopType(), domain, student);
         Lto saveLto = ltoRepository.save(lto);
 
@@ -110,8 +110,17 @@ public class LtoServiceImpl implements LtoService {
 
     @Override
     public List<LtoResponse> getLtoList(Long studentId) {
-        List<LtoResponse> LtoList = ltoRepository.findAllByStudentId(studentId);
-        return LtoList;
+        List<Lto> LtoList = ltoRepository.findAllByStudentId(studentId);
+        List<LtoResponse> response = new ArrayList<>();
+
+        for(Lto lto : LtoList) {
+            LtoResponse ltoResponse = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(),
+                    lto.getContents(), lto.getDevelopType(), lto.getAchieveDate(), lto.getRegisterDate(),
+                    lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
+
+            response.add(ltoResponse);
+        }
+        return response;
     }
 
     @Override
@@ -122,8 +131,17 @@ public class LtoServiceImpl implements LtoService {
         Domain domain = domainRepository.findById(domainId)
                 .orElseThrow(() -> new IllegalStateException("해당 영역이 존재하지 않습니다."));
 
-        List<LtoResponse> ltoList = ltoRepository.findAllByStudentIdAndDomainId(student.getId(), domain.getId());
-        return ltoList;
+        List<Lto> ltoList = ltoRepository.findAllByStudentIdAndDomainId(student.getId(), domain.getId());
+        List<LtoResponse> response = new ArrayList<>();
+
+        for(Lto lto : ltoList) {
+            LtoResponse ltoResponse = LtoResponse.createLtoResponse(lto.getId(), lto.getTemplateNum(), lto.getStatus(), lto.getName(),
+                    lto.getContents(), lto.getDevelopType(), lto.getAchieveDate(), lto.getRegisterDate(),
+                    lto.getDelYN(), lto.getDomain().getId(), lto.getStudent().getId());
+
+            response.add(ltoResponse);
+        }
+        return response;
     }
 
     @Override

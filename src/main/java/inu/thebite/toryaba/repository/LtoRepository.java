@@ -13,11 +13,11 @@ import java.util.Optional;
 @Repository
 public interface LtoRepository extends JpaRepository<Lto, Long> {
 
-    @Query("SELECT new inu.thebite.toryaba.model.lto.LtoResponse(l.id, l.templateNum, l.status, l.name, l.contents, l.achieveDate, l.registerDate, l.delYN, l.domain.id, l.student.id) FROM Lto l WHERE l.student.id = :studentId AND l.domain.id = :domainId")
-    List<LtoResponse> findAllByStudentIdAndDomainId(Long studentId, Long domainId);
+//    @Query("SELECT new inu.thebite.toryaba.model.lto.LtoResponse(l.id, l.templateNum, l.status, l.name, l.contents, l.developType, l.achieveDate, l.registerDate, l.delYN, l.domain.id, l.student.id) FROM Lto l WHERE l.student.id = :studentId AND l.domain.id = :domainId")
+    List<Lto> findAllByStudentIdAndDomainId(Long studentId, Long domainId);
 
-    @Query("SELECT new inu.thebite.toryaba.model.lto.LtoResponse(l.id, l.templateNum, l.status, l.name, l.contents, l.achieveDate, l.registerDate, l.delYN, l.domain.id, l.student.id) FROM Lto l WHERE l.student.id = :studentId")
-    List<LtoResponse> findAllByStudentId(Long studentId);
+//    @Query("SELECT new inu.thebite.toryaba.model.lto.LtoResponse(l.id, l.templateNum, l.status, l.name, l.contents, l.developType, l.achieveDate, l.registerDate, l.delYN, l.domain.id, l.student.id) FROM Lto l WHERE l.student.id = :studentId")
+    List<Lto> findAllByStudentId(Long studentId);
 
     @Query(value = "SELECT * FROM tb_lto WHERE lto_seq = :stoId", nativeQuery = true)
     Optional<Lto> findByStoId(@Param("stoId") Long stoId);
