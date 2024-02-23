@@ -65,7 +65,7 @@ jobs:
 
     - name: 6. Docker image build
       run: |
-        docker build -t ${{ secrets.DOCKER_ID }}/tory .
+        docker build -t ${{ secrets.DOCKER_ID }}/tory:beta .
 
     - name: 7. Docker Hub push
       run: docker push ${{ secrets.DOCKER_ID }}/tory:beta
