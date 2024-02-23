@@ -30,8 +30,8 @@ public class MemberServiceImpl implements MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")
-    private String admin;
+//    @Value("${spring.mail.username}")
+//    private String admin;
 
     @Override
     public Member login(LoginUserRequest loginUserRequest) {
@@ -125,14 +125,14 @@ public class MemberServiceImpl implements MemberService {
         member.updatePassword(bCryptPasswordEncoder.encode(password));
     }
 
-    public void sendEmail(Member member, String password) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(admin);
-        message.setTo(member.getEmail());
-        message.setSubject(member.getName() + "님, FROM 임시 비밀번호를 발송해 드립니다.");
-        message.setText("안녕하세요. " + member.getName() + "님.\n\n 임시 비밀번호는 " + password + "입니다.\n 로그인 후 임시 비밀번호를 새로운 비밀번호로 재설정해주세요.");
-        javaMailSender.send(message);
-    }
+//    public void sendEmail(Member member, String password) {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom(admin);
+//        message.setTo(member.getEmail());
+//        message.setSubject(member.getName() + "님, FROM 임시 비밀번호를 발송해 드립니다.");
+//        message.setText("안녕하세요. " + member.getName() + "님.\n\n 임시 비밀번호는 " + password + "입니다.\n 로그인 후 임시 비밀번호를 새로운 비밀번호로 재설정해주세요.");
+//        javaMailSender.send(message);
+//    }
 
     @Transactional
     @Override
