@@ -109,13 +109,6 @@ public class TodoServiceImpl implements TodoService {
 
         StoSummaryResponse response = StoSummaryResponse.response(todo.getId(), LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), todo.getStoList(), student);
         return response;
-
-//        for(Long stoId : todo.getStoList()) {
-//            Sto sto = stoRepository.findById(stoId)
-//                    .orElseThrow(() -> new IllegalStateException("해당 STO가 존재하지 않습니다."));
-//
-//            StoSummaryResponse response = StoSummaryResponse.response(sto.getId(), sto.getName(), sto.getStatus(), sto.getLto());
-//            stoList.add(response);
     }
 
     @Override
@@ -143,16 +136,4 @@ public class TodoServiceImpl implements TodoService {
         return recentTodo;
     }
 
-//    @Override
-//    public List<RecentTodoWithDateResponse> getRecentTodoListWithFilterBetweenDate(Long studentId, String filter, String startDate, String endDate) {
-//        Student student = studentRepository.findById(studentId)
-//                .orElseThrow(() -> new IllegalStateException("존재하지 않는 학생 아이디 입니다. 확인해주세요."));
-//
-//        List<Todo> result = todoRepository.findByStudentIdBetween(student.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
-//        List<RecentTodoWithDateResponse> response = new ArrayList<>();
-//
-//        for(Todo todo : result) {
-//            for()
-//        }
-//    }
 }
