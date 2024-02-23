@@ -56,14 +56,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         // 가져온 token이 유효한지 확인하고, 유효한 때는 인증 정보 설정
         if(result) {
-            log.info("토큰이 있고, 유효함을 인증");
+//            log.info("토큰이 있고, 유효함을 인증");
             // token이 유효하다면 인증 객체를 만드는 메서드 호출
             Authentication authentication = tokenProvider.getAuthentication(token);
 
             // 만들어온 인증 객체를 스레드 로컬(저장소)의 Security Context Holder에 넣는다. -> 인징이 완료된 것이다!
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            log.info("토큰이 없거나 유효하지 않음");
+//            log.info("토큰이 없거나 유효하지 않음");
         }
         filterChain.doFilter(request, response);
     }
