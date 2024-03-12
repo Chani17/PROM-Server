@@ -50,5 +50,20 @@ Java 17, Springboot 3.1.4, MySQL 8.0, Docker, GCP
 
 <br><br>
 ## 🗒️ PROM API Specification
-
+- 회원<br><br>
+  |기능|Endpoint|Request Header|Request Payload|Response Data|
+  |:---:|:---:|:---|:---|:---|
+  |원장님 회원가입|POST /members/join||- id: String<br> - password: String<br> - name: String<br> - email: String<br> - phone: String|- boolean result|
+  |선생님 회원가입|POST /members/therapist/join||- id: String<br> - password: String<br> - name: String<br> - email: String<br> - phone: String<br> - centerId: Long|- result: boolean|
+  |로그인|POST /members/login||- id: String<br> - password: String|- name: String<br> - token: String|
+  |token 유효성 검증|POST /valid/token|- headers: Map<String, String>||- name: String<br> - result: boolean|
+  |ID 찾기|POST /members/find/id||- name: String<br> - phone: String<br> - email: String|- id: String|
+  |비밀번호 찾기|POST /members/find/password||- id: String<br> - name: String<br> - phone: String|- password: String|
+  |비밀번호 변경|POST /members/password||- beforePassword: String<br> - afterPassword: String<br>|- result: boolean|
+  |프로필 수정|PATCH /edit/profile||- name: String<br> - fote: String<br> - qulification: List<String>|- name: String<br> - forte: String<br> - qualification: List<String><br> - centerName: String|
+  |프로필 조회|GET /profile|||- name: String<br> - forte: String<br> - qualification: List<String><br> - centerName: String|
+  
+  
+  
+  
 
