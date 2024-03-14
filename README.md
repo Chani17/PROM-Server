@@ -50,20 +50,214 @@ Java 17, Springboot 3.1.4, MySQL 8.0, Docker, GCP
 
 <br><br>
 ## 🗒️ PROM API Specification
-- 회원<br><br>
-  |기능|Endpoint|Request Header|Request Payload|Response Data|
-  |:---:|:---:|:---|:---|:---|
-  |원장님 회원가입|POST /members/join||- id: String<br> - password: String<br> - name: String<br> - email: String<br> - phone: String|- boolean result|
-  |선생님 회원가입|POST /members/therapist/join||- id: String<br> - password: String<br> - name: String<br> - email: String<br> - phone: String<br> - centerId: Long|- result: boolean|
-  |로그인|POST /members/login||- id: String<br> - password: String|- name: String<br> - token: String|
-  |token 유효성 검증|POST /valid/token|- headers: Map<String, String>||- name: String<br> - result: boolean|
-  |ID 찾기|POST /members/find/id||- name: String<br> - phone: String<br> - email: String|- id: String|
-  |비밀번호 찾기|POST /members/find/password||- id: String<br> - name: String<br> - phone: String|- password: String|
-  |비밀번호 변경|POST /members/password||- beforePassword: String<br> - afterPassword: String<br>|- result: boolean|
-  |프로필 수정|PATCH /edit/profile||- name: String<br> - fote: String<br> - qulification: List<String>|- name: String<br> - forte: String<br> - qualification: List<String><br> - centerName: String|
-  |프로필 조회|GET /profile|||- name: String<br> - forte: String<br> - qualification: List<String><br> - centerName: String|
-  
-  
-  
+<details>
+  <summary><b>회원<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Request Header</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>원장님 회원가입</td>
+        <td>POST /members/join</td>
+        <td></td>
+        <td>- id: String<br> - password: String<br> - name: String<br> - email: String<br> - phone: String</td>
+        <td>- result: boolean</td>
+      </tr>
+      <tr>
+        <td>선생님 회원가입</td>
+        <td>POST /members/therapist/join</td>
+        <td></td>
+        <td>- id: String<br> - password: String<br> - name: String<br> - email: String<br> - phone: String<br> - centerId: Long</td>
+        <td>- result: boolean</td>
+      </tr>
+      <tr>
+        <td>로그인</td>
+        <td>POST /members/login</td>
+        <td></td>
+        <td>- id: String<br> - password: String</td>
+        <td>- name: String<br> - token: String</td>
+      </tr>
+      <tr>
+        <td>token 유효성 검증</td>
+        <td>POST /valid/token</td>
+        <td>- headers: Map<String, String></td>
+        <td></td>
+        <td>- name: String<br> - result: boolean</td>
+      </tr>
+      <tr>
+        <td>ID 찾기</td>
+        <td>POST /members/find/id</td>
+        <td></td>
+        <td>- name: String<br> - phone: String<br> - email: String</td>
+        <td>- id: String</td>
+      </tr>
+      <tr>
+        <td>비밀번호 찾기</td>
+        <td>POST /members/find/password</td>
+        <td></td>
+        <td>- id: String<br> - name: String<br> - phone: String</td>
+        <td>- password: String</td>
+      </tr>
+      <tr>
+        <td>비밀번호 변경</td>
+        <td>POST /members/password</td>
+        <td></td>
+        <td>- beforePassword: String<br> - afterPassword: String<br></td>
+        <td>- result: boolean</td>
+      </tr>
+      <tr>
+        <td>프로필 수정</td>
+        <td>PATCH /edit/profile</td>
+        <td></td>
+        <td>- name: String<br> - fote: String<br> - qulification: List<String></td>
+        <td>- name: String<br> - forte: String<br> - qualification: List<String><br> - centerName: String</td>
+      </tr>
+      <tr>
+        <td>프로필 조회</td>
+        <td>GET /profile</td>
+        <td></td>
+        <td></td>
+        <td>- name: String<br> - forte: String<br> - qualification: List<String><br> - centerName: String</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>센터<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>센터 추가</td>
+        <td>POST /center</td>
+        <td></td>
+        <td>- name: String</td>
+        <td>- centerId: Long<br> - centerName: String<br> - director: Director</td>
+      </tr>
+      <tr>
+        <td>센터 수정</td>
+        <td>PATCH /center/{centerId}</td>
+        <td>- centerId: Long</td>
+        <td>- name: String</td>
+        <td>- centerId: Long<br> - centerName: String<br> - director: Director</td>
+      </tr>
+      <tr>
+        <td>센터 목록 조회</td>
+        <td>GET /centers</td>
+        <td></td>
+        <td></td>
+        <td>- centerList: List<Center></td>
+      </tr>
+      <tr>
+        <td>센터 삭제</td>
+        <td>DELETE /center/{centerId}</td>
+        <td>- cneterId: Long</td>
+        <td></td>
+        <td>- result: boolean</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>반<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>반 추가</td>
+        <td>POST /{centerId}/classes</td>
+        <td>- centerId: Long</td>
+        <td>- name: String</td>
+        <td>- classId: Long<br> - className: String<br> - center: Center</td>
+      </tr>
+      <tr>
+        <td>반 수정</td>
+        <td>PATCH /classes/{classId}</td>
+        <td>- classId: Long</td>
+        <td>- name: String</td>
+        <td>- classId: Long<br> - className: String<br> - center: Center</td>
+      </tr>
+      <tr>
+        <td>반 목록 조회</td>
+        <td>GET /{centerId}/classes</td>
+        <td>- centerId: Long</td>
+        <td></td>
+        <td>- classList: List<Class></td>
+      </tr>
+      <tr>
+        <td>반 삭제</td>
+        <td>DELETE /classes/{classId}</td>
+        <td>- classId: Long</td>
+        <td></td>
+        <td>- result: boolean</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>학생<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>학생 추가</td>
+        <td>POST /{classId}/students</td>
+        <td>- classId: Long</td>
+        <td>- name: String<br> - birth: String<br> - etc: String<br> - parentName: String<br> - startDate: String</td>
+        <td>- studentId: Long<br> - studentName: String<br> - birth: String<br> - etc: String<br> - parentName: Stirng<br> - startDate: String<br> - endDate: String<br> - registerDate: String<br> - class: Class</td>
+      </tr>
+      <tr>
+        <td>학생 정보 수정</td>
+        <td>PATCH /students/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td>- name: String<br> - birth: String<br> - etc: String<br> - parentName: String<br> - startDate: String<br> - endDate: String<br> - registerDate: String</td>
+        <td>- studentId: Long<br> - studentName: String<br> - birth: String<br> - etc: String<br> - parentName: Stirng<br> - startDate: String<br> - endDate: String<br> - registerDate: String<br> - class: Class</td>
+      </tr>
+      <tr>
+        <td>시작 날짜 변경</td>
+        <td>PATCH /students/{studentId}/startDate</td>
+        <td>- studentId: Long</td>
+        <td>- date: String</td>
+        <td>- studentId: Long<br> - studentName: String<br> - birth: String<br> - etc: String<br> - parentName: Stirng<br> - startDate: String<br> - endDate: String<br> - registerDate: String<br> - class: Class</td>
+      </tr>
+      <tr>
+        <td>종료 날짜 변경</td>
+        <td>PATCH /students/{studentId}/endDate</td>
+        <td>- studentId: Long</td>
+        <td>- date: String</td>
+        <td>- studentId: Long<br> - studentName: String<br> - birth: String<br> - etc: String<br> - parentName: Stirng<br> - startDate: String<br> - endDate: String<br> - registerDate: String<br> - class: Class</td>
+      </tr>
+      <tr>
+        <td>학생 목록 조회</td>
+        <td>GET /{classId}/students</td>
+        <td>- classId: Long</td>
+        <td></td>
+        <td>- studentList: List<Student></td>
+      </tr>
+          <tr>
+        <td>학생 삭제</td>
+        <td>GET /students/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- result: boolean</td>
+      </tr>
+    </table>
+</details>
   
 
