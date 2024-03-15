@@ -259,5 +259,461 @@ Java 17, Springboot 3.1.4, MySQL 8.0, Docker, GCP
       </tr>
     </table>
 </details>
-  
-
+<details>
+  <summary><b>발달 영역(Domain)<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>발달 영역 추가</td>
+        <td>POST /domains/{centerId}</td>
+        <td>- centerId: Long</td>
+        <td>- name: String<br> - type: String<br> - contents: String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>발달 영역 정보 수정</td>
+        <td>PATCH /domains/{domainId}</td>
+        <td>- domainId: Long</td>
+        <td>- name: String</td>
+        <td>- id: Long<br> - templateNum: int<br> - name: String<br> - registerDate: String<br> - centerId: Long</td>
+      </tr>
+      <tr>
+        <td>발달 영역 리스트 가져오기</td>
+        <td>GET /domains/{domainId}</td>
+        <td>- domainId: Long</td>
+        <td></td>
+        <td>- domainList<Domain></td>
+      </tr>
+      <tr>
+        <td>발달 영역 삭제</td>
+        <td>DELETE /domains/{domainId}</td>
+        <td>- domainId: Long</td>
+        <td></td>
+        <td>- result: boolean</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>장기 목표(LTO)<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>LTO 추가</td>
+        <td>POST /{domainId}/ltos/{studentId}</td>
+        <td>- domainId: Long<br> - studentId: Long</td>
+        <td>- name: String<br> - contents: String<br> - developType: List<String></td>
+        <td>- ltoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - developType: List<String><br> - achieveDate: String<br> - registerDate: String<br> - delYN: String<br> - domainId: Long<br> - studentId: Long</td>
+      </tr>
+      <tr>
+        <td>LTO 상태 수정(stop, in progress)</td>
+        <td>PATCH /ltos/{ltoId}/status</td>
+        <td>- ltoId: Long</td>
+        <td>- status: String</td>
+        <td>- ltoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - developType: List<String><br> - achieveDate: String<br> - registerDate: String<br> - delYN: String<br> - domainId: Long<br> - studentId: Long</td>
+      </tr>
+      <tr>
+        <td>LTO 상태 수정(hit)</td>
+        <td>PATCH /ltos/{ltoId}/hit/status</td>
+        <td>- ltoId: Long</td>
+        <td>- status: String</td>
+        <td>- ltoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - developType: List<String><br> - achieveDate: String<br> - registerDate: String<br> - delYN: String<br> - domainId: Long<br> - studentId: Long</td>
+      </tr>
+      <tr>
+        <td>LTO 내용 수정</td>
+        <td>PATCH /ltos/{ltoId}</td>
+        <td>- ltoId: Long</td>
+        <td>- name: String<br> - contents: String<br> - developType: List<String></td>
+        <td>- ltoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - developType: List<String><br> - achieveDate: String<br> - registerDate: String<br> - delYN: String<br> - domainId: Long<br> - studentId: Long</td>
+      </tr>
+      <tr>
+        <td>LTO 발달 유형 종류 수정</td>
+        <td>PATCH /ltos/{ltoId}/develop/add</td>
+        <td>- ltoId: Long</td>
+        <td>- content: String</td>
+        <td>- developType: List<String></td>
+      </tr>
+      <tr>
+        <td>LTO 발달 유형 종류 삭제</td>
+        <td>PATCH /ltos/{ltoId}/develop/remove</td>
+        <td>- ltoId: Long</td>
+        <td>- content: String</td>
+        <td>- developType: List<String></td>
+      </tr>
+      <tr>
+        <td>LTO 목록 가져오기</td>
+        <td>GET /{domainId}/{studentId}/ltos</td>
+        <td>- domainId: Long<br> - studentId: Long</td>
+        <td></td>
+        <td>- ltoList: List<LtoResponse></td>
+      </tr>
+      <tr>
+        <td>LTO 그래프 가져오기</td>
+        <td>GET /ltos/{ltoId}/graphs</td>
+        <td>- ltoId: Long</td>
+        <td></td>
+        <td>- response: List<LtoGraphResponse></td>
+      </tr>
+      <tr>
+        <td>LTO 삭제하기</td>
+        <td>DELETE /ltos/{ltoId}</td>
+        <td>- ltoId: Long</td>
+        <td></td>
+        <td>- result: boolean</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>단기 목표(STO)<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>STO 추가</td>
+        <td>POST /{ltoId}/stos</td>
+        <td>- ltoId: Long</td>
+        <td>- name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - registrant: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>STO 상태 변경(stop, in progress)</td>
+        <td>PATCH /stos/{stoId}/status</td>
+        <td>- stoId: Long</td>
+        <td>- status: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>STO 상태 변경(hit)</td>
+        <td>PATCH /stos/{stoId}/hit/status</td>
+        <td>- stoId: Long</td>
+        <td>- status: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>STO 내용 변경</td>
+        <td>PATCH /stos/{stoId}</td>
+        <td>- stoId: Long</td>
+        <td>- name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br></td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>준거 도달(hit) 회차 업데이트</td>
+        <td>PATCH /stos/{stoId}/hit/round</td>
+        <td>- stoId: Long</td>
+        <td>- plusRate: Float<br> - minusRate: Float<br> - status: String<br> - registrant: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>회차 업데이트</td>
+        <td>PATCH /stos/{stoId}/round</td>
+        <td>- stoId: Long</td>
+        <td>- plusRate: Float<br> - minusRate: Float<br> - status: String<br> - registrant: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>스트레스 상태 선택</td>
+        <td>PATCH /stos/{stoId}/stress</td>
+        <td>- stoId: Long</td>
+        <td>- content: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>집중도 선택</td>
+        <td>PATCH /stos/{stoId}/concentration</td>
+        <td>- stoId: Long</td>
+        <td>content: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>특이사항 입력</td>
+        <td>PATCH /stos/{stoId}/significant</td>
+        <td>- stoId: Long</td>
+        <td>- content: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>돌발 행동 선택</td>
+        <td>PATCH /stos/{stoId}/selection/lc</td>
+        <td>- stoId: Long</td>
+        <td>- content: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>돌발 행동 선텍 취소</td>
+        <td>PATCH /stos/{stoId}/removal/lc</td>
+        <td>- stoId: Long</td>
+        <td>- content: String</td>
+        <td>- stoId: Long<br> - templateNum: int<br> - status: String<br> - name: String<br> - contents: String<br> - count: int<br> - goal: int<br> - goalType: String<br> - goalAmount: int<br> - achievementOrNot: String<br> - urgeContent: String<br> - enforceContent: String<br> - memo: String<br> - round: int<br> - hitGoalDate: String<br> - registerDate: String<br> - delYN: String<br> - pointList: List<Point><br> - stressStatus: String<br> - concentration: String<br> - significant: String<br> - looseCannonList: List<String><br> - ltoId: Long</td>
+      </tr>
+      <tr>
+        <td>학생 별 STO 목록 가져오기</td>
+        <td>GET /{studentId}/stos</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- stoList: List<StoResponse></td>
+      </tr>
+      <tr>
+        <td>LTO 별 STO 목록 가져오기</td>
+        <td>GET /ltos/{ltoId}/stos</td>
+        <td>- ltoId: Long</td>
+        <td></td>
+        <td>- stoList: List<StoResponse></td>
+      </tr>
+      <tr>
+        <td>STO 삭제</td>
+        <td>DELETE /stos/{stoId}</td>
+        <td>- stoId: Long</td>
+        <td></td>
+        <td>- result: boolean</td>
+      </tr>  
+    </table>
+</details>
+<details>
+  <summary><b>돌발 행동<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>돌발 행동 추가</td>
+        <td>POST /lc</td>
+        <td></td>
+        <td>- name: String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>돌발 행동 목록 가져오기</td>
+        <td>GET /lc</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>Point<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>point 저장</td>
+        <td>POST /stos/{stoId}/points</td>
+        <td>- stoId: Long</td>
+        <td>- result: String<br> - registrant: String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>point 수정</td>
+        <td>PATCH /stos/{stoId}/points</td>
+        <td>- stoId: Long</td>
+        <td>- points: List<String><br> - registrant: String</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>point 목록 가져오기</td>
+        <td>GET /stos/{stoId}/points</td>
+        <td>- stoId: Long</td>
+        <td></td>
+        <td>- pointList: List<String></td>
+      </tr>
+      <tr>
+        <td>point 삭제</td>
+        <td>DELETE /stos/{stoId}/points</td>
+        <td>- stoId: Long</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>오늘의 치료 계획(Todo)<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Request Param</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>Todo 추가</td>
+        <td>POST /todos/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td>- stoId: Long</td>
+        <td></td>
+        <td>- id: Long<br> - date: LocalDate<br> - stoList: List<Long><br> - teacher: String<br> - student: Student</td>
+      </tr>
+      <tr>
+        <td>Todo 수정</td>
+        <td>PATCH /todos/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td>- stoList: List<Long></td>
+        <td></td>
+        <td>- id: Long<br> - date: LocalDate<br> - stoList: List<Long><br> - teacher: String<br> - student: Student</td>
+      </tr>
+      <tr>
+        <td>Todo 조회</td>
+        <td>GET /todos/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td></td>
+        <td>- id: Long<br> - date: String<br> - stoList: List<Long><br> - teacher: String<br> - student: Student</td>
+      </tr>
+      <tr>
+        <td>Todo 삭제</td>
+        <td>DELETE /todos/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td>- stoId: Long</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>최근 중재 목록 with 날짜</td>
+        <td>GET /todos/{studentId}/recent</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- startDate: String<br> - endDate: String</td>
+        <td>- date: String<br> - sto: List<String><br> - stoStatus: List<String><br> - lto: List<String><br> - teacher: String</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>알림장<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Request Param</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>comment 업데이트</td>
+        <td>PATCH /notices/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td>- comment: String</td>
+        <td>- year: String<br> - month: int<br> - date: String</td>
+        <td>- id: Long<br> - year: String<br> - month: int<br> - date: String<br> - day: String<br> - comment: String<br> - studentId: Long</td>
+      </tr>
+      <tr>
+        <td>년, 월에 대한 알림장 목록 가져오기</td>
+        <td>GET /notices/{studentId}/dateList</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int</td>
+        <td>- response: List<DateResponse></td>
+      </tr>
+      <tr>
+        <td>해당 날짜에 대한 알림장 가져오기</td>
+        <td>GET /notcies/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int<br> - date: String</td>
+        <td>- id: Long<br> - year: String<br> - month: int<br> - date: String<br> - day: String<br> - comment: String<br> - studentId: Long</td>
+      </tr>
+      <tr>
+        <td>생성된 알림장 날짜 목록 가져오기</td>
+        <td>GET /notices/{studentId}/dates</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td></td>
+        <td>- response: List<NoticesDatesResponse></td>
+      </tr>
+      <tr>
+        <td>월간 보고서 가져오기</td>
+        <td>GET /notices/{studentId}/monthly</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int</td>
+        <td>- response: List<NoticeResponse></td>
+      </tr>
+      <tr>
+        <td>알림장 자동 멘트 생성</td>
+        <td>GET /notcies/{studentId}/auto/comment</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int<br> - date: String</td>
+        <td>- comment: String</td>
+      </tr>
+      <tr>
+        <td>WebView Report 보여주기</td>
+        <td>GET /notices/{studentId}/reports</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int<br> - date: String</td>
+        <td>- url: String</td>
+      </tr>
+    </table>
+</details>
+<details>
+  <summary><b>세부 알림장<br></b></summary>
+    <table>
+      <tr>
+        <th scope="col">기능</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Path Variable</th>
+        <th scope="col">Request Payload</th>
+        <th scope="col">Request Param</th>
+        <th scope="col">Response Data</th>
+      </tr>
+      <tr>
+        <td>세부 알림장 추가</td>
+        <td>POST /details/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int<br> - date: String<br> - stoId: Long</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>comment 수정</td>
+        <td>PATCH /details/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td>- comment: String</td>
+        <td>- year: String<br> - month: int<br> - date: String<br> - stoId: Long</td>
+        <td>- id: Long<br> - comment: String<br> - ltoId: Long<br> - stoId: Set<Long><br> - noticeId: Long</td>
+      </tr>
+      <tr>
+        <td>해당 날짜별 세부 알림장 목록 가져오기</td>
+        <td>GET /details/{studentId}</td>
+        <td>- studentId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int<br> - date: String</td>
+        <td>- response: List<DetailObjectResponse></td>
+      </tr>
+      <tr>
+        <td>세부 알림장 자동 멘트 생성</td>
+        <td>GET /details/{studentId}/{ltoId}/auto/comment</td>
+        <td>- studentId: Long<br> - ltoId: Long</td>
+        <td></td>
+        <td>- year: String<br> - month: int<br> - date: String</td>
+        <td>- comment: String</td>
+      </tr>
+    </table>
+</details>
