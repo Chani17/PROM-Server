@@ -1,10 +1,10 @@
 # PROM PROJECT
 <figure class="half">
-  <a href="link"><img src="https://github.com/Chani17/ToryAba-Server/blob/main/thebite_logo.png" width="300" height="300"></a> 
-  <a href="link"><img src="https://github.com/Chani17/ToryAba-Server/blob/main/prom_logo.png" width="400" height="300"></a>
+  <a href="link"><img src="https://github.com/Chani17/ToryAba-Server/blob/main/thebite_logo.png" width="200" height="200"></a> 
+  <a href="link"><img src="https://github.com/Chani17/ToryAba-Server/blob/main/prom_logo.png" width="500" height="200"></a>
 </figure>
 <br><br>
-예비창업패키지 팀 "THEBITE"에서 개발한 product의 서버 코드입니다.
+예비창업패키지 팀 <b>THEBITE</b>에서 개발한 제품 <b>"PROM" 서버 코드</b>입니다.
 
 <br><br>
 ##  🏠  프로젝트 소개
